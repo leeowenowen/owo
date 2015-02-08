@@ -90,6 +90,12 @@ public class MediaPlayerController implements IMediaPlayerController,
 	}
 
 	@Override
+	public void fullScreen() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void seek(int progress, int max) {
 		mMediaPlayer.seek(progress);
 	}
@@ -181,12 +187,13 @@ public class MediaPlayerController implements IMediaPlayerController,
 	@Override
 	public void onComplete() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onBufferingUpdate(int percent) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 }

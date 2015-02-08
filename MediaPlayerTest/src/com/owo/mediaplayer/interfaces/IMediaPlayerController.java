@@ -45,6 +45,8 @@ public interface IMediaPlayerController {
 
 	void seek(int progress, int max);
 
+	void fullScreen();
+
 	public interface Client {
 		void onStart();
 
@@ -53,6 +55,16 @@ public interface IMediaPlayerController {
 		void onPause();
 
 		void onResume();
+
+		void onPre();
+
+		void onNext();
+
+		void onFastFward();
+
+		void onFastBackward();
+
+		void onFullScreen();
 
 		void onProgressChanged(int progress);
 

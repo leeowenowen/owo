@@ -27,6 +27,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	protected ImageView mStart, mStop;
 	protected ImageView mPre, mNext;
 	protected ImageView mFastForward, mFastBackward;
+	protected ImageView mFullScreen;
 	protected TextView mEndTime, mCurrentTime;
 	protected TextView mLoadingText;
 
@@ -85,6 +86,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mFastForward = new ImageView(context);
 		mFastBackward = new ImageView(context);
 
+		mFullScreen = new ImageView(context);
+
 		mEndTime = new TextView(context);
 		mCurrentTime = new TextView(context);
 		mLoadingText = new TextView(context);
@@ -100,6 +103,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mNext.setOnClickListener(mOnClickListener);
 		mFastForward.setOnClickListener(mOnClickListener);
 		mFastBackward.setOnClickListener(mOnClickListener);
+		mFullScreen.setOnClickListener(mOnClickListener);
 	}
 
 	protected abstract void initUIComponents();
@@ -151,6 +155,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 				mMediaPlayerController.fastForward();
 			} else if (v == mFastBackward) {
 				mMediaPlayerController.fastBackward();
+			} else if (v == mFullScreen) {
+				mMediaPlayerController.fullScreen();
 			}
 		}
 	};
@@ -219,5 +225,35 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	public void onMetaInfo(IMetaInfo metaInfo) {
 		mMediaMetaInfo = metaInfo;
 		mSurfaceView.setSize(metaInfo.width(), metaInfo.height());
+	}
+
+	@Override
+	public void onFullScreen() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPre() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onNext() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onFastFward() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onFastBackward() {
+		// TODO Auto-generated method stub
+
 	}
 }
