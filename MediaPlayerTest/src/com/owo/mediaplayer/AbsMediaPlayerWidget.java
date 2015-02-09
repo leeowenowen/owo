@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -23,11 +22,11 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	private boolean mSurfaceCreated;
 
 	protected SeekBar mSeekBar;
-	protected ImageView mPause, mResume;
-	protected ImageView mStart, mStop;
-	protected ImageView mPre, mNext;
-	protected ImageView mFastForward, mFastBackward;
-	protected ImageView mFullScreen;
+	protected TextView mPause, mResume;
+	protected TextView mStart, mStop;
+	protected TextView mPre, mNext;
+	protected TextView mFastForward, mFastBackward;
+	protected TextView mFullScreen;
 	protected TextView mEndTime, mCurrentTime;
 	protected TextView mLoadingText;
 
@@ -77,16 +76,16 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mSeekBar = new SeekBar(context);
 		mSeekBar.setMax(maxProgress());
 
-		mPause = new ImageView(context);
-		mResume = new ImageView(context);
-		mStart = new ImageView(context);
-		mStop = new ImageView(context);
-		mPre = new ImageView(context);
-		mNext = new ImageView(context);
-		mFastForward = new ImageView(context);
-		mFastBackward = new ImageView(context);
+		mPause = new TextView(context);
+		mResume = new TextView(context);
+		mStart = new TextView(context);
+		mStop = new TextView(context);
+		mPre = new TextView(context);
+		mNext = new TextView(context);
+		mFastForward = new TextView(context);
+		mFastBackward = new TextView(context);
 
-		mFullScreen = new ImageView(context);
+		mFullScreen = new TextView(context);
 
 		mEndTime = new TextView(context);
 		mCurrentTime = new TextView(context);
@@ -165,12 +164,16 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	public void onStop() {
 		mStart.setVisibility(VISIBLE);
 		mStop.setVisibility(GONE);
+		mPause.setVisibility(GONE);
+		mResume.setVisibility(GONE);
 	}
 
 	@Override
 	public void onStart() {
 		mStart.setVisibility(GONE);
 		mStop.setVisibility(VISIBLE);
+		mPause.setVisibility(VISIBLE);
+		mResume.setVisibility(GONE);
 	}
 
 	@Override

@@ -90,6 +90,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 			MetaData metaData = new MetaData(mp);
 			metaData.exists();
 			mMediaPlayer.start();
+			switchState(State.Playing);
 			for (Listener observer : observers()) {
 				observer.onLoadStop();
 				observer.onMetaInfo(metaInfo);
@@ -108,6 +109,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
 		public void onCompletion(MediaPlayer mp) {
+			switchState(State.Finished);
 			for (Listener observer : observers()) {
 				observer.onComplete();
 			}
@@ -175,6 +177,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 		}
 		// 2) do stop
 		mMediaPlayer.stop();
+		switchState(State.Paused);
 		// 3) notify observers
 		for (Listener observer : observers()) {
 			observer.onStop();
@@ -190,6 +193,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 		}
 		// 2) do pause
 		mMediaPlayer.pause();
+		switchState(State.Paused);
 		// 3) notify observers
 		for (Listener observer : observers()) {
 			observer.onPause();
@@ -205,6 +209,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 		}
 		// 2) do resume
 		mMediaPlayer.start();
+		switchState(State.Playing);
 		// 3) notify observers
 		for (Listener observer : observers()) {
 			observer.onResume();

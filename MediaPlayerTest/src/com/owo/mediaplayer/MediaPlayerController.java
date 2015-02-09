@@ -97,7 +97,8 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void seek(int progress, int max) {
-		mMediaPlayer.seek(progress);
+		int position = progress * mMediaPlayer.duration() / max;
+		mMediaPlayer.seek(position);
 	}
 
 	@Override
@@ -149,8 +150,8 @@ public class MediaPlayerController implements IMediaPlayerController,
 	}
 
 	@Override
-	public void onProgressChanged(int progress) {
-		// TODO: convert progress
+	public void onProgressChanged(int position) {
+		int progress = position * 100 / duration();
 		mClient.onProgressChanged(progress);
 	}
 
