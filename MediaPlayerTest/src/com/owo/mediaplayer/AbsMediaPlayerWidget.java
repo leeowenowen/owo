@@ -130,7 +130,9 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
-			mMediaPlayerController.seek(progress, maxProgress());
+			if (fromUser) {
+				mMediaPlayerController.seek(progress, maxProgress());
+			}
 		}
 	};
 
@@ -258,5 +260,14 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	public void onFastBackward() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onComplete() {
+		mStart.setVisibility(VISIBLE);
+		mStop.setVisibility(GONE);
+		mPause.setVisibility(GONE);
+		mResume.setVisibility(VISIBLE);
+		mSeekBar.setProgress(0);
 	}
 }

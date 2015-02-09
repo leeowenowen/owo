@@ -79,5 +79,7 @@ public interface IMediaPlayerController {
 		void onReset();
 
 		void onMetaInfo(IMetaInfo metaInfo);
+		
+		void onComplete();
 	}
 }

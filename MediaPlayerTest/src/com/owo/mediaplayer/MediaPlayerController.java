@@ -1,6 +1,7 @@
 package com.owo.mediaplayer;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.owo.mediaplayer.android.SysMediaPlayer;
@@ -10,8 +11,34 @@ import com.owo.mediaplayer.interfaces.IMetaInfo;
 
 public class MediaPlayerController implements IMediaPlayerController,
 		IMediaPlayer.Listener {
-
+	private static final String TAG = "MediaPlayerController";
 	private IMediaPlayer mMediaPlayer;
+
+	private enum State {
+		Error("Error"), //
+		Init("Init"), //
+		Preparing("Preparing"), //
+		Prepared("Prepared"), //
+		Playing("Playing"), //
+		Paused("Paused"), //
+		Finished("Finished"); //
+
+		private final String mMsg;
+
+		State(String msg) {
+			mMsg = msg;
+		}
+
+		public String toString() {
+			return mMsg;
+		}
+	};
+
+	private State mState = State.Init;
+
+	private void switchState(State state) {
+		mState = state;
+	}
 
 	@Override
 	public void create(Context context, SurfaceHolder surface) {
@@ -27,17 +54,41 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void stop() {
+		// 1) check state
+		if (mState != State.Playing) {
+			Log.e(TAG, "Invalid state: stop on " + mState);
+			return;
+		}
 		mMediaPlayer.stop();
+		switchState(State.Paused);
 	}
 
 	@Override
 	public void pause() {
+		// 1) check state
+		if (mState != State.Playing) {
+			Log.e(TAG, "Invalid state: pause on " + mState);
+			return;
+		}
 		mMediaPlayer.pause();
+		switchState(State.Paused);
 	}
 
 	@Override
 	public void resume() {
-		mMediaPlayer.resume();
+		// 1) check state
+		if (mState != State.Paused && mState != State.Finished) {
+			Log.e(TAG, "Invalid resume: resume on " + mState);
+			return;
+		}
+	//	if (mState == State.Paused) {
+			mMediaPlayer.resume();
+			switchState(State.Playing);
+//		} 
+//		else if (mState == State.Finished) {
+//			start();
+//		}
+
 	}
 
 	@Override
@@ -103,6 +154,11 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void start() {
+		// 1) check state
+		if (mState != State.Init && mState != State.Finished) {
+			Log.e(TAG, "Invalid state: start on " + mState);
+			return;
+		}
 		if (mMediaPlayer == null) {
 			return;
 		}
@@ -131,6 +187,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 	 */
 	@Override
 	public void onStart() {
+		switchState(State.Playing);
 		mClient.onStart();
 	}
 
@@ -172,6 +229,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void onError(int error) {
+		switchState(State.Error);
 		mClient.onError(error);
 	}
 
@@ -187,8 +245,10 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void onComplete() {
-		// TODO Auto-generated method stub
-
+		//TODO: config it
+		mMediaPlayer.seek(0);
+		mClient.onComplete();
+		switchState(State.Finished);
 	}
 
 	@Override

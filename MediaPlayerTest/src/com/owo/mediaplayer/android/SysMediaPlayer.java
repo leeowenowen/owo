@@ -21,32 +21,6 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 	private MediaPlayer mMediaPlayer;
 	private SurfaceHolder mSurfaceHolder;
 
-	private enum State {
-		Error("Error"), //
-		Init("Init"), //
-		Preparing("Preparing"), //
-		Prepared("Prepared"), //
-		Playing("Playing"), //
-		Paused("Paused"), //
-		Finished("Finished"); //
-
-		private final String mMsg;
-
-		State(String msg) {
-			mMsg = msg;
-		}
-
-		public String toString() {
-			return mMsg;
-		}
-	};
-
-	private State mState = State.Init;
-
-	private void switchState(State state) {
-		mState = state;
-	}
-
 	@Override
 	public void create(Context context, SurfaceHolder surface) {
 		mSurfaceHolder = surface;
@@ -69,7 +43,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 		@Override
 		public boolean onError(MediaPlayer mp, int what, int extra) {
 			Log.v("xxx", "error[what:" + what + "][extra:" + extra + "]");
-			switchState(State.Error);
+
 			for (Listener observer : observers()) {
 				// TODO: convert error code
 				observer.onError(what);
@@ -90,7 +64,6 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 			MetaData metaData = new MetaData(mp);
 			metaData.exists();
 			mMediaPlayer.start();
-			switchState(State.Playing);
 			for (Listener observer : observers()) {
 				observer.onLoadStop();
 				observer.onMetaInfo(metaInfo);
@@ -109,7 +82,6 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
 		public void onCompletion(MediaPlayer mp) {
-			switchState(State.Finished);
 			for (Listener observer : observers()) {
 				observer.onComplete();
 			}
@@ -153,16 +125,11 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public void start() {
-		// 1) check state
-		if (mState != State.Init && mState != State.Finished) {
-			Log.e(TAG, "Invalid state: start on " + mState);
-			return;
-		}
-		// 2) do prepare and start asynchronously
+		// 1) do prepare and start asynchronously
 		mMediaPlayer.setOnPreparedListener(mPreparedListener);
 		mMediaPlayer.prepareAsync();
 
-		// 3) notify observers
+		// 2) notify observers
 		for (Listener observer : observers()) {
 			observer.onLoadStart("Preparing");
 		}
@@ -170,15 +137,9 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public void stop() {
-		// 1) check state
-		if (mState != State.Playing) {
-			Log.e(TAG, "Invalid state: stop on " + mState);
-			return;
-		}
-		// 2) do stop
+		// 1) do stop
 		mMediaPlayer.stop();
-		switchState(State.Paused);
-		// 3) notify observers
+		// 2) notify observers
 		for (Listener observer : observers()) {
 			observer.onStop();
 		}
@@ -186,15 +147,9 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public void pause() {
-		// 1) check state
-		if (mState != State.Playing) {
-			Log.e(TAG, "Invalid state: pause on " + mState);
-			return;
-		}
-		// 2) do pause
+		// 1) do pause
 		mMediaPlayer.pause();
-		switchState(State.Paused);
-		// 3) notify observers
+		// 2) notify observers
 		for (Listener observer : observers()) {
 			observer.onPause();
 		}
@@ -202,15 +157,9 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public void resume() {
-		// 1) check state
-		if (mState != State.Paused) {
-			Log.e(TAG, "Invalid resume: resume on " + mState);
-			return;
-		}
-		// 2) do resume
+		// 1) do resume
 		mMediaPlayer.start();
-		switchState(State.Playing);
-		// 3) notify observers
+		// 2) notify observers
 		for (Listener observer : observers()) {
 			observer.onResume();
 		}
