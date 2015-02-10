@@ -3,6 +3,7 @@ package com.example.mediaplayertest;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.graphics.drawable.ShapeDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
@@ -15,6 +16,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import com.owo.mediaplayer.view.FastForwardShape;
+import com.owo.mediaplayer.view.FullScreenShape;
+import com.owo.mediaplayer.view.LockShape;
+import com.owo.mediaplayer.view.StartShape;
+import com.owo.mediaplayer.view.StopShape;
 
 public class MainActivity extends Activity {
 
@@ -44,8 +51,46 @@ public class MainActivity extends Activity {
 				// startActivity(intent);
 			}
 		});
+		// setContentView(layout);
+		/*
+		 * 
+		 */
+		LinearLayout container = new LinearLayout(this);
+		container.setOrientation(LinearLayout.VERTICAL);
+		// stop
+		ShapeDrawable sp = new ShapeDrawable();
+		sp.setShape(new StopShape());
+		View view = new View(this);
+		view.setBackgroundDrawable(sp);
+		container.addView(view, new LinearLayout.LayoutParams(200, 200));
+		// start
+		ShapeDrawable sp2 = new ShapeDrawable();
+		sp2.setShape(new StartShape());
+		View view2 = new View(this);
+		view2.setBackgroundDrawable(sp2);
+		container.addView(view2, new LinearLayout.LayoutParams(200, 200));
+		// fast forward
+		ShapeDrawable sp3 = new ShapeDrawable();
+		sp3.setShape(new FastForwardShape());
+		View view3 = new View(this);
+		view3.setBackgroundDrawable(sp3);
+		container.addView(view3, new LinearLayout.LayoutParams(200, 200));
 
-		setContentView(layout);
+		// lock
+		ShapeDrawable sp4 = new ShapeDrawable();
+		sp4.setShape(new LockShape());
+		View view4 = new View(this);
+		view4.setBackgroundDrawable(sp4);
+		container.addView(view4, new LinearLayout.LayoutParams(200, 200));
+
+		// full screen
+		ShapeDrawable sp5 = new ShapeDrawable();
+		sp5.setShape(new FullScreenShape());
+		View view5 = new View(this);
+		view5.setBackgroundDrawable(sp5);
+		container.addView(view5, new LinearLayout.LayoutParams(200, 200));
+		setContentView(container);
+
 	}
 
 	private MediaPlayer.OnPreparedListener mOnPreparedListener = new OnPreparedListener() {
