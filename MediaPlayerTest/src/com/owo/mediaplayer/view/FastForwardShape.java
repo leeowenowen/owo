@@ -1,14 +1,11 @@
 package com.owo.mediaplayer.view;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.graphics.drawable.shapes.RectShape;
 
-public class FastForwardShape extends RectShape {
-	private Paint mPaint = new Paint();
+public class FastForwardShape extends CustomRectShape {
 	private Path mPath = new Path();
 
 	/**
@@ -21,9 +18,6 @@ public class FastForwardShape extends RectShape {
 	 */
 	@Override
 	public void draw(Canvas canvas, Paint paint) {
-		mPaint.setColor(Color.RED);
-		mPaint.setStrokeWidth(5);
-		mPaint.setStyle(Paint.Style.STROKE);
 		RectF rectF = rect();
 		float halfHeight = rectF.height() / 2;
 		float halfWidth = rectF.width() / 2;
@@ -43,6 +37,6 @@ public class FastForwardShape extends RectShape {
 
 		canvas.translate(rectF.width(), rectF.height());
 		canvas.rotate(180);
-		canvas.drawPath(mPath, mPaint);
+		canvas.drawPath(mPath, paint());
 	}
 }

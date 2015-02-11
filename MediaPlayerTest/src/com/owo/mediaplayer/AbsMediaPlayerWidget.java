@@ -1,10 +1,12 @@
 package com.owo.mediaplayer;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -12,6 +14,8 @@ import com.owo.mediaplayer.core.VideoSurfaceView;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
 import com.owo.mediaplayer.interfaces.IMetaInfo;
+import com.owo.mediaplayer.view.VF;
+import com.owo.mediaplayer.view.VF.ViewID;
 
 public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		IMediaPlayerController.Client {
@@ -22,11 +26,11 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	private boolean mSurfaceCreated;
 
 	protected SeekBar mSeekBar;
-	protected TextView mPause, mResume;
-	protected TextView mStart, mStop;
-	protected TextView mPre, mNext;
-	protected TextView mFastForward, mFastBackward;
-	protected TextView mFullScreen;
+	protected View mPause, mResume;
+	protected View mStart, mStop;
+	protected View mPre, mNext;
+	protected View mFastForward, mFastBackward;
+	protected View mFullScreen;
 	protected TextView mEndTime, mCurrentTime;
 	protected TextView mLoadingText;
 
@@ -76,16 +80,16 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mSeekBar = new SeekBar(context);
 		mSeekBar.setMax(maxProgress());
 
-		mPause = new TextView(context);
-		mResume = new TextView(context);
-		mStart = new TextView(context);
-		mStop = new TextView(context);
-		mPre = new TextView(context);
-		mNext = new TextView(context);
-		mFastForward = new TextView(context);
-		mFastBackward = new TextView(context);
+		mPause = VF.of(context, ViewID.Pause);
+		mResume = VF.of(context, ViewID.Resume);
+		mStart = VF.of(context, ViewID.Start);
+		mStop = VF.of(context, ViewID.Stop);
+		mPre = VF.of(context, ViewID.Pre);
+		mNext = VF.of(context, ViewID.Next);
+		mFastForward = VF.of(context, ViewID.FastForward);
+		mFastBackward = VF.of(context, ViewID.FastBackward);
 
-		mFullScreen = new TextView(context);
+		mFullScreen = VF.of(context, ViewID.FullScreen);
 
 		mEndTime = new TextView(context);
 		mCurrentTime = new TextView(context);
@@ -270,4 +274,16 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mResume.setVisibility(VISIBLE);
 		mSeekBar.setProgress(0);
 	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		requestLayout();
+	}
+	@Override
+    public void dispatchConfigurationChanged(Configuration newConfig) {
+        super.dispatchConfigurationChanged(newConfig);
+        requestLayout();
+        forceLayout();
+    }
 }

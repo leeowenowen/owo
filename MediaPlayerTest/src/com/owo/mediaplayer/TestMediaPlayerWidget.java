@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
 public class TestMediaPlayerWidget extends AbsMediaPlayerWidget {
@@ -25,8 +24,7 @@ public class TestMediaPlayerWidget extends AbsMediaPlayerWidget {
 		addView(mSurfaceView, new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.MATCH_PARENT));
-		mPause.setText("Pause");
-		mResume.setText("Resume");
+
 		// bottom control bar
 		LinearLayout progressLinearLayout = new LinearLayout(getContext());
 		progressLinearLayout.setGravity(Gravity.CENTER);
@@ -37,7 +35,8 @@ public class TestMediaPlayerWidget extends AbsMediaPlayerWidget {
 		LinearLayout bottomControlBar = new LinearLayout(getContext());
 		bottomControlBar.setOrientation(LinearLayout.VERTICAL);
 		LinearLayout.LayoutParams startStopLP = new LinearLayout.LayoutParams(
-				100, 100);
+				200, 200);
+		bottomControlBar.setGravity(Gravity.CENTER);
 		FrameLayout.LayoutParams matchParent = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.MATCH_PARENT);
@@ -55,7 +54,7 @@ public class TestMediaPlayerWidget extends AbsMediaPlayerWidget {
 				FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM
 						| Gravity.CENTER));
-		bottomControlBar.setBackgroundColor(Color.RED);
+		bottomControlBar.setBackgroundColor(Color.BLACK);
 
 		// LinearLayout layout = new LinearLayout(getContext());
 		// layout.setOrientation(LinearLayout.VERTICAL);

@@ -1,28 +1,18 @@
 package com.owo.mediaplayer.view;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.graphics.drawable.shapes.RectShape;
 
-public class LockShape extends RectShape {
-	private Paint mPaint = new Paint();
+public class LockShape extends CustomRectShape {
 	private Path mPath = new Path();
 
 	@Override
 	public void draw(Canvas canvas, Paint paint) {
-		mPaint.setColor(Color.RED);
-		mPaint.setStrokeWidth(5);
-		mPaint.setStyle(Paint.Style.STROKE);
 		RectF rectF = rect();
 		float left = rectF.left + rectF.width() / 4;
 		float top = rectF.top + rectF.height() / 4;
-
-		// canvas.drawRect(left, top, left + rectF.width() / 2,
-		// top + rectF.width() / 2, mPaint);
-
 		drawLock(canvas, left, top, rectF.width() / 2, rectF.height() / 2);
 	}
 
@@ -56,13 +46,13 @@ public class LockShape extends RectShape {
 		float yE = top + height;
 		float xF = xD;
 		float yF = yE;
-		float xO = left + width / 2;
-		float yO = top;
+		// float xO = left + width / 2;
+		// float yO = top;
 		float radius = (xC - xB) / 2;
 		float xI = xB;
 		float yI = top + radius;
 		float xJ = xC;
-		float yJ = yI;
+		// float yJ = yI;
 		mPath.reset();
 		mPath.moveTo(xA, yA);
 		mPath.lineTo(xB, yB);
@@ -74,6 +64,6 @@ public class LockShape extends RectShape {
 		mPath.lineTo(xF, yF);
 		mPath.lineTo(xE, yE);
 		mPath.close();
-		canvas.drawPath(mPath, mPaint);
+		canvas.drawPath(mPath, paint());
 	}
 }

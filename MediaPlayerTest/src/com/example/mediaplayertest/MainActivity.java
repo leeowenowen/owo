@@ -21,7 +21,8 @@ import com.owo.mediaplayer.view.FastForwardShape;
 import com.owo.mediaplayer.view.FullScreenShape;
 import com.owo.mediaplayer.view.LockShape;
 import com.owo.mediaplayer.view.StartShape;
-import com.owo.mediaplayer.view.StopShape;
+import com.owo.mediaplayer.view.VF;
+import com.owo.mediaplayer.view.VF.ViewID;
 
 public class MainActivity extends Activity {
 
@@ -32,6 +33,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		LinearLayout layout = new LinearLayout(this);
 		layout.setOrientation(LinearLayout.VERTICAL);
 
@@ -55,40 +57,26 @@ public class MainActivity extends Activity {
 		/*
 		 * 
 		 */
+		ContextManager.init(this);
 		LinearLayout container = new LinearLayout(this);
 		container.setOrientation(LinearLayout.VERTICAL);
 		// stop
-		ShapeDrawable sp = new ShapeDrawable();
-		sp.setShape(new StopShape());
-		View view = new View(this);
-		view.setBackgroundDrawable(sp);
-		container.addView(view, new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Stop),
+				new LinearLayout.LayoutParams(200, 200));
 		// start
-		ShapeDrawable sp2 = new ShapeDrawable();
-		sp2.setShape(new StartShape());
-		View view2 = new View(this);
-		view2.setBackgroundDrawable(sp2);
-		container.addView(view2, new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Start),
+				new LinearLayout.LayoutParams(200, 200));
 		// fast forward
-		ShapeDrawable sp3 = new ShapeDrawable();
-		sp3.setShape(new FastForwardShape());
-		View view3 = new View(this);
-		view3.setBackgroundDrawable(sp3);
-		container.addView(view3, new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.FastForward),
+				new LinearLayout.LayoutParams(200, 200));
 
 		// lock
-		ShapeDrawable sp4 = new ShapeDrawable();
-		sp4.setShape(new LockShape());
-		View view4 = new View(this);
-		view4.setBackgroundDrawable(sp4);
-		container.addView(view4, new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Lock),
+				new LinearLayout.LayoutParams(200, 200));
 
 		// full screen
-		ShapeDrawable sp5 = new ShapeDrawable();
-		sp5.setShape(new FullScreenShape());
-		View view5 = new View(this);
-		view5.setBackgroundDrawable(sp5);
-		container.addView(view5, new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.FullScreen),
+				new LinearLayout.LayoutParams(200, 200));
 		setContentView(container);
 
 	}
