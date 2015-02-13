@@ -1,11 +1,11 @@
-package com.owo.mediaplayer.view;
+package com.owo.mediaplayer.view.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-public class FastForwardShape extends CustomRectShape {
+public class StartShape extends CustomRectShape {
 	private Path mPath = new Path();
 
 	/**

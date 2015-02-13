@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
+import com.owo.mediaplayer.DefaultMediaPlayerWidget;
+import com.owo.mediaplayer.DefaultTimeFormatter;
 import com.owo.mediaplayer.MediaPlayerController;
-import com.owo.mediaplayer.TestMediaPlayerWidget;
 import com.owo.mediaplayer.interfaces.Callback;
 
-public class TestMediaPlayerActivity extends Activity {
-	private TestMediaPlayerWidget mMediaPlayerWidget;
+public class DefaultMediaPlayActivity extends Activity {
+	private DefaultMediaPlayerWidget mMediaPlayerWidget;
 	private MediaPlayerController mMediaPlayerController;
 
 	@Override
@@ -26,14 +26,15 @@ public class TestMediaPlayerActivity extends Activity {
 		// initialize
 		ContextManager.init(this);
 
-		mMediaPlayerController = new MediaPlayerController();
-		mMediaPlayerWidget = new TestMediaPlayerWidget(this);
+		mMediaPlayerController = new MediaPlayerController()
+				.timeFormatter(new DefaultTimeFormatter());
+		mMediaPlayerWidget = new DefaultMediaPlayerWidget(this);
 		mMediaPlayerWidget.setMPController(mMediaPlayerController);
 		mMediaPlayerWidget.create(new Callback<SurfaceHolder>() {
 
 			@Override
 			public void run(SurfaceHolder holder) {
-				mMediaPlayerController.create(TestMediaPlayerActivity.this,
+				mMediaPlayerController.create(DefaultMediaPlayActivity.this,
 						holder);
 				mMediaPlayerController.uri(MediaUrls.sLocal);
 				mMediaPlayerController.start();
@@ -42,12 +43,11 @@ public class TestMediaPlayerActivity extends Activity {
 
 		setContentView(mMediaPlayerWidget);
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		if(mMediaPlayerController == null)
-		{
+		if (mMediaPlayerController == null) {
 			return;
 		}
 		mMediaPlayerController.onConfigurationChanged(newConfig);

@@ -1,11 +1,11 @@
-package com.owo.mediaplayer.view;
+package com.owo.mediaplayer.view.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-public class StartShape extends CustomRectShape {
+public class NextShape extends CustomRectShape {
 	private Path mPath = new Path();
 
 	/**
@@ -30,10 +30,12 @@ public class StartShape extends CustomRectShape {
 		float xC = xB;
 		float yC = yA + quarterHeight;
 		mPath.reset();
-		mPath.moveTo(xA, yA);
-		mPath.lineTo(xB, yB);
+		mPath.moveTo(xB, yB);
 		mPath.lineTo(xC, yC);
-		mPath.close();
+		mPath.lineTo(xA, yA);
+		mPath.lineTo(xB, yB);
+		mPath.moveTo(xA, yB);
+		mPath.lineTo(xA, yC);
 
 		canvas.translate(rectF.width(), rectF.height());
 		canvas.rotate(180);

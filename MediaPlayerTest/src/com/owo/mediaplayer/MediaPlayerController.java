@@ -8,16 +8,17 @@ import android.view.SurfaceHolder;
 
 import com.example.mediaplayertest.ContextManager;
 import com.owo.mediaplayer.android.SysMediaPlayer;
-import com.owo.mediaplayer.core.MediaDataItem;
 import com.owo.mediaplayer.interfaces.IMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
 import com.owo.mediaplayer.interfaces.IMetaInfo;
+import com.owo.mediaplayer.interfaces.IPlayItem;
+import com.owo.mediaplayer.interfaces.IPlayList;
+import com.owo.mediaplayer.interfaces.ITimeFormatter;
 
 public class MediaPlayerController implements IMediaPlayerController,
 		IMediaPlayer.Listener {
 	private static final String TAG = "MediaPlayerController";
 	private IMediaPlayer mMediaPlayer;
-	private MediaDataItem mMediaItem = new MediaDataItem();
 
 	private enum State {
 		Error("Error"), //
@@ -121,16 +122,41 @@ public class MediaPlayerController implements IMediaPlayerController,
 		mMediaPlayer.seek(position);
 	}
 
+	private IPlayList mPlayList;
+	private int mCurIndex;
+
+	public void updatePlayList(IPlayList list) {
+		mPlayList = list;
+		if (mPlayList.size() > 0) {
+			setCurPlayItem(mCurIndex);
+		}
+	}
+
+	public void setCurPlayItem(int index) {
+		mCurIndex = index;
+		mMediaPlayer.reset();
+		IPlayItem item = mPlayList.at(mCurIndex);
+		uri(item.source());
+		start();
+		checkPreNextState();
+	}
+
+	private void checkPreNextState() {
+		if (mCurIndex == 0) {
+
+		}
+	}
+
 	@Override
 	public void pre() {
-		// TODO Auto-generated method stub
-
+		setCurPlayItem(--mCurIndex);
+		checkPreNextState();
 	}
 
 	@Override
 	public void next() {
-		// TODO Auto-generated method stub
-
+		setCurPlayItem(++mCurIndex);
+		checkPreNextState();
 	}
 
 	@Override
@@ -153,13 +179,29 @@ public class MediaPlayerController implements IMediaPlayerController,
 				.getMetrics(mDisplayMetrics);
 	}
 
+	private int mLastWidth;
+	private int mLastHeight;
+
 	@Override
-	public void fullScreen() {
+	public void resize(int w, int h) {
+		mLastWidth = w;
+		mLastHeight = h;
+	}
+
+	@Override
+	public void enterFullScreen() {
 		if (mDisplayMetrics == null) {
 			updateDisplayMetric();
 		}
+		mClient.onEnterFullScreen();
 		mClient.onSizeChanged(mDisplayMetrics.widthPixels,
 				mDisplayMetrics.heightPixels);
+	}
+
+	@Override
+	public void exitFullScreen() {
+		mClient.onExitFullScreen();
+		mClient.onSizeChanged(mLastWidth, mLastHeight);
 	}
 
 	@Override
@@ -205,6 +247,13 @@ public class MediaPlayerController implements IMediaPlayerController,
 	public void onStart() {
 		switchState(State.Playing);
 		mClient.onStart();
+		notifyTimeChanged();
+	}
+
+	private void notifyTimeChanged() {
+		mClient.onReceivedTimeInfo(
+				mTimeFormatter.format(mMediaPlayer.duration()),
+				mTimeFormatter.format(mMediaPlayer.current()));
 	}
 
 	@Override
@@ -226,6 +275,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 	public void onProgressChanged(int position) {
 		int progress = position * 100 / duration();
 		mClient.onProgressChanged(progress);
+		notifyTimeChanged();
 	}
 
 	@Override
@@ -240,6 +290,10 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void onSizeChanged(int w, int h) {
+		if (mLastHeight == 0 && mLastWidth == 0) {
+			mLastWidth = w;
+			mLastHeight = h;
+		}
 		mClient.onSizeChanged(w, h);
 	}
 
@@ -281,6 +335,16 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 		}
 		updateDisplayMetric();
+	}
+
+	/**
+	 * Time formatter
+	 */
+	private ITimeFormatter mTimeFormatter;
+
+	public MediaPlayerController timeFormatter(ITimeFormatter timeFormatter) {
+		mTimeFormatter = timeFormatter;
+		return this;
 	}
 
 }

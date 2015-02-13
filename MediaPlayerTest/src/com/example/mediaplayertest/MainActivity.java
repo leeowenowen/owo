@@ -17,12 +17,12 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.owo.mediaplayer.view.FastForwardShape;
-import com.owo.mediaplayer.view.FullScreenShape;
-import com.owo.mediaplayer.view.LockShape;
-import com.owo.mediaplayer.view.StartShape;
-import com.owo.mediaplayer.view.VF;
-import com.owo.mediaplayer.view.VF.ViewID;
+import com.owo.mediaplayer.view.shape.EnterFullScreenShape;
+import com.owo.mediaplayer.view.shape.LockShape;
+import com.owo.mediaplayer.view.shape.PreShape;
+import com.owo.mediaplayer.view.shape.StartShape;
+import com.owo.mediaplayer.view.shape.VF;
+import com.owo.mediaplayer.view.shape.VF.ViewID;
 
 public class MainActivity extends Activity {
 
@@ -66,16 +66,29 @@ public class MainActivity extends Activity {
 		// start
 		container.addView(VF.of(this, ViewID.Start),
 				new LinearLayout.LayoutParams(200, 200));
-		// fast forward
-		container.addView(VF.of(this, ViewID.FastForward),
+		// previous
+		container.addView(VF.of(this, ViewID.Pre),
+				new LinearLayout.LayoutParams(200, 200));
+
+		// next
+		container.addView(VF.of(this, ViewID.Next),
 				new LinearLayout.LayoutParams(200, 200));
 
 		// lock
 		container.addView(VF.of(this, ViewID.Lock),
 				new LinearLayout.LayoutParams(200, 200));
 
+		// unlock
+		container.addView(VF.of(this, ViewID.UnLock),
+				new LinearLayout.LayoutParams(200, 200));
+
 		// full screen
-		container.addView(VF.of(this, ViewID.FullScreen),
+		container.addView(VF.of(this, ViewID.EnterFullScreen),
+				new LinearLayout.LayoutParams(200, 200));
+		setContentView(container);
+
+		// EXIT FULL screen
+		container.addView(VF.of(this, ViewID.ExitFullScreen),
 				new LinearLayout.LayoutParams(200, 200));
 		setContentView(container);
 

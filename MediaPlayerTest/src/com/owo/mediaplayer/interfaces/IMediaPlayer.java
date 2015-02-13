@@ -1,6 +1,5 @@
 package com.owo.mediaplayer.interfaces;
 
-import android.R.integer;
 import android.content.Context;
 import android.view.SurfaceHolder;
 
@@ -60,9 +59,9 @@ public interface IMediaPlayer {
 		void onReset();
 
 		void onMetaInfo(IMetaInfo metaInfo);
-		
+
 		void onComplete();
-		
+
 		void onBufferingUpdate(int percent);
 	}
 }

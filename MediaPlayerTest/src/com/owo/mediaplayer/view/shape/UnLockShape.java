@@ -1,4 +1,4 @@
-package com.owo.mediaplayer.view;
+package com.owo.mediaplayer.view.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -36,7 +36,7 @@ public class UnLockShape extends CustomRectShape {
 	private void drawLock(Canvas canvas, float left, float top, float width,
 			float height) {
 		float xA = left;
-		float yA = top + height * 1 / 3;
+		float yA = top + height / 2;
 		float xB = left + width / 4;
 		float yB = yA;
 		float xC = xB + width / 2;
@@ -53,18 +53,18 @@ public class UnLockShape extends CustomRectShape {
 		float xI = xB;
 		float yI = top + radius;
 		float xJ = xC;
-		//sfloat yJ = yI;
+		// sfloat yJ = yI;
 		mPath.reset();
 		mPath.moveTo(xA, yA);
 		mPath.lineTo(xB, yB);
 		mPath.lineTo(xI, yI);
 		mArgRectF.set(xI, top, xJ, top + xJ - xI);
 		mPath.arcTo(mArgRectF, -180, 180);
-		mPath.lineTo(xC, yC);
+		mPath.moveTo(xC, yC);
 		mPath.lineTo(xD, yD);
 		mPath.lineTo(xF, yF);
 		mPath.lineTo(xE, yE);
-		mPath.close();
+		mPath.lineTo(xA, yA);
 		canvas.drawPath(mPath, paint());
 	}
 }

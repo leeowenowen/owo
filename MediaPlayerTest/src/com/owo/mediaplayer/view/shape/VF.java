@@ -1,4 +1,4 @@
-package com.owo.mediaplayer.view;
+package com.owo.mediaplayer.view.shape;
 
 import java.util.HashMap;
 
@@ -17,8 +17,10 @@ public class VF {
 		FastBackward, //
 		Pre, //
 		Next, //
-		FullScreen, //
+		EnterFullScreen, //
+		ExitFullScreen, //
 		Lock, //
+		UnLock, //
 	}
 
 	private static HashMap<ViewID, View> mViews = new HashMap<VF.ViewID, View>();
@@ -31,12 +33,14 @@ public class VF {
 			mShapes.put(ViewID.Stop, new StopShape());
 			mShapes.put(ViewID.Pause, new StopShape());
 			mShapes.put(ViewID.Resume, new StartShape());
-			mShapes.put(ViewID.FastForward, new FastForwardShape());
-			mShapes.put(ViewID.Pre, new LockShape());
-			mShapes.put(ViewID.Next, new LockShape());
-			mShapes.put(ViewID.FastBackward, new FastForwardShape());
-			mShapes.put(ViewID.FullScreen, new FullScreenShape());
+			mShapes.put(ViewID.FastForward, new PreShape());
+			mShapes.put(ViewID.FastBackward, new PreShape());
+			mShapes.put(ViewID.Pre, new PreShape());
+			mShapes.put(ViewID.Next, new NextShape());
+			mShapes.put(ViewID.EnterFullScreen, new EnterFullScreenShape());
+			mShapes.put(ViewID.ExitFullScreen, new ExitFullScreenShape());
 			mShapes.put(ViewID.Lock, new LockShape());
+			mShapes.put(ViewID.UnLock, new UnLockShape());
 		}
 	}
 

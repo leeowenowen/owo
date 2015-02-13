@@ -46,9 +46,13 @@ public interface IMediaPlayerController {
 
 	void seek(int progress, int max);
 
-	void fullScreen();
+	void enterFullScreen();
+
+	void exitFullScreen();
 
 	void onConfigurationChanged(Configuration newConfig);
+
+	void resize(int w, int h);
 
 	public interface Client {
 		void onStart();
@@ -61,13 +65,19 @@ public interface IMediaPlayerController {
 
 		void onPre();
 
+		void onCanPre(boolean flag);
+
 		void onNext();
+
+		void onCanNext(boolean flag);
 
 		void onFastFward();
 
 		void onFastBackward();
 
-		void onFullScreen();
+		void onEnterFullScreen();
+
+		void onExitFullScreen();
 
 		void onProgressChanged(int progress);
 
@@ -82,6 +92,8 @@ public interface IMediaPlayerController {
 		void onReset();
 
 		void onMetaInfo(IMetaInfo metaInfo);
+
+		void onReceivedTimeInfo(String total, String cur);
 
 		void onComplete();
 	}

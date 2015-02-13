@@ -1,4 +1,4 @@
-package com.owo.mediaplayer.view;
+package com.owo.mediaplayer.view.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

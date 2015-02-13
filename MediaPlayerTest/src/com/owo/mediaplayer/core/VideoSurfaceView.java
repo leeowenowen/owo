@@ -1,10 +1,7 @@
 package com.owo.mediaplayer.core;
 
-import com.example.mediaplayertest.ContextManager;
-
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 
 public class VideoSurfaceView extends SurfaceView {
@@ -23,24 +20,15 @@ public class VideoSurfaceView extends SurfaceView {
 			requestLayout();
 		}
 	}
-	
-	public void setFullScreen()
-	{
-		mIsFullScreen = true;
-		requestLayout();
-	}
-
-	private boolean mIsFullScreen;
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			mIsFullScreen = true;
+
 		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mIsFullScreen = false;
+
 		}
-		requestLayout();
 	}
 
 	@Override

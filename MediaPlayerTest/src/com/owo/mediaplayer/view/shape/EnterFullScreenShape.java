@@ -1,10 +1,10 @@
-package com.owo.mediaplayer.view;
+package com.owo.mediaplayer.view.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
-public class FullScreenShape extends CustomRectShape {
+public class EnterFullScreenShape extends CustomRectShape {
 
 	@Override
 	public void draw(Canvas canvas, Paint paint) {

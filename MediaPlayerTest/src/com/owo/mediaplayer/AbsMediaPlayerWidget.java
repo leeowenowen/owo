@@ -1,12 +1,11 @@
 package com.owo.mediaplayer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
@@ -14,8 +13,9 @@ import com.owo.mediaplayer.core.VideoSurfaceView;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
 import com.owo.mediaplayer.interfaces.IMetaInfo;
-import com.owo.mediaplayer.view.VF;
-import com.owo.mediaplayer.view.VF.ViewID;
+import com.owo.mediaplayer.view.shape.Theme;
+import com.owo.mediaplayer.view.shape.VF;
+import com.owo.mediaplayer.view.shape.VF.ViewID;
 
 public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		IMediaPlayerController.Client {
@@ -30,7 +30,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	protected View mStart, mStop;
 	protected View mPre, mNext;
 	protected View mFastForward, mFastBackward;
-	protected View mFullScreen;
+	protected View mEnterFullScreen, mExitFullScreen;
 	protected TextView mEndTime, mCurrentTime;
 	protected TextView mLoadingText;
 
@@ -38,9 +38,10 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		super(context);
 
 		createUIComponents();
-		initUIComponents();
+		initUIContent();
 		setupListeners();
 		setupLayout();
+		initUIState();
 	}
 
 	private SurfaceHolder.Callback mSurfaceHolderCallback = new SurfaceHolder.Callback() {
@@ -72,7 +73,9 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mCreateCallback = callback;
 	}
 
+	@SuppressLint("NewApi")
 	private void createUIComponents() {
+		// setAlpha(0.5f);
 		final Context context = getContext();
 		mSurfaceView = new VideoSurfaceView(context);
 		mSurfaceView.getHolder().addCallback(mSurfaceHolderCallback);
@@ -89,7 +92,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mFastForward = VF.of(context, ViewID.FastForward);
 		mFastBackward = VF.of(context, ViewID.FastBackward);
 
-		mFullScreen = VF.of(context, ViewID.FullScreen);
+		mEnterFullScreen = VF.of(context, ViewID.EnterFullScreen);
+		mExitFullScreen = VF.of(context, ViewID.ExitFullScreen);
 
 		mEndTime = new TextView(context);
 		mCurrentTime = new TextView(context);
@@ -106,10 +110,18 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mNext.setOnClickListener(mOnClickListener);
 		mFastForward.setOnClickListener(mOnClickListener);
 		mFastBackward.setOnClickListener(mOnClickListener);
-		mFullScreen.setOnClickListener(mOnClickListener);
+		mEnterFullScreen.setOnClickListener(mOnClickListener);
+		mExitFullScreen.setOnClickListener(mOnClickListener);
 	}
 
-	protected abstract void initUIComponents();
+	protected void initUIContent() {
+		mEndTime.setTextColor(Theme.textColor());
+		mCurrentTime.setTextColor(Theme.textColor());
+	}
+
+	protected void initUIState() {
+		mExitFullScreen.setVisibility(GONE);
+	}
 
 	protected abstract void setupLayout();
 
@@ -160,8 +172,10 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 				mMediaPlayerController.fastForward();
 			} else if (v == mFastBackward) {
 				mMediaPlayerController.fastBackward();
-			} else if (v == mFullScreen) {
-				mMediaPlayerController.fullScreen();
+			} else if (v == mEnterFullScreen) {
+				mMediaPlayerController.enterFullScreen();
+			} else if (v == mExitFullScreen) {
+				mMediaPlayerController.exitFullScreen();
 			}
 		}
 	};
@@ -224,8 +238,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 	@Override
 	public void onReset() {
-		// TODO Auto-generated method stub
-
+		onStop();
+		onProgressChanged(0);
 	}
 
 	protected IMetaInfo mMediaMetaInfo;
@@ -237,8 +251,15 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	}
 
 	@Override
-	public void onFullScreen() {
-		mSurfaceView.setFullScreen();
+	public void onEnterFullScreen() {
+		mEnterFullScreen.setVisibility(GONE);
+		mExitFullScreen.setVisibility(VISIBLE);
+	}
+
+	@Override
+	public void onExitFullScreen() {
+		mEnterFullScreen.setVisibility(VISIBLE);
+		mExitFullScreen.setVisibility(GONE);
 	}
 
 	@Override
@@ -248,9 +269,19 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	}
 
 	@Override
+	public void onCanPre(boolean flag) {
+		mPre.setEnabled(flag);
+	}
+
+	@Override
 	public void onNext() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onCanNext(boolean flag) {
+		mNext.setEnabled(flag);
 	}
 
 	@Override
@@ -272,6 +303,12 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mPause.setVisibility(GONE);
 		mResume.setVisibility(VISIBLE);
 		mSeekBar.setProgress(0);
+	}
+
+	@Override
+	public void onReceivedTimeInfo(String total, String cur) {
+		mEndTime.setText(total);
+		mCurrentTime.setText(cur);
 	}
 
 	// @Override

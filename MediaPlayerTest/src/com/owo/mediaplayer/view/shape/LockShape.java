@@ -1,4 +1,4 @@
-package com.owo.mediaplayer.view;
+package com.owo.mediaplayer.view.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -35,7 +35,7 @@ public class LockShape extends CustomRectShape {
 	private void drawLock(Canvas canvas, float left, float top, float width,
 			float height) {
 		float xA = left;
-		float yA = top + height * 1 / 3;
+		float yA = top + height / 2;
 		float xB = left + width / 4;
 		float yB = yA;
 		float xC = xB + width / 2;
