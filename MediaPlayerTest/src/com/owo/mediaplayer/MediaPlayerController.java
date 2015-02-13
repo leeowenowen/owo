@@ -1,10 +1,14 @@
 package com.owo.mediaplayer;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.example.mediaplayertest.ContextManager;
 import com.owo.mediaplayer.android.SysMediaPlayer;
+import com.owo.mediaplayer.core.MediaDataItem;
 import com.owo.mediaplayer.interfaces.IMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
 import com.owo.mediaplayer.interfaces.IMetaInfo;
@@ -13,6 +17,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 		IMediaPlayer.Listener {
 	private static final String TAG = "MediaPlayerController";
 	private IMediaPlayer mMediaPlayer;
+	private MediaDataItem mMediaItem = new MediaDataItem();
 
 	private enum State {
 		Error("Error"), //
@@ -81,13 +86,13 @@ public class MediaPlayerController implements IMediaPlayerController,
 			Log.e(TAG, "Invalid resume: resume on " + mState);
 			return;
 		}
-	//	if (mState == State.Paused) {
-			mMediaPlayer.resume();
-			switchState(State.Playing);
-//		} 
-//		else if (mState == State.Finished) {
-//			start();
-//		}
+		// if (mState == State.Paused) {
+		mMediaPlayer.resume();
+		switchState(State.Playing);
+		// }
+		// else if (mState == State.Finished) {
+		// start();
+		// }
 
 	}
 
@@ -140,10 +145,21 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	}
 
+	private DisplayMetrics mDisplayMetrics;
+
+	private void updateDisplayMetric() {
+		mDisplayMetrics = new DisplayMetrics();
+		ContextManager.activity().getWindowManager().getDefaultDisplay()
+				.getMetrics(mDisplayMetrics);
+	}
+
 	@Override
 	public void fullScreen() {
-		// TODO Auto-generated method stub
-
+		if (mDisplayMetrics == null) {
+			updateDisplayMetric();
+		}
+		mClient.onSizeChanged(mDisplayMetrics.widthPixels,
+				mDisplayMetrics.heightPixels);
 	}
 
 	@Override
@@ -245,7 +261,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void onComplete() {
-		//TODO: config it
+		// TODO: config it
 		mMediaPlayer.seek(0);
 		mClient.onComplete();
 		switchState(State.Finished);
@@ -255,6 +271,16 @@ public class MediaPlayerController implements IMediaPlayerController,
 	public void onBufferingUpdate(int percent) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+		}
+		updateDisplayMetric();
 	}
 
 }

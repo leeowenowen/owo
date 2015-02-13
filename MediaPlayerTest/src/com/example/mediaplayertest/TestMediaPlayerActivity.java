@@ -42,4 +42,15 @@ public class TestMediaPlayerActivity extends Activity {
 
 		setContentView(mMediaPlayerWidget);
 	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if(mMediaPlayerController == null)
+		{
+			return;
+		}
+		mMediaPlayerController.onConfigurationChanged(newConfig);
+
+	}
 }

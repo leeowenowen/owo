@@ -1,6 +1,7 @@
 package com.owo.mediaplayer.interfaces;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.SurfaceHolder;
 
 public interface IMediaPlayerController {
@@ -47,6 +48,8 @@ public interface IMediaPlayerController {
 
 	void fullScreen();
 
+	void onConfigurationChanged(Configuration newConfig);
+
 	public interface Client {
 		void onStart();
 
@@ -79,7 +82,7 @@ public interface IMediaPlayerController {
 		void onReset();
 
 		void onMetaInfo(IMetaInfo metaInfo);
-		
+
 		void onComplete();
 	}
 }

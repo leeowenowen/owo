@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.example.mediaplayertest.MetaData;
-import com.owo.mediaplayer.core.SysMetaInfo;
 import com.owo.mediaplayer.interfaces.AbsMediaPlayer;
 
 public class SysMediaPlayer extends AbsMediaPlayer {

@@ -238,8 +238,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 	@Override
 	public void onFullScreen() {
-		// TODO Auto-generated method stub
-
+		mSurfaceView.setFullScreen();
 	}
 
 	@Override
@@ -275,15 +274,15 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mSeekBar.setProgress(0);
 	}
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		requestLayout();
-	}
-	@Override
-    public void dispatchConfigurationChanged(Configuration newConfig) {
-        super.dispatchConfigurationChanged(newConfig);
-        requestLayout();
-        forceLayout();
-    }
+	// @Override
+	// public void onConfigurationChanged(Configuration newConfig) {
+	// super.onConfigurationChanged(newConfig);
+	// requestLayout();
+	// }
+	// @Override
+	// public void dispatchConfigurationChanged(Configuration newConfig) {
+	// super.dispatchConfigurationChanged(newConfig);
+	// requestLayout();
+	// forceLayout();
+	// }
 }

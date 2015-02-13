@@ -1,5 +1,6 @@
 package com.owo.mediaplayer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -19,8 +20,10 @@ public class TestMediaPlayerWidget extends AbsMediaPlayerWidget {
 
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void setupLayout() {
+		//setAlpha(0.5f);
 		addView(mSurfaceView, new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.MATCH_PARENT));
@@ -50,6 +53,7 @@ public class TestMediaPlayerWidget extends AbsMediaPlayerWidget {
 						LinearLayout.LayoutParams.MATCH_PARENT,
 						LinearLayout.LayoutParams.WRAP_CONTENT));
 		bottomControlBar.addView(startStopFrameLayout, startStopLP);
+		bottomControlBar.addView(mFullScreen, startStopLP);
 		addView(bottomControlBar, new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM
