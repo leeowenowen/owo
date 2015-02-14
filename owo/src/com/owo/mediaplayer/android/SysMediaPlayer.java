@@ -41,7 +41,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 	private OnErrorListener mErrorListener = new OnErrorListener() {
 		@Override
 		public boolean onError(MediaPlayer mp, int what, int extra) {
-			Log.v("xxx", "error[what:" + what + "][extra:" + extra + "]");
+			Log.e(TAG, "onError[what:" + what + "][extra:" + extra + "]");
 
 			for (Listener observer : observers()) {
 				// TODO: convert error code
@@ -90,7 +90,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 	private MediaPlayer.OnInfoListener mOnInfoListener = new OnInfoListener() {
 		@Override
 		public boolean onInfo(MediaPlayer mp, int what, int extra) {
-			// TODO Auto-generated method stub
+			Log.v(TAG, "onInfo[what:" + what + "][extra:" + extra + "]");
 			return false;
 		}
 	};

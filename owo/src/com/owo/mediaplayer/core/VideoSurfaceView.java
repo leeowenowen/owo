@@ -2,9 +2,11 @@ package com.owo.mediaplayer.core;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.Log;
 import android.view.SurfaceView;
 
 public class VideoSurfaceView extends SurfaceView {
+	private static final String TAG = "VideoSurfaceView";
 	protected int mVideoWidth;
 	protected int mVideoHeight;
 
@@ -16,7 +18,7 @@ public class VideoSurfaceView extends SurfaceView {
 		mVideoWidth = w;
 		mVideoHeight = h;
 		if (mVideoWidth != 0 && mVideoHeight != 0) {
-			getHolder().setFixedSize(mVideoWidth, mVideoHeight);
+			//getHolder().setFixedSize(mVideoWidth, mVideoHeight);
 			requestLayout();
 		}
 	}
@@ -97,6 +99,7 @@ public class VideoSurfaceView extends SurfaceView {
 		} else {
 			// no size yet, just adopt the given spec sizes
 		}
+		Log.v(TAG, "onMeasure:[width:" + width + "][height:" + height + "]");
 		setMeasuredDimension(width, height);
 	}
 }

@@ -2,6 +2,7 @@ package com.owo.mediaplayer;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -27,6 +28,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 		Prepared("Prepared"), //
 		Playing("Playing"), //
 		Paused("Paused"), //
+		Reseted("Reseted"), //
 		Finished("Finished"); //
 
 		private final String mMsg;
@@ -83,7 +85,8 @@ public class MediaPlayerController implements IMediaPlayerController,
 	@Override
 	public void resume() {
 		// 1) check state
-		if (mState != State.Paused && mState != State.Finished) {
+		if (mState != State.Paused && mState != State.Finished
+				&& mState != State.Reseted) {
 			Log.e(TAG, "Invalid resume: resume on " + mState);
 			return;
 		}
@@ -125,37 +128,43 @@ public class MediaPlayerController implements IMediaPlayerController,
 	private IPlayList mPlayList;
 	private int mCurIndex;
 
-	public void updatePlayList(IPlayList list) {
+	public void playList(IPlayList list) {
 		mPlayList = list;
 		if (mPlayList.size() > 0) {
-			setCurPlayItem(mCurIndex);
+			setCurPlayItem(mCurIndex, false);
 		}
 	}
 
-	public void setCurPlayItem(int index) {
+	public void setCurPlayItem(int index, boolean start) {
 		mCurIndex = index;
 		mMediaPlayer.reset();
 		IPlayItem item = mPlayList.at(mCurIndex);
 		uri(item.source());
-		start();
-		checkPreNextState();
+		if (start) {
+			start();
+			checkPreNextState();
+		}
 	}
 
 	private void checkPreNextState() {
-		if (mCurIndex == 0) {
-
-		}
+		mClient.onCanPre(mCurIndex > 0);
+		mClient.onCanNext(mCurIndex < mPlayList.size() - 1);
 	}
 
 	@Override
 	public void pre() {
-		setCurPlayItem(--mCurIndex);
+		if (mCurIndex > 0) {
+			setCurPlayItem(--mCurIndex, true);
+		}
+
 		checkPreNextState();
 	}
 
 	@Override
 	public void next() {
-		setCurPlayItem(++mCurIndex);
+		if (mCurIndex < mPlayList.size() - 1) {
+			setCurPlayItem(++mCurIndex, true);
+		}
 		checkPreNextState();
 	}
 
@@ -213,7 +222,8 @@ public class MediaPlayerController implements IMediaPlayerController,
 	@Override
 	public void start() {
 		// 1) check state
-		if (mState != State.Init && mState != State.Finished) {
+		if (mState != State.Init && mState != State.Finished
+				&& mState != State.Reseted) {
 			Log.e(TAG, "Invalid state: start on " + mState);
 			return;
 		}
@@ -305,6 +315,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void onReset() {
+		switchState(State.Reseted);
 		mClient.onReset();
 	}
 
@@ -327,14 +338,22 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	}
 
+	boolean mEnterFullScreenOnLandscape = true;
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
+		updateDisplayMetric();
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			if (mEnterFullScreenOnLandscape) {
+				enterFullScreen();
+			}
 
 		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-
+			if (mEnterFullScreenOnLandscape) {
+				exitFullScreen();
+			}
 		}
-		updateDisplayMetric();
+
 	}
 
 	/**

@@ -2,6 +2,7 @@ package com.owo.mediaplayer;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,6 +21,7 @@ import com.owo.mediaplayer.view.shape.VF.ViewID;
 public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		IMediaPlayerController.Client {
 
+	private static final String TAG = "AbsMediaPlayerWidget";
 	protected IMediaPlayerController mMediaPlayerController;
 
 	protected VideoSurfaceView mSurfaceView;
@@ -48,10 +50,12 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 		@Override
 		public void surfaceDestroyed(SurfaceHolder holder) {
+			Log.v(TAG, "surfaceDestroyed");
 		}
 
 		@Override
 		public void surfaceCreated(SurfaceHolder holder) {
+			Log.v(TAG, "surfaceCreated");
 			holder.setKeepScreenOn(true);
 			mSurfaceCreated = true;
 			mCreateCallback.run(holder);
@@ -60,6 +64,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		@Override
 		public void surfaceChanged(SurfaceHolder holder, int format, int width,
 				int height) {
+			Log.v(TAG, "surfaceDestroyed[format:" + format + "][width:" + width
+					+ "][height:" + height + "]");
 		}
 	};
 
@@ -247,7 +253,9 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	@Override
 	public void onMetaInfo(IMetaInfo metaInfo) {
 		mMediaMetaInfo = metaInfo;
-		mSurfaceView.setSize(metaInfo.width(), metaInfo.height());
+		if (metaInfo.width() > 0 && metaInfo.height() > 0) {
+			mSurfaceView.setSize(metaInfo.width(), metaInfo.height());
+		}
 	}
 
 	@Override

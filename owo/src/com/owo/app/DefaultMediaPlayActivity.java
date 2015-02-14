@@ -9,7 +9,9 @@ import android.view.WindowManager;
 
 import com.owo.mediaplayer.DefaultMediaPlayerWidget;
 import com.owo.mediaplayer.DefaultTimeFormatter;
+import com.owo.mediaplayer.LocalPlayList;
 import com.owo.mediaplayer.MediaPlayerController;
+import com.owo.mediaplayer.PlayItem;
 import com.owo.mediaplayer.interfaces.Callback;
 
 public class DefaultMediaPlayActivity extends Activity {
@@ -36,7 +38,11 @@ public class DefaultMediaPlayActivity extends Activity {
 			public void run(SurfaceHolder holder) {
 				mMediaPlayerController.create(DefaultMediaPlayActivity.this,
 						holder);
-				mMediaPlayerController.uri(MediaUrls.sLocal);
+				LocalPlayList playList = new LocalPlayList();
+				playList.add(new PlayItem().source(MediaUrls.sLocal));
+				playList.add(new PlayItem().source(MediaUrls.sNetAD));
+				mMediaPlayerController.playList(playList);
+				// mMediaPlayerController.uri(MediaUrls.sRealStream);
 				mMediaPlayerController.start();
 			}
 		});
