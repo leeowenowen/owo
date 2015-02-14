@@ -90,14 +90,9 @@ public class MediaPlayerController implements IMediaPlayerController,
 			Log.e(TAG, "Invalid resume: resume on " + mState);
 			return;
 		}
-		// if (mState == State.Paused) {
+
 		mMediaPlayer.resume();
 		switchState(State.Playing);
-		// }
-		// else if (mState == State.Finished) {
-		// start();
-		// }
-
 	}
 
 	@Override
@@ -195,7 +190,10 @@ public class MediaPlayerController implements IMediaPlayerController,
 	public void resize(int w, int h) {
 		mLastWidth = w;
 		mLastHeight = h;
+		mClient.onSizeChanged(w, h);
 	}
+
+	private boolean mIsInFullScreen;
 
 	@Override
 	public void enterFullScreen() {
@@ -205,12 +203,14 @@ public class MediaPlayerController implements IMediaPlayerController,
 		mClient.onEnterFullScreen();
 		mClient.onSizeChanged(mDisplayMetrics.widthPixels,
 				mDisplayMetrics.heightPixels);
+		mIsInFullScreen = true;
 	}
 
 	@Override
 	public void exitFullScreen() {
 		mClient.onExitFullScreen();
 		mClient.onSizeChanged(mLastWidth, mLastHeight);
+		mIsInFullScreen = false;
 	}
 
 	@Override
@@ -257,27 +257,24 @@ public class MediaPlayerController implements IMediaPlayerController,
 	public void onStart() {
 		switchState(State.Playing);
 		mClient.onStart();
-		notifyTimeChanged();
-	}
-
-	private void notifyTimeChanged() {
-		mClient.onReceivedTimeInfo(
-				mTimeFormatter.format(mMediaPlayer.duration()),
-				mTimeFormatter.format(mMediaPlayer.current()));
+		startProgressUpdateTimer();
 	}
 
 	@Override
 	public void onStop() {
+		stopProgressUpdateTime();
 		mClient.onStop();
 	}
 
 	@Override
 	public void onPause() {
+		stopProgressUpdateTime();
 		mClient.onPause();
 	}
 
 	@Override
 	public void onResume() {
+		startProgressUpdateTimer();
 		mClient.onResume();
 	}
 
@@ -285,7 +282,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 	public void onProgressChanged(int position) {
 		int progress = position * 100 / duration();
 		mClient.onProgressChanged(progress);
-		notifyTimeChanged();
+		updateTimeInfo();
 	}
 
 	@Override
@@ -300,6 +297,9 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void onSizeChanged(int w, int h) {
+		if (mIsInFullScreen) {
+			return;
+		}
 		if (mLastHeight == 0 && mLastWidth == 0) {
 			mLastWidth = w;
 			mLastHeight = h;
@@ -321,15 +321,20 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void onMetaInfo(IMetaInfo metaInfo) {
+		// TODO: check it later
+		if (mIsInFullScreen) {
+			return;
+		}
 		mClient.onMetaInfo(metaInfo);
 	}
 
 	@Override
 	public void onComplete() {
-		// TODO: config it
+		// TODO: make it a setting item
 		mMediaPlayer.seek(0);
 		mClient.onComplete();
 		switchState(State.Finished);
+		updateTimeInfo();
 	}
 
 	@Override
@@ -366,4 +371,30 @@ public class MediaPlayerController implements IMediaPlayerController,
 		return this;
 	}
 
+	private void updateTimeInfo() {
+		mClient.onReceivedTimeInfo(
+				mTimeFormatter.format(mMediaPlayer.duration()),
+				mTimeFormatter.format(mMediaPlayer.current()));
+	}
+
+	private int mLastPosition;
+	private Handler mHandler = new Handler();
+	private Runnable mCheckProgressRunnable = new Runnable() {
+		public void run() {
+			int cur = mMediaPlayer.current();
+			if (cur != mLastPosition) {
+				onProgressChanged(cur);
+			}
+			startProgressUpdateTimer();
+		}
+	};
+
+	// TODO: use scheduler service instead
+	private void startProgressUpdateTimer() {
+		mHandler.postDelayed(mCheckProgressRunnable, 200);
+	}
+
+	private void stopProgressUpdateTime() {
+		mHandler.removeCallbacks(mCheckProgressRunnable);
+	}
 }

@@ -140,13 +140,16 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mMediaPlayerController.client(this);
 	}
 
+	protected boolean mIsDraggingSeekBar;
 	private OnSeekBarChangeListener mOnSeekBarChangeListener = new OnSeekBarChangeListener() {
 		@Override
 		public void onStopTrackingTouch(SeekBar seekBar) {
+			mIsDraggingSeekBar = false;
 		}
 
 		@Override
 		public void onStartTrackingTouch(SeekBar seekBar) {
+			mIsDraggingSeekBar = true;
 		}
 
 		@Override
