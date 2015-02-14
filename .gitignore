@@ -1,0 +1,7 @@
+# all eclipse output files
+bin
+
+# all eclipse generated files
+
+owo/gen
+
