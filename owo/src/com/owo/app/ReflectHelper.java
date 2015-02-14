@@ -1,4 +1,4 @@
-package com.example.mediaplayertest;
+package com.owo.app;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

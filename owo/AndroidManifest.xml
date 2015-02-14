@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mediaplayertest"
+    package="com.owo.app"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -30,17 +30,17 @@
         <activity
             android:name=".Activity1"
             android:label="aaa"
-            android:process="com.example.mediaplayertest.aaa" >
+            android:process="com.owo.app.aaa" >
         </activity>
         <activity
             android:name=".Activity2"
             android:label="aaa2"
-            android:process="com.example.mediaplayertest.aaa" >
+            android:process="com.owo.app.aaa" >
         </activity>
         <activity
             android:name=".VideoViewActivity"
             android:label="ccc"
-            android:process="com.example.mediaplayertest.ccc" >
+            android:process="com.owo.app.ccc" >
         </activity>
     </application>
 

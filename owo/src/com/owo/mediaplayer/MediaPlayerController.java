@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.example.mediaplayertest.ContextManager;
+import com.owo.app.ContextManager;
 import com.owo.mediaplayer.android.SysMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;

@@ -11,7 +11,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.example.mediaplayertest.MetaData;
+import com.owo.app.MetaData;
 import com.owo.mediaplayer.interfaces.AbsMediaPlayer;
 
 public class SysMediaPlayer extends AbsMediaPlayer {

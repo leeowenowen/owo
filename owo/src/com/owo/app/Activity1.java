@@ -1,4 +1,4 @@
-package com.example.mediaplayertest;
+package com.owo.app;
 
 import android.app.Activity;
 import android.graphics.Color;

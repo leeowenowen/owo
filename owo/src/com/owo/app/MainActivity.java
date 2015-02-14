@@ -1,4 +1,4 @@
-package com.example.mediaplayertest;
+package com.owo.app;
 
 import java.io.IOException;
 
@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// Intent intent = new Intent(MainActivity.this,
-				// com.example.mediaplayertest.VideoViewActivity.class);
+				// com.owo.app.VideoViewActivity.class);
 				// startActivity(intent);
 			}
 		});
