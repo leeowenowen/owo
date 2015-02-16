@@ -3,16 +3,13 @@ package com.owo.app;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.SurfaceHolder;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.owo.app.util.BaseHandler;
 import com.owo.mediaplayer.DefaultMediaPlayerWidget;
-import com.owo.mediaplayer.DefaultTimeFormatter;
-import com.owo.mediaplayer.LocalPlayList;
 import com.owo.mediaplayer.MediaPlayerController;
-import com.owo.mediaplayer.PlayItem;
-import com.owo.mediaplayer.interfaces.Callback;
+import com.owo.mediastore.MediaList;
 
 public class DefaultMediaPlayActivity extends Activity {
 	private DefaultMediaPlayerWidget mMediaPlayerWidget;
@@ -27,27 +24,37 @@ public class DefaultMediaPlayActivity extends Activity {
 
 		// initialize
 		ContextManager.init(this);
+		BaseHandler.initialize();
 
-		mMediaPlayerController = new MediaPlayerController()
-				.timeFormatter(new DefaultTimeFormatter());
-		mMediaPlayerWidget = new DefaultMediaPlayerWidget(this);
-		mMediaPlayerWidget.setMPController(mMediaPlayerController);
-		mMediaPlayerWidget.create(new Callback<SurfaceHolder>() {
+		// mMediaPlayerController = new MediaPlayerController()
+		// .timeFormatter(new DefaultTimeFormatter());
+		// mMediaPlayerWidget = new DefaultMediaPlayerWidget(this);
+		// mMediaPlayerWidget.setMPController(mMediaPlayerController);
+		// mMediaPlayerWidget.create(new Callback<SurfaceHolder>() {
+		//
+		// @Override
+		// public void run(SurfaceHolder holder) {
+		// mMediaPlayerController.create(DefaultMediaPlayActivity.this,
+		// holder);
+		// LocalPlayList playList = new LocalPlayList();
+		// playList.add(new PlayItem().source(MediaUrls.sLocal));
+		// playList.add(new PlayItem().source(MediaUrls.sNetAD));
+		// mMediaPlayerController.playList(playList);
+		// // mMediaPlayerController.uri(MediaUrls.sRealStream);
+		// mMediaPlayerController.start();
+		// }
+		// });
 
-			@Override
-			public void run(SurfaceHolder holder) {
-				mMediaPlayerController.create(DefaultMediaPlayActivity.this,
-						holder);
-				LocalPlayList playList = new LocalPlayList();
-				playList.add(new PlayItem().source(MediaUrls.sLocal));
-				playList.add(new PlayItem().source(MediaUrls.sNetAD));
-				mMediaPlayerController.playList(playList);
-				// mMediaPlayerController.uri(MediaUrls.sRealStream);
-				mMediaPlayerController.start();
-			}
-		});
-
-		setContentView(mMediaPlayerWidget);
+		// setContentView(mMediaPlayerWidget);
+		// setContentView(new TextView(this));
+		// new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// MediaScanner.start(DefaultMediaPlayActivity.this);
+		// }
+		// }).start();
+		setContentView(new MediaList(this));
 	}
 
 	@Override
