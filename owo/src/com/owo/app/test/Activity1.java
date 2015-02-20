@@ -1,4 +1,4 @@
-package com.owo.app;
+package com.owo.app.test;
 
 import android.app.Activity;
 import android.graphics.Color;

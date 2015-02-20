@@ -17,7 +17,7 @@ public class BitmapHelper {
 
 	private static final ThreadLocal<Options> sDecodeOptionsLocal = new ThreadLocal<Options>();
 
-	private static Options getOptions() {
+	public static Options getOptions() {
 		Options op = sDecodeOptionsLocal.get();
 		if (op == null) {
 			op = new Options();
@@ -41,6 +41,23 @@ public class BitmapHelper {
 	 *            {@link Config#RGB_565} or {@link Config#ARGB_8888}
 	 */
 	public static Bitmap decodeBitmap(int pathType, String filePath,
+			int maxWidth, int maxHeight, Rect outPaddings, Config config) {
+		InputStream stream = FileHelper.open(pathType, filePath);
+		if (stream == null) {
+			return null;
+		}
+
+		Bitmap bitmap = decodeBitmap(stream, maxWidth, maxHeight, outPaddings,
+				config);
+
+		try {
+			stream.close();
+		} catch (IOException e) {
+		}
+		return bitmap;
+	}
+	
+	public static Bitmap decodeBitmapThumbnail(int pathType, String filePath,
 			int maxWidth, int maxHeight, Rect outPaddings, Config config) {
 		InputStream stream = FileHelper.open(pathType, filePath);
 		if (stream == null) {

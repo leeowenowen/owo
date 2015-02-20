@@ -1,4 +1,4 @@
-package com.owo.app;
+package com.owo.app.test;
 
 import java.io.IOException;
 
@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.owo.app.ContextManager;
 import com.owo.mediaplayer.view.shape.EnterFullScreenShape;
 import com.owo.mediaplayer.view.shape.LockShape;
 import com.owo.mediaplayer.view.shape.PreShape;

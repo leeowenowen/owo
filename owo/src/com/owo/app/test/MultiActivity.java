@@ -1,4 +1,4 @@
-package com.owo.app;
+package com.owo.app.test;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +17,7 @@ public class MultiActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(MultiActivity.this,
-						com.owo.app.Activity1.class);
+						com.owo.app.test.Activity1.class);
 				intent.putExtra("title", "title");
 				intent.putExtra("x", 0);
 				intent.putExtra("y", 0);
@@ -27,7 +27,7 @@ public class MultiActivity extends Activity {
 				startActivity(intent);
 
 				Intent intent2 = new Intent(MultiActivity.this,
-						com.owo.app.Activity2.class);
+						com.owo.app.test.Activity2.class);
 				intent2.putExtra("title", "title");
 				intent2.putExtra("x", 200);
 				intent2.putExtra("y", 200);

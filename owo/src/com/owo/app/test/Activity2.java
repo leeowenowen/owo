@@ -1,4 +1,7 @@
-package com.owo.app;
+package com.owo.app.test;
+
+import com.owo.app.R;
+import com.owo.app.R.layout;
 
 import android.app.Activity;
 import android.graphics.Color;

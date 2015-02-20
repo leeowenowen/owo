@@ -1,17 +1,12 @@
 package com.owo.mediastore;
 
-import com.owo.app.util.BitmapHelper;
-import com.owo.app.util.VideoUtil;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.provider.MediaStore.Images;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,13 +15,20 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.owo.app.util.MediaUtil;
+
 public class MediaList extends ListView {
 
 	public MediaList(Context context) {
 		super(context);
 		ContentResolver contentResolver = context.getContentResolver();
-		String[] videoColumns = new String[] { MediaStore.Video.Media._ID,
-				MediaStore.Video.Media.DATA, MediaStore.Video.Media.TITLE,
+		String[] videoColumns = new String[] { MediaStore.Video.Media._ID,//
+				MediaStore.Video.Media.DATA, //
+				MediaStore.Video.Media.TITLE,//
+				MediaStore.Video.Media.DURATION,//
+				MediaStore.Video.Media.WIDTH,//
+				MediaStore.Video.Media.HEIGHT,//
+				MediaStore.Video.Media.RESOLUTION,//
 				MediaStore.Video.Media.MIME_TYPE };
 		MediaAdapter adapter = new MediaAdapter();
 		Cursor cursor = contentResolver.query(
@@ -107,7 +109,7 @@ public class MediaList extends ListView {
 			@Override
 			protected Bitmap doInBackground(String... params) {
 				String path = (String) params[0];
-				return VideoUtil.createVideoThumbnail(path, 400, 400, null,
+				return MediaUtil.createVideoThumbnail(path, 400, 400, null,
 						null);
 			}
 

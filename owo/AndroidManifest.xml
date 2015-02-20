@@ -28,19 +28,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity1"
+            android:name="com.owo.app.test.Activity1"
             android:label="aaa"
             android:process="com.owo.app.aaa" >
-        </activity>
-        <activity
-            android:name=".Activity2"
-            android:label="aaa2"
-            android:process="com.owo.app.aaa" >
-        </activity>
-        <activity
-            android:name=".VideoViewActivity"
-            android:label="ccc"
-            android:process="com.owo.app.ccc" >
         </activity>
     </application>
 

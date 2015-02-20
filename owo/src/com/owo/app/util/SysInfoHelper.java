@@ -12,6 +12,7 @@ import android.os.Build;
 import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import com.owo.app.ContextManager;
 
@@ -185,5 +186,19 @@ public class SysInfoHelper {
 	/** The brand (e.g., Google) the software is customized for, if any. */
 	public static String brand() {
 		return Build.BRAND;
+	}
+
+	/*
+	 * Screen info
+	 */
+	private static DisplayMetrics sDisplayMetrics = null;
+
+	public static DisplayMetrics displayMetrics() {
+		if (sDisplayMetrics == null) {
+			sDisplayMetrics = new DisplayMetrics();
+			ContextManager.activity().getWindowManager().getDefaultDisplay()
+					.getMetrics(sDisplayMetrics);
+		}
+		return sDisplayMetrics;
 	}
 }
