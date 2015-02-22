@@ -1,4 +1,4 @@
-package com.owo.app.util;
+package com.owo.base.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

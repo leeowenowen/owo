@@ -22,9 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.owo.app.ContextManager;
-import com.owo.app.util.BaseHandler;
-import com.owo.app.util.SysInfoHelper;
-import com.owo.app.util.MediaUtil;
+import com.owo.base.util.BaseHandler;
+import com.owo.base.util.MediaUtil;
+import com.owo.base.util.SysInfoHelper;
 import com.owo.mediaplayer.view.utils.LP;
 import com.owo.mediastore.interfaces.IAbsMediaProviderFactory;
 import com.owo.mediastore.interfaces.ICursorTransformer;

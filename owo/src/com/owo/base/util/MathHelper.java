@@ -1,4 +1,4 @@
-package com.owo.app.util;
+package com.owo.base.util;
 
 import android.annotation.SuppressLint;
 import android.util.FloatMath;

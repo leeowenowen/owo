@@ -1,4 +1,4 @@
-package com.owo.app.test;
+package com.owo.app;
 
 import java.io.IOException;
 
@@ -17,7 +17,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.owo.app.ContextManager;
+import com.owo.app.test.MediaUrls;
+import com.owo.app.test.MetaData;
 import com.owo.mediaplayer.view.shape.EnterFullScreenShape;
 import com.owo.mediaplayer.view.shape.LockShape;
 import com.owo.mediaplayer.view.shape.PreShape;
@@ -61,6 +62,14 @@ public class MainActivity extends Activity {
 		ContextManager.init(this);
 		LinearLayout container = new LinearLayout(this);
 		container.setOrientation(LinearLayout.VERTICAL);
+		// menu
+		container.addView(VF.of(this, ViewID.Menu),
+				new LinearLayout.LayoutParams(200, 200));
+		setContentView(container);
+		// search
+		container.addView(VF.of(this, ViewID.Search),
+				new LinearLayout.LayoutParams(200, 200));
+		setContentView(container);
 		// stop
 		container.addView(VF.of(this, ViewID.Stop),
 				new LinearLayout.LayoutParams(200, 200));

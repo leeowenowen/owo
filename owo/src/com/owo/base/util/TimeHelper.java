@@ -1,4 +1,4 @@
-package com.owo.app.util;
+package com.owo.base.util;
 
 import android.text.format.Time;
 

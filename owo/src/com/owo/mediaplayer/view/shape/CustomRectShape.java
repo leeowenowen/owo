@@ -7,4 +7,8 @@ public class CustomRectShape extends RectShape {
 	protected Paint paint() {
 		return Theme.paint();
 	}
+
+	protected Paint fillPaint() {
+		return Theme.fillPaint();
+	}
 }

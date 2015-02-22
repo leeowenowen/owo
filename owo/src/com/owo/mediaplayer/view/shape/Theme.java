@@ -9,6 +9,7 @@ import android.graphics.Paint;
 public class Theme {
 
 	private static Paint mPaint;
+	private static Paint mFillPaint;
 	private static int mTextColor;
 	private static boolean mInited;
 
@@ -19,12 +20,21 @@ public class Theme {
 			mPaint.setStrokeWidth(5);
 			mPaint.setStyle(Paint.Style.STROKE);
 			mTextColor = Color.RED;
+			
+			mFillPaint = new Paint();
+			mFillPaint.setColor(Color.RED);
+			mFillPaint.setStyle(Paint.Style.FILL);
 		}
 	}
 
 	public static Paint paint() {
 		ensureInited();
 		return mPaint;
+	}
+	
+	public static Paint fillPaint() {
+		ensureInited();
+		return mFillPaint;
 	}
 
 	public static void textColor(int color) {

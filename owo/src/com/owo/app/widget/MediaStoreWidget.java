@@ -1,12 +1,16 @@
-package com.owo.mediastore;
+package com.owo.app.widget;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.owo.base.mvc.interfaces.IMessageHandler;
+import com.owo.mediastore.MediaStore;
+import com.owo.mediastore.MediaStoreController;
 import com.owo.mediastore.interfaces.MediaType;
 import com.owo.mediastore.interfaces.ScaleLevel;
 import com.owo.widget.owo_TabHost;
@@ -14,29 +18,11 @@ import com.owo.widget.owo_TabHost.TabContentFactory;
 
 public class MediaStoreWidget extends FrameLayout {
 	private owo_TabHost mTabHost;
-	private TabContentFactory mTabContentFactory = new TabContentFactory() {
-		@Override
-		public View createTabContent(String tag) {
-			int level = ScaleLevel.sLevel0;
-			int mediaType;
-			if (tag.equals("video")) {
-				mediaType = MediaType.sVideo;
-			} else if (tag.equals("audio")) {
-				mediaType = MediaType.sAudio;
-			} else {
-				mediaType = MediaType.sIMage;
-			}
+	private IMessageHandler mMessageHandler;
 
-			MediaStore ms = new MediaStore(getContext());
-			MediaStoreController controller = new MediaStoreController(
-					getContext(), level, mediaType);
-			ms.setController(controller);
-			return ms;
-		}
-	};
-
-	public MediaStoreWidget(Context context) {
+	public MediaStoreWidget(Context context, IMessageHandler messageHandler) {
 		super(context);
+		mMessageHandler = messageHandler;
 
 		mTabHost = new owo_TabHost(context);
 
@@ -74,4 +60,29 @@ public class MediaStoreWidget extends FrameLayout {
 		addView(mTabHost);
 	}
 
+	private TabContentFactory mTabContentFactory = new TabContentFactory() {
+		@Override
+		public View createTabContent(String tag) {
+			int level = ScaleLevel.sLevel0;
+			int mediaType;
+			if (tag.equals("video")) {
+				mediaType = MediaType.sVideo;
+			} else if (tag.equals("audio")) {
+				mediaType = MediaType.sAudio;
+			} else {
+				mediaType = MediaType.sIMage;
+			}
+
+			MediaStore ms = new MediaStore(getContext());
+			MediaStoreController controller = new MediaStoreController(
+					getContext(), level, mediaType);
+			ms.setController(controller);
+			return ms;
+		}
+	};
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		// TODO Auto-generated method stub
+		return super.dispatchKeyEvent(event);
+	}
 }

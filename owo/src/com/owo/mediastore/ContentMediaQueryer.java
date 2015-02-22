@@ -5,7 +5,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 
-import com.owo.app.util.BaseHandler;
+import com.owo.base.util.BaseHandler;
 import com.owo.mediastore.interfaces.IMediaQueryer;
 
 public abstract class ContentMediaQueryer implements IMediaQueryer {

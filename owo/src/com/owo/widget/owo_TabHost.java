@@ -16,7 +16,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.owo.app.util.ReflectHelper;
+import com.owo.base.util.ReflectHelper;
 
 /**
  * Container for a tab window view. This object holds two children: a set of tab

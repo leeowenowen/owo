@@ -1,4 +1,4 @@
-package com.owo.app.util;
+package com.owo.base.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;

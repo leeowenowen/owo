@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.owo.app.util.MediaUtil;
+import com.owo.base.util.MediaUtil;
 
 public class MediaList extends ListView {
 

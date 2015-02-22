@@ -1,4 +1,4 @@
-package com.owo.app.util;
+package com.owo.base.util;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -21,6 +21,8 @@ public class VF {
 		ExitFullScreen, //
 		Lock, //
 		UnLock, //
+		Search, //
+		Menu,//
 	}
 
 	private static HashMap<ViewID, View> mViews = new HashMap<VF.ViewID, View>();
@@ -41,6 +43,8 @@ public class VF {
 			mShapes.put(ViewID.ExitFullScreen, new ExitFullScreenShape());
 			mShapes.put(ViewID.Lock, new LockShape());
 			mShapes.put(ViewID.UnLock, new UnLockShape());
+			mShapes.put(ViewID.Search, new SearchShape());
+			mShapes.put(ViewID.Menu, new MenuShape());
 		}
 	}
 

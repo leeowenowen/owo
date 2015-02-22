@@ -22,4 +22,6 @@ public class LP {
 
 	public static final LinearLayout.LayoutParams L0W1 = new LinearLayout.LayoutParams(
 			0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+	public static final LinearLayout.LayoutParams LW01 = new LinearLayout.LayoutParams(
+			LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
 }
