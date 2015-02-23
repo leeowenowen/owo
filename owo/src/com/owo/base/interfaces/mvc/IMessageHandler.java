@@ -1,4 +1,4 @@
-package com.owo.base.mvc.interfaces;
+package com.owo.base.interfaces.mvc;
 
 import com.owo.base.common.Param;
 

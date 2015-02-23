@@ -2,13 +2,12 @@ package com.owo.mediaplayer;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.owo.app.ContextManager;
-import com.owo.base.util.BaseHandler;
+import com.owo.app.common.BaseHandler;
+import com.owo.app.common.ContextManager;
 import com.owo.mediaplayer.android.SysMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;

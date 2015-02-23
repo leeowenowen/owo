@@ -1,4 +1,4 @@
-package com.owo.base.util;
+package com.owo.app.common;
 
 import android.os.Handler;
 import android.os.SystemClock;

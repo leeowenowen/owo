@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.owo.base.util.BaseHandler;
+import com.owo.app.common.BaseHandler;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;

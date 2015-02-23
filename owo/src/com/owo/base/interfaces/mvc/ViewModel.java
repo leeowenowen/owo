@@ -1,4 +1,4 @@
-package com.owo.base.mvc.interfaces;
+package com.owo.base.interfaces.mvc;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,17 +1,18 @@
-package com.owo.app;
+package com.owo.app.main;
 
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.owo.app.mvc.MainController;
-import com.owo.app.widget.MainFrame;
-import com.owo.base.util.BaseHandler;
+import com.owo.app.common.BaseHandler;
+import com.owo.app.common.ContextManager;
+import com.owo.app.main.widget.MainFrame;
 
-public class DefaultMediaPlayActivity extends Activity {
+public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,8 +23,7 @@ public class DefaultMediaPlayActivity extends Activity {
 		ContextManager.init(this);
 		BaseHandler.initialize();
 
-		MainController controller = new MainController();
-		MainFrame mainFrame = new MainFrame(this, controller);
+		MainFrame mainFrame = new MainFrame(this);
 		setContentView(mainFrame);
 	}
 
@@ -42,7 +42,10 @@ public class DefaultMediaPlayActivity extends Activity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		// TODO Auto-generated method stub
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+			Log.v("xxx", "back");
+		}
 		return super.dispatchKeyEvent(event);
+
 	}
 }

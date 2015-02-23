@@ -19,11 +19,13 @@ public class Theme {
 			mPaint.setColor(Color.RED);
 			mPaint.setStrokeWidth(5);
 			mPaint.setStyle(Paint.Style.STROKE);
+			mPaint.setAntiAlias(true);
 			mTextColor = Color.RED;
 			
 			mFillPaint = new Paint();
 			mFillPaint.setColor(Color.RED);
 			mFillPaint.setStyle(Paint.Style.FILL);
+			mFillPaint.setAntiAlias(true);
 		}
 	}
 

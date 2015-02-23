@@ -11,7 +11,7 @@ import android.content.res.XmlResourceParser;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.owo.app.ContextManager;
+import com.owo.app.common.ContextManager;
 
 public final class FileHelper {
 	// Sync IO

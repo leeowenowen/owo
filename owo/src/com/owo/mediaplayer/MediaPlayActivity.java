@@ -1,4 +1,4 @@
-package com.owo.app;
+package com.owo.mediaplayer;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -10,11 +10,8 @@ import android.view.SurfaceHolder;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.owo.base.util.BaseHandler;
-import com.owo.mediaplayer.DefaultMediaPlayerWidget;
-import com.owo.mediaplayer.DefaultPlayList;
-import com.owo.mediaplayer.MediaPlayerController;
-import com.owo.mediaplayer.PlayItem;
+import com.owo.app.common.BaseHandler;
+import com.owo.app.common.ContextManager;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IPlayList;
 

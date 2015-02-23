@@ -4,17 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.ListView;
 
-import com.owo.base.mvc.interfaces.IMessageHandler;
 import com.owo.media.MediaCursorAdapter;
-import com.owo.media.base.MediaListView;
 import com.owo.media.interfaces.ScaleLevel;
 
-public class LocalAudioView extends MediaListView {
+public class LocalAudioView extends ListView {
 	private LocalAudioViewModel mViewModel;
 	private MediaCursorAdapter mAdapter;
 
-	public LocalAudioView(Context context, IMessageHandler messageHandler) {
-		super(context, messageHandler);
+	public LocalAudioView(Context context) {
+		super(context);
 
 		mAdapter = new MediaCursorAdapter();
 		mAdapter.setCursorTransformer(AudioCursorTransformerFactory.create(ScaleLevel.sLevel0));

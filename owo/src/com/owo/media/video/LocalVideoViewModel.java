@@ -3,7 +3,7 @@ package com.owo.media.video;
 import android.database.Cursor;
 import android.provider.MediaStore;
 
-import com.owo.app.ContextManager;
+import com.owo.app.common.ContextManager;
 import com.owo.base.pattern.Instance;
 import com.owo.base.util.TextHelper;
 import com.owo.media.MediaStoreData;

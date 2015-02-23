@@ -3,7 +3,6 @@ package com.owo.widget;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,12 +27,10 @@ public class owo_PopupWindow extends PopupWindow {
 		// touch or key event.
 		// super.setBackgroundDrawable(null);
 		setBackgroundDrawable(new ColorDrawable(Color.argb(100, 255, 0, 0)));
-		setOutsideTouchable(true);
+		//setOutsideTouchable(true);
 		setTouchInterceptor(mTouchInterceptor);
 		mViewContainer = new owo_PopupViewContainer(context);
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		mViewContainer.setLayoutParams(params);
 		mOnTouchOutsideListener = mDefaultOnTouchOutsideListener;
 		mOnKeyEventListener = mDefaultOnKeyEventListener;
@@ -67,12 +64,9 @@ public class owo_PopupWindow extends PopupWindow {
 	}
 
 	private void hideSoftInputWhenRemoveViews() {
-		InputMethodManager inputManager = (InputMethodManager) mViewContainer
-				.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		InputMethodManager inputManager = (InputMethodManager) mViewContainer.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 		try {
-			inputManager.hideSoftInputFromWindow(
-					mViewContainer.getWindowToken(),
-					InputMethodManager.HIDE_NOT_ALWAYS);
+			inputManager.hideSoftInputFromWindow(mViewContainer.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		} catch (Exception e) {
 		}
 	}
@@ -92,8 +86,7 @@ public class owo_PopupWindow extends PopupWindow {
 	private OnTouchOutsideListener mDefaultOnTouchOutsideListener = new OnTouchOutsideListener() {
 
 		@Override
-		public void onTouchOutside(owo_PopupWindow popup, View v,
-				MotionEvent event) {
+		public void onTouchOutside(owo_PopupWindow popup, View v, MotionEvent event) {
 			dismiss();
 		}
 	};
@@ -125,26 +118,23 @@ public class owo_PopupWindow extends PopupWindow {
 			final int y = (int) event.getY();
 
 			switch (event.getAction()) {
+			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_DOWN:
-				if ((x < 0) || (x > v.getWidth()) || (y < 0)
-						|| (y > v.getHeight())) {
+				if ((x < 0) || (x > v.getWidth()) || (y < 0) || (y > v.getHeight())) {
 					if (mOnTouchOutsideListener != null) {
-						mOnTouchOutsideListener.onTouchOutside(
-								owo_PopupWindow.this, v, event);
+						mOnTouchOutsideListener.onTouchOutside(owo_PopupWindow.this, v, event);
 					}
 					return true;
 				} else {
 					if (mOnTouchInsideListener != null) {
-						mOnTouchInsideListener.onTouchInside(
-								owo_PopupWindow.this, v, event);
+						mOnTouchInsideListener.onTouchInside(owo_PopupWindow.this, v, event);
 					}
 				}
 				break;
 
 			case MotionEvent.ACTION_OUTSIDE:
 				if (mOnTouchOutsideListener != null) {
-					mOnTouchOutsideListener.onTouchOutside(
-							owo_PopupWindow.this, v, event);
+					mOnTouchOutsideListener.onTouchOutside(owo_PopupWindow.this, v, event);
 				}
 				return true;
 			}
@@ -175,14 +165,12 @@ public class owo_PopupWindow extends PopupWindow {
 
 		@Override
 		public boolean dispatchKeyEvent(KeyEvent event) {
-			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
-					|| event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
+			if (event.getKeyCode() == KeyEvent.KEYCODE_BACK || event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
 				if (getKeyDispatcherState() == null) {
 					return super.dispatchKeyEvent(event);
 				}
 
-				if (event.getAction() == KeyEvent.ACTION_DOWN
-						&& event.getRepeatCount() == 0) {
+				if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
 					KeyEvent.DispatcherState state = getKeyDispatcherState();
 					if (state != null) {
 						state.startTracking(event, this);
@@ -190,15 +178,12 @@ public class owo_PopupWindow extends PopupWindow {
 					return true;
 				} else if (event.getAction() == KeyEvent.ACTION_UP) {
 					KeyEvent.DispatcherState state = getKeyDispatcherState();
-					if (state != null && state.isTracking(event)
-							&& !event.isCanceled()) {
+					if (state != null && state.isTracking(event) && !event.isCanceled()) {
 						if (mOnKeyEventListener != null) {
 							if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-								mOnKeyEventListener.OnKeyBackClicked(
-										owo_PopupWindow.this, event);
+								mOnKeyEventListener.OnKeyBackClicked(owo_PopupWindow.this, event);
 							} else if (event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
-								mOnKeyEventListener.OnKeyMenuClicked(
-										owo_PopupWindow.this, event);
+								mOnKeyEventListener.OnKeyMenuClicked(owo_PopupWindow.this, event);
 							}
 						}
 						return true;
@@ -212,8 +197,7 @@ public class owo_PopupWindow extends PopupWindow {
 
 		@Override
 		public boolean dispatchTouchEvent(MotionEvent ev) {
-			if (mTouchInterceptor != null
-					&& mTouchInterceptor.onTouch(this, ev)) {
+			if (mTouchInterceptor != null && mTouchInterceptor.onTouch(this, ev)) {
 				return true;
 			}
 

@@ -14,7 +14,7 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
-import com.owo.app.ContextManager;
+import com.owo.app.common.ContextManager;
 
 public class SysInfoHelper {
 	private static final String UNKNOWN = "unknown";
@@ -26,15 +26,13 @@ public class SysInfoHelper {
 	 * device.)
 	 */
 	public static String androidId() {
-		return Secure.getString(ContextManager.contentResolver(),
-				Secure.ANDROID_ID);
+		return Secure.getString(ContextManager.contentResolver(), Secure.ANDROID_ID);
 	}
 
 	public static String imei() {
 		String imei = null;
 		try {
-			imei = ((TelephonyManager) ContextManager
-					.systemService(Context.TELEPHONY_SERVICE))//
+			imei = ((TelephonyManager) ContextManager.systemService(Context.TELEPHONY_SERVICE))//
 					.getDeviceId();
 		} catch (Exception e) {
 		}
@@ -44,8 +42,7 @@ public class SysInfoHelper {
 	public static String imsi() {
 		String imsi = null;
 		try {
-			imsi = ((TelephonyManager) ContextManager
-					.systemService(Context.TELEPHONY_SERVICE))//
+			imsi = ((TelephonyManager) ContextManager.systemService(Context.TELEPHONY_SERVICE))//
 					.getSubscriberId();
 		} catch (Exception e) {
 		}
@@ -55,8 +52,7 @@ public class SysInfoHelper {
 	public static String wifiMac() {
 		String mac = null;
 		try {
-			mac = ((WifiManager) ContextManager
-					.systemService(Context.WIFI_SERVICE))//
+			mac = ((WifiManager) ContextManager.systemService(Context.WIFI_SERVICE))//
 					.getConnectionInfo().getMacAddress();
 		} catch (Exception e) {
 		}
@@ -76,10 +72,8 @@ public class SysInfoHelper {
 			 */
 			BufferedReader ibr = null;
 			try {
-				Process process = Runtime.getRuntime().exec(
-						"getprop ro.product.cpu.abi");
-				ibr = new BufferedReader(new InputStreamReader(
-						process.getInputStream()));
+				Process process = Runtime.getRuntime().exec("getprop ro.product.cpu.abi");
+				ibr = new BufferedReader(new InputStreamReader(process.getInputStream()));
 				mCPUArch = ibr.readLine();
 			} catch (IOException e) {
 			} finally {
@@ -196,8 +190,7 @@ public class SysInfoHelper {
 	public static DisplayMetrics displayMetrics() {
 		if (sDisplayMetrics == null) {
 			sDisplayMetrics = new DisplayMetrics();
-			ContextManager.activity().getWindowManager().getDefaultDisplay()
-					.getMetrics(sDisplayMetrics);
+			ContextManager.activity().getWindowManager().getDefaultDisplay().getMetrics(sDisplayMetrics);
 		}
 		return sDisplayMetrics;
 	}

@@ -1,27 +1,23 @@
-package com.owo.app.widget;
+package com.owo.app.main.widget;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.owo.app.mvc.MessageId;
-import com.owo.base.mvc.interfaces.IMessageHandler;
+import com.owo.app.common.ContextManager;
+import com.owo.app.system_settings.SysSettingActivity;
 import com.owo.widget.interfaces.IConfigurable;
 
 public class MenuWidget extends LinearLayout implements IConfigurable {
 	private TextView mChangeSkin;
 	private TextView mSettings;
 	private TextView mHelp;
-	IMessageHandler mMessageHandler;
 
-	public MenuWidget(Context context, IMessageHandler messageHandler) {
+	public MenuWidget(Context context) {
 		super(context);
-		mMessageHandler = messageHandler;
 		initComponents(context);
 		setupListener();
 		updateLanguage();
@@ -50,12 +46,8 @@ public class MenuWidget extends LinearLayout implements IConfigurable {
 		mSettings.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				PopupMenu popupMenu = new PopupMenu(getContext(), mSettings);
-//				Menu menu = popupMenu.getMenu();
-//				menu.add("setting1");
-//				menu.add("setting2");
-//				menu.addSubMenu("sub_setting1");
-//				popupMenu.show();
+				Intent intent = new Intent(ContextManager.activity(), SysSettingActivity.class);
+				ContextManager.activity().startActivity(intent);
 			}
 		});
 
@@ -77,15 +69,5 @@ public class MenuWidget extends LinearLayout implements IConfigurable {
 	@Override
 	public void updateTheme() {
 		setBackgroundColor(Color.argb(255, 100, 100, 0));
-	}
-
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-			return mMessageHandler.handleMessage(MessageId.HideMenuWidget,
-					null, null);
-		}
-		boolean ret = super.dispatchKeyEvent(event);
-		return ret;
 	}
 }

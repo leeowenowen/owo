@@ -1,27 +1,23 @@
-package com.owo.app.widget;
+package com.owo.app.main.widget;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.owo.base.mvc.interfaces.IMessageHandler;
 import com.owo.media.audio.LocalAudioView;
 import com.owo.media.image.LocalImageView;
 import com.owo.media.video.LocalVideoView;
 import com.owo.widget.owo_TabHost;
 import com.owo.widget.owo_TabHost.TabContentFactory;
 
-public class MediaStoreWidget extends FrameLayout {
+public class MediaWidget extends FrameLayout {
 	private owo_TabHost mTabHost;
-	private IMessageHandler mMessageHandler;
 
-	public MediaStoreWidget(Context context, IMessageHandler messageHandler) {
+	public MediaWidget(Context context) {
 		super(context);
-		mMessageHandler = messageHandler;
 
 		mTabHost = new owo_TabHost(context);
 
@@ -59,19 +55,13 @@ public class MediaStoreWidget extends FrameLayout {
 		@Override
 		public View createTabContent(String tag) {
 			if (tag.equals("image")) {
-				return new LocalImageView(getContext(), mMessageHandler);
+				return new LocalImageView(getContext());
 			} else if (tag.equals("video")) {
-				return new LocalVideoView(getContext(), mMessageHandler);
+				return new LocalVideoView(getContext());
 			} else if (tag.equals("audio")) {
-				return new LocalAudioView(getContext(), mMessageHandler);
+				return new LocalAudioView(getContext());
 			}
 			return null;
 		}
 	};
-
-	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return super.dispatchKeyEvent(event);
-	}
 }

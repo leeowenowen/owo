@@ -8,7 +8,7 @@ import java.io.OutputStream;
 
 import android.content.res.AssetManager;
 
-import com.owo.app.ContextManager;
+import com.owo.app.common.ContextManager;
 
 public class AssetsHelper {
 	/**

@@ -17,7 +17,7 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".DefaultMediaPlayActivity"
+            android:name=".main.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,14 +26,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.owo.app.test.ShapeTestActivity"
             android:label="aaa"
             android:process="com.owo.app.aaa" >
         </activity>
         <activity
-            android:name=".MediaPlayActivity"
+            android:name="com.owo.mediaplayer.MediaPlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:process="com.owo.app.MediaPlayActivity" >
+        </activity>
+        <activity
+            android:name="com.owo.app.system_settings.SysSettingActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden" >
         </activity>
         <activity
             android:name="com.owo.app.test.Activity1"

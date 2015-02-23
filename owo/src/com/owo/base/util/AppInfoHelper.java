@@ -12,7 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 
-import com.owo.app.ContextManager;
+import com.owo.app.common.ContextManager;
 
 /** General immutable app information. */
 public class AppInfoHelper {
@@ -32,8 +32,7 @@ public class AppInfoHelper {
 	public static String versionName() {
 		if (mVersionName == null) {
 			try {
-				mVersionName = ContextManager.packageManager().getPackageInfo(
-						packageName(), 0).versionName;
+				mVersionName = ContextManager.packageManager().getPackageInfo(packageName(), 0).versionName;
 			} catch (NameNotFoundException e) {
 			}
 			mVersionName = TextHelper.ensureNotNull(mVersionName);
@@ -47,8 +46,7 @@ public class AppInfoHelper {
 	public static int versionCode() {
 		if (mVersionCode == INVALID_VERSION_CODE) {
 			try {
-				mVersionCode = ContextManager.packageManager().getPackageInfo(
-						packageName(), 0).versionCode;
+				mVersionCode = ContextManager.packageManager().getPackageInfo(packageName(), 0).versionCode;
 			} catch (Exception e) {
 			}
 		}
@@ -80,27 +78,23 @@ public class AppInfoHelper {
 		return output.toUpperCase(Locale.ENGLISH);
 	}
 
-	public static String signature()
-    {
-        String ret = "";
-        try
-        {
-            Signature[] sigs = ContextManager.packageManager().getPackageInfo(packageName(),//
-                    PackageManager.GET_SIGNATURES).signatures;
+	public static String signature() {
+		String ret = "";
+		try {
+			Signature[] sigs = ContextManager.packageManager().getPackageInfo(packageName(),//
+					PackageManager.GET_SIGNATURES).signatures;
 
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
-            CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
 
-            X509Certificate X509Cert = (X509Certificate) certificateFactory.generateCertificate(//
-                    new ByteArrayInputStream(sigs[0].toByteArray()));
+			X509Certificate X509Cert = (X509Certificate) certificateFactory.generateCertificate(//
+					new ByteArrayInputStream(sigs[0].toByteArray()));
 
-            ret = byteToHexStr(md5.digest(X509Cert.getSignature()));
-        }
-        catch (NameNotFoundException | NoSuchAlgorithmException | CertificateException e)
-        {
+			ret = byteToHexStr(md5.digest(X509Cert.getSignature()));
+		} catch (NameNotFoundException | NoSuchAlgorithmException | CertificateException e) {
 
-        }
-        
-        return ret;
-    }
+		}
+
+		return ret;
+	}
 }

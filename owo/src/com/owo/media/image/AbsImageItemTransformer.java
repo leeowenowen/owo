@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 
-import com.owo.app.ContextManager;
+import com.owo.app.common.ContextManager;
 import com.owo.media.interfaces.ICursorTransformer;
 
 abstract class AbsImageItemTransformer implements ICursorTransformer {

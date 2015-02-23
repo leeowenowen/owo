@@ -1,9 +1,8 @@
-package com.owo.app;
+package com.owo.app.test;
 
 import java.io.IOException;
 
 import android.app.Activity;
-import android.graphics.drawable.ShapeDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
@@ -17,16 +16,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.owo.app.test.MediaUrls;
-import com.owo.app.test.MetaData;
-import com.owo.mediaplayer.view.shape.EnterFullScreenShape;
-import com.owo.mediaplayer.view.shape.LockShape;
-import com.owo.mediaplayer.view.shape.PreShape;
-import com.owo.mediaplayer.view.shape.StartShape;
+import com.owo.app.common.ContextManager;
 import com.owo.mediaplayer.view.shape.VF;
 import com.owo.mediaplayer.view.shape.VF.ViewID;
 
-public class MainActivity extends Activity {
+public class ShapeTestActivity extends Activity {
 
 	private MediaPlayer mMediaPlayer;
 	private SurfaceView mSurfaceView;
@@ -63,43 +57,33 @@ public class MainActivity extends Activity {
 		LinearLayout container = new LinearLayout(this);
 		container.setOrientation(LinearLayout.VERTICAL);
 		// menu
-		container.addView(VF.of(this, ViewID.Menu),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Menu), new LinearLayout.LayoutParams(200, 200));
 		setContentView(container);
 		// search
-		container.addView(VF.of(this, ViewID.Search),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Search), new LinearLayout.LayoutParams(200, 200));
 		setContentView(container);
 		// stop
-		container.addView(VF.of(this, ViewID.Stop),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Stop), new LinearLayout.LayoutParams(200, 200));
 		// start
-		container.addView(VF.of(this, ViewID.Start),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Start), new LinearLayout.LayoutParams(200, 200));
 		// previous
-		container.addView(VF.of(this, ViewID.Pre),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Pre), new LinearLayout.LayoutParams(200, 200));
 
 		// next
-		container.addView(VF.of(this, ViewID.Next),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Next), new LinearLayout.LayoutParams(200, 200));
 
 		// lock
-		container.addView(VF.of(this, ViewID.Lock),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.Lock), new LinearLayout.LayoutParams(200, 200));
 
 		// unlock
-		container.addView(VF.of(this, ViewID.UnLock),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.UnLock), new LinearLayout.LayoutParams(200, 200));
 
 		// full screen
-		container.addView(VF.of(this, ViewID.EnterFullScreen),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.EnterFullScreen), new LinearLayout.LayoutParams(200, 200));
 		setContentView(container);
 
 		// EXIT FULL screen
-		container.addView(VF.of(this, ViewID.ExitFullScreen),
-				new LinearLayout.LayoutParams(200, 200));
+		container.addView(VF.of(this, ViewID.ExitFullScreen), new LinearLayout.LayoutParams(200, 200));
 		setContentView(container);
 
 	}
@@ -155,8 +139,7 @@ public class MainActivity extends Activity {
 		}
 
 		@Override
-		public void surfaceChanged(SurfaceHolder holder, int format, int width,
-				int height) {
+		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 			// TODO Auto-generated method stub
 
 		}

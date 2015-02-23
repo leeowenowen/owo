@@ -1,4 +1,4 @@
-package com.owo.app;
+package com.owo.app.common;
 
 import android.app.Activity;
 import android.app.ActivityManager;
