@@ -6,7 +6,7 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.owo.base.util.SysInfoHelper;
+import com.owo.base.util.DimensionUtil;
 
 class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
 	@Override
@@ -24,8 +24,8 @@ class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
 
 		@Override
 		protected void setupLayout(Context context) {
-			mThumbnaiWidth = SysInfoHelper.displayMetrics().widthPixels;
-			mThumbnailHeight = SysInfoHelper.displayMetrics().heightPixels;
+			mThumbnaiWidth = DimensionUtil.screenWidth();
+			mThumbnailHeight = DimensionUtil.screenHeight();
 			mTitle.setTextSize(sTitleSize * 2);
 			mSize.setTextSize(sContentSize);
 			mDuration.setTextSize(sContentSize);
@@ -45,10 +45,8 @@ class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
 
 			setOrientation(LinearLayout.VERTICAL);
 
-			mThumbnailLayout.addView(attributes, new FrameLayout.LayoutParams(
-					FrameLayout.LayoutParams.WRAP_CONTENT,
-					FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.LEFT
-							| Gravity.BOTTOM));
+			mThumbnailLayout.addView(attributes, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.LEFT
+					| Gravity.BOTTOM));
 			addView(mThumbnailLayout);
 			addView(mPath);
 			addView(mTitle);

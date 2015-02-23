@@ -19,7 +19,7 @@ import com.owo.app.common.BaseHandler;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 abstract class AbsVideoItemView extends LinearLayout {
 	protected TextView mTitle;
@@ -116,10 +116,10 @@ abstract class AbsVideoItemView extends LinearLayout {
 	private void loading(boolean flag, Bitmap bmp) {
 		mThumbnail.setVisibility(flag ? INVISIBLE : VISIBLE);
 		mProgressBar.setVisibility(flag ? VISIBLE : INVISIBLE);
-		int width = flag ? mThumbnaiWidth : bmp.getWidth();
-		int height = flag ? mThumbnailHeight : bmp.getHeight();
-		mThumbnailLayout.setLayoutParams(new LinearLayout.LayoutParams(width,
-				height));
+//		int width = flag ? mThumbnaiWidth : bmp.getWidth();
+//		int height = flag ? mThumbnailHeight : bmp.getHeight();
+//		mThumbnailLayout.setLayoutParams(new LinearLayout.LayoutParams(width,
+//				height));
 	}
 
 	protected abstract void setupLayout(Context context);

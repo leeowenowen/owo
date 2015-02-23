@@ -3,8 +3,8 @@ package com.owo.media.video;
 import android.content.Context;
 import android.widget.LinearLayout;
 
-import com.owo.base.util.SysInfoHelper;
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.base.util.DimensionUtil;
+import com.owo.view.utils.LP;
 
 class VideoItemTransformerLevel2 extends AbsVideoItemTransformer {
 	@Override
@@ -13,16 +13,17 @@ class VideoItemTransformerLevel2 extends AbsVideoItemTransformer {
 	}
 
 	private class VideoItemViewLevel2 extends AbsVideoItemView {
-		private static final int sTitleSize = 15;
+		private static final int sTitleSize = 18;
 		private static final int sContentSize = 12;
+
 		public VideoItemViewLevel2(Context context) {
 			super(context);
 		}
 
 		@Override
 		protected void setupLayout(Context context) {
-			mThumbnaiWidth = SysInfoHelper.displayMetrics().widthPixels / 2;
-			mThumbnailHeight = SysInfoHelper.displayMetrics().heightPixels;
+			mThumbnaiWidth = DimensionUtil.dip2Pixel(300);
+			mThumbnailHeight = DimensionUtil.dip2Pixel(200);
 			mTitle.setTextSize(sTitleSize);
 			mSize.setTextSize(sContentSize);
 			mDuration.setTextSize(sContentSize);
@@ -39,6 +40,7 @@ class VideoItemTransformerLevel2 extends AbsVideoItemTransformer {
 			right.addView(mTitle);
 			right.addView(mPath);
 			right.addView(attributes);
+			right.setPadding(10, 0, 0, 0);
 
 			setPadding(20, 10, 20, 10);
 			addView(mThumbnailLayout);

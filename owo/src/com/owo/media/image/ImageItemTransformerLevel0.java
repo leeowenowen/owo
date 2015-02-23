@@ -3,8 +3,9 @@ package com.owo.media.image;
 import android.content.Context;
 import android.widget.LinearLayout;
 
+import com.owo.base.util.DimensionUtil;
 import com.owo.base.util.SysInfoHelper;
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
 	@Override
@@ -23,7 +24,7 @@ class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
 		@Override
 		protected void setupLayout(Context context) {
 			mThumbnaiWidth = 300;// SysInfoHelper.displayMetrics().widthPixels;
-			mThumbnailHeight = SysInfoHelper.displayMetrics().heightPixels;
+			mThumbnailHeight = DimensionUtil.screenHeight();
 			mTitle.setTextSize(sTitleSize);
 			mSize.setTextSize(sContentSize);
 			mWH.setTextSize(sContentSize);

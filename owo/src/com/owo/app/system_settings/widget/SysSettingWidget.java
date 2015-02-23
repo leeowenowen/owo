@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.owo.app.test.Data;
+import com.owo.base.pattern.Instance;
 import com.owo.widget.interfaces.IConfigurable;
 
 public class SysSettingWidget extends LinearLayout implements IConfigurable {
@@ -37,6 +39,14 @@ public class SysSettingWidget extends LinearLayout implements IConfigurable {
 					Log.v("xxx", "back");
 				}
 				return false;
+			}
+		});
+		
+		mChangeLanguage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Instance.of(Data.class).msg("abc");
 			}
 		});
 

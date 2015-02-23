@@ -181,17 +181,4 @@ public class SysInfoHelper {
 	public static String brand() {
 		return Build.BRAND;
 	}
-
-	/*
-	 * Screen info
-	 */
-	private static DisplayMetrics sDisplayMetrics = null;
-
-	public static DisplayMetrics displayMetrics() {
-		if (sDisplayMetrics == null) {
-			sDisplayMetrics = new DisplayMetrics();
-			ContextManager.activity().getWindowManager().getDefaultDisplay().getMetrics(sDisplayMetrics);
-		}
-		return sDisplayMetrics;
-	}
 }

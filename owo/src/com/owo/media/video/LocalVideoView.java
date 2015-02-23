@@ -22,7 +22,7 @@ public class LocalVideoView extends ListView {
 		super(context);
 
 		mAdapter = new MediaCursorAdapter();
-		mAdapter.setCursorTransformer(VideoCursorTransformerFactory.create(ScaleLevel.sLevel0));
+		mAdapter.setCursorTransformer(VideoCursorTransformerFactory.create(ScaleLevel.sLevel2));
 
 		mViewModel = new LocalVideoViewModel();
 		mViewModel.attach(mClient);

@@ -1,4 +1,4 @@
-package com.owo.mediaplayer.view.utils;
+package com.owo.view.utils;
 
 import android.view.Gravity;
 import android.widget.FrameLayout;

@@ -1,7 +1,7 @@
 package com.owo.app.main.widget;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -25,24 +25,20 @@ public class MediaWidget extends FrameLayout {
 		for (int i = 0; i < 3; ++i) {
 			textViews[i] = new TextView(context);
 			String text = "";
-			int color = 0;
 			switch (i) {
 			case 0:
-				color = Color.RED;
-				text = "video";
+				text = "视频";
 				break;
 			case 1:
-				color = Color.BLUE;
-				text = "audio";
+				text = "音乐";
 				break;
 			case 2:
-				color = Color.GREEN;
-				text = "image";
+				text = "图片";
 				break;
 			}
 			textViews[i].setText(text);
-			textViews[i].setBackgroundColor(color);
 			textViews[i].setLayoutParams(new LinearLayout.LayoutParams(0, 100, 1));
+			textViews[i].setGravity(Gravity.CENTER);
 		}
 
 		mTabHost.addTab(mTabHost.newTabSpec("video").setIndicator(textViews[0]).setContent(mTabContentFactory));

@@ -16,14 +16,14 @@ public class Theme {
 	private static void ensureInited() {
 		if (!mInited) {
 			mPaint = new Paint();
-			mPaint.setColor(Color.RED);
+			mPaint.setColor(Color.WHITE);
 			mPaint.setStrokeWidth(5);
 			mPaint.setStyle(Paint.Style.STROKE);
 			mPaint.setAntiAlias(true);
-			mTextColor = Color.RED;
+			mTextColor = Color.WHITE;
 			
 			mFillPaint = new Paint();
-			mFillPaint.setColor(Color.RED);
+			mFillPaint.setColor(Color.WHITE);
 			mFillPaint.setStyle(Paint.Style.FILL);
 			mFillPaint.setAntiAlias(true);
 		}

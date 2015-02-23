@@ -108,9 +108,9 @@ public class MediaUtil {
 		// Scale down the bitmap if it's too large.
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
-		targetHeight = (int) ((float) targetWidth * height / width);
-		Log.v("xxx", "[w:" + width + "][h:" + height + "][tw:" + targetWidth
-				+ "][th:" + targetHeight + "]");
+//		targetHeight = (int) ((float) targetWidth * height / width);
+//		Log.v("xxx", "[w:" + width + "][h:" + height + "][tw:" + targetWidth
+//				+ "][th:" + targetHeight + "]");
 
 		if (width != targetWidth || height != targetHeight) {
 			bitmap = Bitmap.createScaledBitmap(bitmap, targetWidth,

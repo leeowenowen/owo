@@ -15,7 +15,7 @@ import com.owo.app.common.ContextManager;
 import com.owo.base.pattern.Instance;
 import com.owo.media.MediaStoreData;
 import com.owo.mediaplayer.view.shape.VF;
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 import com.owo.widget.interfaces.IConfigurable;
 
 public class SearchWidget extends LinearLayout implements IConfigurable {
@@ -40,7 +40,9 @@ public class SearchWidget extends LinearLayout implements IConfigurable {
 		mMenuView = VF.of(context, VF.ViewID.Menu);
 
 		setGravity(Gravity.CENTER_VERTICAL);
-		addView(mTitle, LP.L0W1);
+		LinearLayout.LayoutParams titleLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		titleLayoutParams.setMargins(10, 0, 10, 0);
+		addView(mTitle);
 		addView(mSearchEdit, LP.L0W1);
 		LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(150, 150);
 		addView(mSearchView, itemLayoutParams);
@@ -80,6 +82,7 @@ public class SearchWidget extends LinearLayout implements IConfigurable {
 
 	@Override
 	public void updateLanguage() {
+		// mTitle.setText("视频播放器");
 		mSearchEdit.setHint("搜索");
 	}
 

@@ -20,7 +20,7 @@ import com.owo.app.common.BaseHandler;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 abstract class AbsImageItemView extends LinearLayout {
 	protected TextView mTitle;

@@ -1,7 +1,7 @@
 package com.owo.mediaplayer;
 
 import com.owo.mediaplayer.view.SwitchView;
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

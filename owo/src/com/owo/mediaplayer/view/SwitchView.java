@@ -1,6 +1,6 @@
 package com.owo.mediaplayer.view;
 
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 import android.content.Context;
 import android.view.View;

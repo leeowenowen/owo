@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
 
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 public class MainFrame extends LinearLayout {
 	private SearchWidget mSearchWidget;

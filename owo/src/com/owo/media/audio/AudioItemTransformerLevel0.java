@@ -3,7 +3,7 @@ package com.owo.media.audio;
 import android.content.Context;
 import android.widget.LinearLayout;
 
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 class AudioItemTransformerLevel0 extends AbsAudioItemTransformer {
 	@Override

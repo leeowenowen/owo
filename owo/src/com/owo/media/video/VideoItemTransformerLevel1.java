@@ -3,8 +3,9 @@ package com.owo.media.video;
 import android.content.Context;
 import android.widget.LinearLayout;
 
+import com.owo.base.util.DimensionUtil;
 import com.owo.base.util.SysInfoHelper;
-import com.owo.mediaplayer.view.utils.LP;
+import com.owo.view.utils.LP;
 
 class VideoItemTransformerLevel1 extends AbsVideoItemTransformer {
 	@Override
@@ -22,8 +23,8 @@ class VideoItemTransformerLevel1 extends AbsVideoItemTransformer {
 
 		@Override
 		protected void setupLayout(Context context) {
-			mThumbnaiWidth = SysInfoHelper.displayMetrics().widthPixels;
-			mThumbnailHeight = SysInfoHelper.displayMetrics().heightPixels;
+			mThumbnaiWidth = DimensionUtil.screenWidth();
+			mThumbnailHeight = DimensionUtil.screenHeight();
 			mTitle.setTextSize(sTitleSize * 2);
 			mSize.setTextSize(sContentSize * 2);
 			mDuration.setTextSize(sContentSize);
