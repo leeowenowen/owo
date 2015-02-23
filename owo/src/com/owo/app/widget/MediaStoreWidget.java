@@ -9,10 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.owo.base.mvc.interfaces.IMessageHandler;
-import com.owo.mediastore.MediaStore;
-import com.owo.mediastore.MediaStoreController;
-import com.owo.mediastore.interfaces.MediaType;
-import com.owo.mediastore.interfaces.ScaleLevel;
+import com.owo.media.audio.LocalAudioView;
+import com.owo.media.image.LocalImageView;
+import com.owo.media.video.LocalVideoView;
 import com.owo.widget.owo_TabHost;
 import com.owo.widget.owo_TabHost.TabContentFactory;
 
@@ -47,39 +46,29 @@ public class MediaStoreWidget extends FrameLayout {
 			}
 			textViews[i].setText(text);
 			textViews[i].setBackgroundColor(color);
-			textViews[i].setLayoutParams(new LinearLayout.LayoutParams(0, 100,
-					1));
+			textViews[i].setLayoutParams(new LinearLayout.LayoutParams(0, 100, 1));
 		}
 
-		mTabHost.addTab(mTabHost.newTabSpec("video").setIndicator(textViews[0])
-				.setContent(mTabContentFactory));
-		mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(textViews[1])
-				.setContent(mTabContentFactory));
-		mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(textViews[2])
-				.setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("video").setIndicator(textViews[0]).setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(textViews[1]).setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(textViews[2]).setContent(mTabContentFactory));
 		addView(mTabHost);
 	}
 
 	private TabContentFactory mTabContentFactory = new TabContentFactory() {
 		@Override
 		public View createTabContent(String tag) {
-			int level = ScaleLevel.sLevel0;
-			int mediaType;
-			if (tag.equals("video")) {
-				mediaType = MediaType.sVideo;
+			if (tag.equals("image")) {
+				return new LocalImageView(getContext());
+			} else if (tag.equals("video")) {
+				return new LocalVideoView(getContext());
 			} else if (tag.equals("audio")) {
-				mediaType = MediaType.sAudio;
-			} else {
-				mediaType = MediaType.sIMage;
+				return new LocalAudioView(getContext());
 			}
-
-			MediaStore ms = new MediaStore(getContext());
-			MediaStoreController controller = new MediaStoreController(
-					getContext(), level, mediaType);
-			ms.setController(controller);
-			return ms;
+			return null;
 		}
 	};
+
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// TODO Auto-generated method stub
