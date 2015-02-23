@@ -3,7 +3,6 @@ package com.owo.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -26,16 +25,15 @@ import com.owo.base.util.ReflectHelper;
  * on the child elements themselves.
  * 
  */
-public class owo_TabHost extends LinearLayout implements
-		ViewTreeObserver.OnTouchModeChangeListener {
+public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouchModeChangeListener {
 
 	public static final int owo_TabWidget_LOCATION_LEFT = 0;
 	public static final int owo_TabWidget_LOCATION_TOP = 1;
 	public static final int owo_TabWidget_LOCATION_RIGHT = 2;
 	public static final int owo_TabWidget_LOCATION_BOTTOM = 3;
 	private owo_TabWidget mowo_TabWidget;
-	private FrameLayout mTabContent;
-	private List<TabSpec> mTabSpecs = new ArrayList<TabSpec>(2);
+	protected FrameLayout mTabContent;
+	protected List<TabSpec> mTabSpecs = new ArrayList<TabSpec>(2);
 
 	protected int mCurrentTab = -1;
 	private View mCurrentView = null;
@@ -76,16 +74,14 @@ public class owo_TabHost extends LinearLayout implements
 
 		};
 
-		mowo_TabWidget
-				.setTabSelectionListener(new owo_TabWidget.OnTabSelectionChanged() {
-					public void onTabSelectionChanged(int tabIndex,
-							boolean clicked) {
-						setCurrentTab(tabIndex);
-						if (clicked) {
-							mTabContent.requestFocus(View.FOCUS_FORWARD);
-						}
-					}
-				});
+		mowo_TabWidget.setTabSelectionListener(new owo_TabWidget.OnTabSelectionChanged() {
+			public void onTabSelectionChanged(int tabIndex, boolean clicked) {
+				setCurrentTab(tabIndex);
+				if (clicked) {
+					mTabContent.requestFocus(View.FOCUS_FORWARD);
+				}
+			}
+		});
 
 		mTabContent = new FrameLayout(getContext());
 
@@ -130,8 +126,7 @@ public class owo_TabHost extends LinearLayout implements
 		if (!isInTouchMode) {
 			// leaving touch mode.. if nothing has focus, let's give it to
 			// the indicator of the current tab
-			if (mCurrentView != null
-					&& (!mCurrentView.hasFocus() || mCurrentView.isFocused())) {
+			if (mCurrentView != null && (!mCurrentView.hasFocus() || mCurrentView.isFocused())) {
 				mowo_TabWidget.getChildTabViewAt(mCurrentTab).requestFocus();
 			}
 		}
@@ -146,13 +141,11 @@ public class owo_TabHost extends LinearLayout implements
 	public void addTab(TabSpec tabSpec) {
 
 		if (tabSpec.mIndicatorStrategy == null) {
-			throw new IllegalArgumentException(
-					"you must specify a way to create the tab indicator.");
+			throw new IllegalArgumentException("you must specify a way to create the tab indicator.");
 		}
 
 		if (tabSpec.mContentStrategy == null) {
-			throw new IllegalArgumentException(
-					"you must specify a way to create the tab content");
+			throw new IllegalArgumentException("you must specify a way to create the tab content");
 		}
 		View tabIndicator = tabSpec.mIndicatorStrategy.createIndicatorView();
 		tabIndicator.setOnKeyListener(mTabKeyListener);
@@ -236,13 +229,11 @@ public class owo_TabHost extends LinearLayout implements
 
 		switch (mowo_TabWidget.getOrientation()) {
 		case LinearLayout.VERTICAL:
-			location = (mTabContent.getLeft() < mowo_TabWidget.getLeft()) ? owo_TabWidget_LOCATION_RIGHT
-					: owo_TabWidget_LOCATION_LEFT;
+			location = (mTabContent.getLeft() < mowo_TabWidget.getLeft()) ? owo_TabWidget_LOCATION_RIGHT : owo_TabWidget_LOCATION_LEFT;
 			break;
 		case LinearLayout.HORIZONTAL:
 		default:
-			location = (mTabContent.getTop() < mowo_TabWidget.getTop()) ? owo_TabWidget_LOCATION_BOTTOM
-					: owo_TabWidget_LOCATION_TOP;
+			location = (mTabContent.getTop() < mowo_TabWidget.getTop()) ? owo_TabWidget_LOCATION_BOTTOM : owo_TabWidget_LOCATION_TOP;
 			break;
 		}
 		return location;
@@ -256,14 +247,12 @@ public class owo_TabHost extends LinearLayout implements
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		final boolean handled = super.dispatchKeyEvent(event);
 
-		// unhandled key events change focus to tab indicator for embedded
+		// unHandled key events change focus to tab indicator for embedded
 		// activities when there is nothing that will take focus from default
 		// focus searching
 		Object obj = ReflectHelper.invoke(mCurrentView, "isRootNamespace");
 		boolean flag = (obj == null) ? false : (Boolean) obj;
-		if (!handled && (event.getAction() == KeyEvent.ACTION_DOWN)
-				&& (mCurrentView != null) && (flag)
-				&& (mCurrentView.hasFocus())) {
+		if (!handled && (event.getAction() == KeyEvent.ACTION_DOWN) && (mCurrentView != null) && (flag) && (mCurrentView.hasFocus())) {
 			int keyCodeShouldChangeFocus = KeyEvent.KEYCODE_DPAD_UP;
 			int directionShouldChangeFocus = View.FOCUS_UP;
 			int soundEffect = SoundEffectConstants.NAVIGATION_UP;
@@ -291,9 +280,7 @@ public class owo_TabHost extends LinearLayout implements
 				soundEffect = SoundEffectConstants.NAVIGATION_UP;
 				break;
 			}
-			if (event.getKeyCode() == keyCodeShouldChangeFocus
-					&& mCurrentView.findFocus().focusSearch(
-							directionShouldChangeFocus) == null) {
+			if (event.getKeyCode() == keyCodeShouldChangeFocus && mCurrentView.findFocus().focusSearch(directionShouldChangeFocus) == null) {
 				mowo_TabWidget.getChildTabViewAt(mCurrentTab).requestFocus();
 				playSoundEffect(soundEffect);
 				return true;
@@ -321,6 +308,18 @@ public class owo_TabHost extends LinearLayout implements
 		info.setClassName(owo_TabHost.class.getName());
 	}
 
+	public View getContentViewAt(int index) {
+		if (index < 0 || index >= mTabSpecs.size()) {
+			return null;
+		}
+
+		View contentView = mTabSpecs.get(index).mContentStrategy.getContentView();
+		if (contentView.getParent() == null) {
+			mTabContent.addView(contentView, index);
+		}
+		return contentView;
+	}
+
 	public void setCurrentTab(int index) {
 		if (index < 0 || index >= mTabSpecs.size()) {
 			return;
@@ -346,9 +345,7 @@ public class owo_TabHost extends LinearLayout implements
 		mCurrentView = spec.mContentStrategy.getContentView();
 
 		if (mCurrentView.getParent() == null) {
-			mTabContent.addView(mCurrentView, new ViewGroup.LayoutParams(
-					ViewGroup.LayoutParams.MATCH_PARENT,
-					ViewGroup.LayoutParams.MATCH_PARENT));
+			mTabContent.addView(mCurrentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		}
 
 		if (!mowo_TabWidget.hasFocus()) {
@@ -498,8 +495,7 @@ public class owo_TabHost extends LinearLayout implements
 		private final CharSequence mTag;
 		private TabContentFactory mFactory;
 
-		public FactoryContentStrategy(CharSequence tag,
-				TabContentFactory factory) {
+		public FactoryContentStrategy(CharSequence tag, TabContentFactory factory) {
 			mTag = tag;
 			mFactory = factory;
 		}

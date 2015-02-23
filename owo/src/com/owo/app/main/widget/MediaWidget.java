@@ -10,16 +10,16 @@ import android.widget.TextView;
 import com.owo.media.audio.LocalAudioView;
 import com.owo.media.image.LocalImageView;
 import com.owo.media.video.LocalVideoView;
-import com.owo.widget.owo_TabHost;
+import com.owo.widget.ScrollTabControl;
 import com.owo.widget.owo_TabHost.TabContentFactory;
 
 public class MediaWidget extends FrameLayout {
-	private owo_TabHost mTabHost;
+	private ScrollTabControl mTabHost;
 
 	public MediaWidget(Context context) {
 		super(context);
 
-		mTabHost = new owo_TabHost(context);
+		mTabHost = new ScrollTabControl(context);
 
 		TextView[] textViews = new TextView[3];
 		for (int i = 0; i < 3; ++i) {
@@ -42,8 +42,8 @@ public class MediaWidget extends FrameLayout {
 		}
 
 		mTabHost.addTab(mTabHost.newTabSpec("video").setIndicator(textViews[0]).setContent(mTabContentFactory));
-		mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(textViews[1]).setContent(mTabContentFactory));
-		mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(textViews[2]).setContent(mTabContentFactory));
+		//mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(textViews[1]).setContent(mTabContentFactory));
+		//mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(textViews[2]).setContent(mTabContentFactory));
 		addView(mTabHost);
 	}
 
