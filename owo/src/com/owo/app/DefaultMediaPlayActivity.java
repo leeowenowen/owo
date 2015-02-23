@@ -29,6 +29,9 @@ public class DefaultMediaPlayActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
+		BaseHandler.destroy();
+		ContextManager.destroy();
 
 	}
 

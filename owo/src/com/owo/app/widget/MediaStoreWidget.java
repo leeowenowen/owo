@@ -59,11 +59,11 @@ public class MediaStoreWidget extends FrameLayout {
 		@Override
 		public View createTabContent(String tag) {
 			if (tag.equals("image")) {
-				return new LocalImageView(getContext());
+				return new LocalImageView(getContext(), mMessageHandler);
 			} else if (tag.equals("video")) {
-				return new LocalVideoView(getContext());
+				return new LocalVideoView(getContext(), mMessageHandler);
 			} else if (tag.equals("audio")) {
-				return new LocalAudioView(getContext());
+				return new LocalAudioView(getContext(), mMessageHandler);
 			}
 			return null;
 		}

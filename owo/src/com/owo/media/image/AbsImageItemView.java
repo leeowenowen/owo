@@ -57,6 +57,7 @@ abstract class AbsImageItemView extends LinearLayout {
 		mThumbnailLayout.addView(mThumbnail, LP.FMM);
 	}
 
+	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public void update(Cursor cursor) {
 		String width = QueryUtil.getColumn(cursor, MediaStore.Images.Media.WIDTH);
@@ -89,8 +90,6 @@ abstract class AbsImageItemView extends LinearLayout {
 						Log.v("xxx", "error:" + path);
 					}
 					BaseHandler.post(new Runnable() {
-
-						@SuppressWarnings("deprecation")
 						@Override
 						public void run() {
 							ThumbnailCache.add(path, bmp);

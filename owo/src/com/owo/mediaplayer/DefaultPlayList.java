@@ -6,7 +6,7 @@ import java.util.List;
 import com.owo.mediaplayer.interfaces.IPlayItem;
 import com.owo.mediaplayer.interfaces.IPlayList;
 
-public class LocalPlayList implements IPlayList {
+public class DefaultPlayList implements IPlayList {
 
 	private List<IPlayItem> mItems = new ArrayList<IPlayItem>();
 

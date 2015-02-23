@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.owo.app.ContextManager;
+import com.owo.base.util.BaseHandler;
 import com.owo.mediaplayer.android.SysMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayer;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
@@ -16,8 +17,7 @@ import com.owo.mediaplayer.interfaces.IPlayItem;
 import com.owo.mediaplayer.interfaces.IPlayList;
 import com.owo.mediaplayer.interfaces.ITimeFormatter;
 
-public class MediaPlayerController implements IMediaPlayerController,
-		IMediaPlayer.Listener {
+public class MediaPlayerController implements IMediaPlayerController, IMediaPlayer.Listener {
 	private static final String TAG = "MediaPlayerController";
 	private IMediaPlayer mMediaPlayer;
 
@@ -57,6 +57,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	@Override
 	public void destroy() {
+		mMediaPlayer.reset();
 		mMediaPlayer.destroy();
 	}
 
@@ -85,8 +86,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 	@Override
 	public void resume() {
 		// 1) check state
-		if (mState != State.Paused && mState != State.Finished
-				&& mState != State.Reseted) {
+		if (mState != State.Paused && mState != State.Finished && mState != State.Reseted) {
 			Log.e(TAG, "Invalid resume: resume on " + mState);
 			return;
 		}
@@ -179,8 +179,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	private void updateDisplayMetric() {
 		mDisplayMetrics = new DisplayMetrics();
-		ContextManager.activity().getWindowManager().getDefaultDisplay()
-				.getMetrics(mDisplayMetrics);
+		ContextManager.activity().getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
 	}
 
 	private int mLastWidth;
@@ -201,8 +200,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 			updateDisplayMetric();
 		}
 		mClient.onEnterFullScreen();
-		mClient.onSizeChanged(mDisplayMetrics.widthPixels,
-				mDisplayMetrics.heightPixels);
+		mClient.onSizeChanged(mDisplayMetrics.widthPixels, mDisplayMetrics.heightPixels);
 		mIsInFullScreen = true;
 	}
 
@@ -222,8 +220,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 	@Override
 	public void start() {
 		// 1) check state
-		if (mState != State.Init && mState != State.Finished
-				&& mState != State.Reseted) {
+		if (mState != State.Init && mState != State.Finished && mState != State.Reseted) {
 			Log.e(TAG, "Invalid state: start on " + mState);
 			return;
 		}
@@ -364,7 +361,7 @@ public class MediaPlayerController implements IMediaPlayerController,
 	/**
 	 * Time formatter
 	 */
-	private ITimeFormatter mTimeFormatter;
+	private ITimeFormatter mTimeFormatter = new DefaultTimeFormatter();
 
 	public MediaPlayerController timeFormatter(ITimeFormatter timeFormatter) {
 		mTimeFormatter = timeFormatter;
@@ -372,13 +369,10 @@ public class MediaPlayerController implements IMediaPlayerController,
 	}
 
 	private void updateTimeInfo() {
-		mClient.onReceivedTimeInfo(
-				mTimeFormatter.format(mMediaPlayer.duration()),
-				mTimeFormatter.format(mMediaPlayer.current()));
+		mClient.onReceivedTimeInfo(mTimeFormatter.format(mMediaPlayer.duration()), mTimeFormatter.format(mMediaPlayer.current()));
 	}
 
 	private int mLastPosition;
-	private Handler mHandler = new Handler();
 	private Runnable mCheckProgressRunnable = new Runnable() {
 		public void run() {
 			int cur = mMediaPlayer.current();
@@ -391,10 +385,10 @@ public class MediaPlayerController implements IMediaPlayerController,
 
 	// TODO: use scheduler service instead
 	private void startProgressUpdateTimer() {
-		mHandler.postDelayed(mCheckProgressRunnable, 200);
+		BaseHandler.postDelayed(mCheckProgressRunnable, 200);
 	}
 
 	private void stopProgressUpdateTime() {
-		mHandler.removeCallbacks(mCheckProgressRunnable);
+		BaseHandler.removeCallbacks(mCheckProgressRunnable);
 	}
 }

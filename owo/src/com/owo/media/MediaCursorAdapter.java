@@ -30,7 +30,8 @@ public class MediaCursorAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
-		return null;
+		mCursor.moveToPosition(position);
+		return mCursor;
 	}
 
 	@Override
