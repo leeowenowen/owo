@@ -60,8 +60,8 @@ public class SearchWidget extends LinearLayout implements IConfigurable {
 				popup.setFocusable(true);
 				popup.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 100, 0, 0)));
 				popup.setContentView(new MenuWidget(ContextManager.context()));
-				popup.setWidth(600);
-				popup.setHeight(600);
+				popup.setWidth(300);
+				popup.setHeight(300);
 
 				popup.showAsDropDown(mMenuView);
 			}

@@ -11,5 +11,7 @@ public class en_US_Provider extends AbsLanguageResourceProvider {
 		add(LanguageResourceKeys.ChangeLanguage, "Change Language");
 		add(LanguageResourceKeys.Setting, "Settings");
 		add(LanguageResourceKeys.Help, "Help");
+		add(LanguageResourceKeys.ZH_CN, "简体中文");
+		add(LanguageResourceKeys.EN_US, "English");
 	}
 }

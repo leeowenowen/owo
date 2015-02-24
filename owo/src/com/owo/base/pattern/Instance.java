@@ -30,7 +30,8 @@ public class Instance {
 			try {
 				Constructor<T> ctr = cls.getDeclaredConstructor();
 				ctr.setAccessible(true);
-				sInstanceMap.put(cls, instance = ctr.newInstance());
+				instance = ctr.newInstance();
+				sInstanceMap.put(cls, instance);
 			} catch (Throwable e) {
 
 			}
