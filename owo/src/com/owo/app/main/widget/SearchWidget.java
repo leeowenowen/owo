@@ -12,6 +12,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.owo.app.common.ContextManager;
+import com.owo.app.language.LanguageResourceKeys;
+import com.owo.app.language.LanguageResourceManager;
 import com.owo.base.pattern.Instance;
 import com.owo.media.MediaStoreData;
 import com.owo.mediaplayer.view.shape.VF;
@@ -82,8 +84,7 @@ public class SearchWidget extends LinearLayout implements IConfigurable {
 
 	@Override
 	public void updateLanguage() {
-		// mTitle.setText("视频播放器");
-		mSearchEdit.setHint("搜索");
+		mSearchEdit.setHint(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Search));
 	}
 
 	@Override

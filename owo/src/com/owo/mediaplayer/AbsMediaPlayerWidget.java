@@ -10,11 +10,11 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.owo.app.theme.Theme;
 import com.owo.mediaplayer.core.VideoSurfaceView;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
 import com.owo.mediaplayer.interfaces.IMetaInfo;
-import com.owo.mediaplayer.view.shape.Theme;
 import com.owo.mediaplayer.view.shape.VF;
 import com.owo.mediaplayer.view.shape.VF.ViewID;
 

@@ -8,15 +8,15 @@ import java.util.HashMap;
  * 
  * <h1>Global Singleton</h1>
  * <p>
- * Directly invoke <code>Instance.of(X.class)</code> to get a gloabl singleton
+ * Directly invoke <code>Instance.of(X.class)</code> to get a global singleton
  * instance, but the X class must own a non-public non-parametric constructor.
  * </p>
  * 
  * <h1>Local Singleton</h1>
  * <p>
  * In a local object A, you invoke <code>Instance.createLocal(new X())</code> to
- * create a local singletone instance, and then you can only call
- * <code>Instance.of(X.class)</code> during the lifecycle of A.
+ * create a local singleton instance, and then you can only call
+ * <code>Instance.of(X.class)</code> during the life-cycle of A.
  * </p>
  */
 public class Instance {
@@ -43,5 +43,9 @@ public class Instance {
 		if (sInstanceMap.containsKey(cls)) {
 			sInstanceMap.remove(cls);
 		}
+	}
+
+	public static void destroy() {
+		sInstanceMap.clear();
 	}
 }

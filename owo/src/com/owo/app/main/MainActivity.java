@@ -10,6 +10,8 @@ import android.view.WindowManager;
 
 import com.owo.app.common.BaseHandler;
 import com.owo.app.common.ContextManager;
+import com.owo.app.language.LanguageResourceManager;
+import com.owo.app.language.zh_CN_Provider;
 import com.owo.app.main.widget.MainFrame;
 import com.owo.app.test.Data;
 import com.owo.app.test.Data.Observer;
@@ -25,11 +27,12 @@ public class MainActivity extends Activity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
+		Instance.of(LanguageResourceManager.class).setProvider(new zh_CN_Provider());
 
 		MainFrame mainFrame = new MainFrame(this);
 		setContentView(mainFrame);
 		Instance.of(Data.class).observer(new Observer() {
-			
+
 			@Override
 			public void onDataChanged(String msg) {
 				Log.v("xxx", msg);
@@ -42,7 +45,7 @@ public class MainActivity extends Activity {
 		super.onDestroy();
 		BaseHandler.destroy();
 		ContextManager.destroy();
-
+		Instance.destroy();
 	}
 
 	@Override

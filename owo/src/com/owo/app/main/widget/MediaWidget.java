@@ -7,6 +7,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.owo.app.language.LanguageResourceKeys;
+import com.owo.app.language.LanguageResourceManager;
+import com.owo.base.pattern.Instance;
 import com.owo.media.audio.LocalAudioView;
 import com.owo.media.image.LocalImageView;
 import com.owo.media.video.LocalVideoView;
@@ -27,13 +30,13 @@ public class MediaWidget extends FrameLayout {
 			String text = "";
 			switch (i) {
 			case 0:
-				text = "视频";
+				text = Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Video);
 				break;
 			case 1:
-				text = "音乐";
+				text = Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Audio);
 				break;
 			case 2:
-				text = "图片";
+				text = Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Image);
 				break;
 			}
 			textViews[i].setText(text);

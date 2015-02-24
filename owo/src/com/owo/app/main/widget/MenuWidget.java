@@ -8,7 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.owo.app.common.ContextManager;
+import com.owo.app.language.LanguageResourceKeys;
+import com.owo.app.language.LanguageResourceManager;
 import com.owo.app.system_settings.SysSettingActivity;
+import com.owo.base.pattern.Instance;
 import com.owo.widget.interfaces.IConfigurable;
 
 public class MenuWidget extends LinearLayout implements IConfigurable {
@@ -61,9 +64,9 @@ public class MenuWidget extends LinearLayout implements IConfigurable {
 
 	@Override
 	public void updateLanguage() {
-		mChangeSkin.setText("更换皮肤");
-		mSettings.setText("设置");
-		mHelp.setText("帮助");
+		mChangeSkin.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.ChangeSkin));
+		mSettings.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Setting));
+		mHelp.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Help));
 	}
 
 	@Override

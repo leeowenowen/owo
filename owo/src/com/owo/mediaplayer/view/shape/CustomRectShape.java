@@ -1,5 +1,7 @@
 package com.owo.mediaplayer.view.shape;
 
+import com.owo.app.theme.Theme;
+
 import android.graphics.Paint;
 import android.graphics.drawable.shapes.RectShape;
 
