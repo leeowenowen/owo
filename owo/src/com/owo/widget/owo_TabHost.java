@@ -3,6 +3,7 @@ package com.owo.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -331,7 +332,12 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 
 		// notify old tab content
 		if (mCurrentTab != -1) {
-			mTabSpecs.get(mCurrentTab).mContentStrategy.tabClosed();
+			for (int i = 0; i < mTabSpecs.size(); ++i) {
+				if (i != index) {
+					mTabSpecs.get(i).mContentStrategy.tabClosed();
+				}
+			}
+			// mTabSpecs.get(mCurrentTab).mContentStrategy.tabClosed();
 		}
 
 		mCurrentTab = index;
@@ -509,7 +515,9 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 		}
 
 		public void tabClosed() {
-			mTabContent.setVisibility(View.GONE);
+			if (mTabContent != null) {
+				mTabContent.setVisibility(View.GONE);
+			}
 		}
 	}
 }

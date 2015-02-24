@@ -1,108 +1,175 @@
 package com.owo.widget;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.TranslateAnimation;
 
 public class ScrollTabControl extends owo_TabHost {
 	private static final String TAG = "ScrollTabControl";
-	private GestureDetector mGestureDetector;
 
-	@SuppressWarnings("deprecation")
 	public ScrollTabControl(Context context) {
 		super(context);
-		mGestureDetector = new GestureDetector(mOnGestureListener);
 	}
+
+	private boolean mIntercepted;
+	private boolean mIsMoveNext;
+	private float mXDown;
+	private Set<View> mAnimatedViews = new HashSet<View>();
 
 	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		if (mGestureDetector.onTouchEvent(ev)) {
-			return true;
+	public boolean dispatchTouchEvent(MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			mXDown = event.getX();
+			mIntercepted = false;
+			Log.v(TAG, "dispatchTouchEvent,ACTION_DOWN");
+			break;
+		case MotionEvent.ACTION_MOVE:
+			float xCur = event.getX();
+			if (Math.abs(xCur - mXDown) > 10) {
+				if (xCur > mXDown && mCurrentTab > 0) {
+					mIntercepted = true;
+					movePre(xCur - mXDown);
+				} else if (xCur < mXDown && mCurrentTab < mTabSpecs.size() - 1) {
+					mIntercepted = true;
+					moveNext(mXDown - xCur);
+				}
+			}
+			Log.v(TAG, "dispatchTouchEvent,ACTION_MOVE");
+			break;
+		case MotionEvent.ACTION_CANCEL:
+			Log.v(TAG, "dispatchTouchEvent,ACTION_CANCEL");
+			break;
+		case MotionEvent.ACTION_UP:
+			if (mIntercepted) {
+				// finish tab switch
+				if (mIsMoveNext) {
+					switchToNext();
+				} else {
+					switchToPre();
+				}
+			}
+			Log.v(TAG, "dispatchTouchEvent,ACTION_UP");
+			break;
+		default:
+			Log.v(TAG, "ACTION " + event.getAction());
+			break;
 		}
-		return super.onInterceptTouchEvent(ev);
+		if (!mIntercepted) {
+			super.dispatchTouchEvent(event);
+		}
+		return true;
 	}
 
-	private GestureDetector.OnGestureListener mOnGestureListener = new GestureDetector.SimpleOnGestureListener() {
-		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-			Log.v(TAG, "onScroll" + distanceX);
-			float xOff = Math.abs(distanceX);
-			if (xOff <= 10) {
-				return false;
-			}
-			if (distanceX > 0 && mCurrentTab < mTabSpecs.size() - 1) {
-				switchToNext();
-				return true;
-			}
-			if (distanceX < 0 && mCurrentTab > 0) {
-				switchToPre();
-				return true;
-			}
-			return false;
-		}
-
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			Log.v(TAG, "onFling");
-			return true;
-		}
-	};
-
-	private void switchToPre() {
-		Log.v(TAG, "switchToPre");
+	private void movePre(float offset) {
+		mIsMoveNext = false;
 		View pre = getContentViewAt(mCurrentTab - 1);
 		View cur = getContentViewAt(mCurrentTab);
-		TranslateAnimation in = new TranslateAnimation(-mTabContent.getWidth(), 0, 0, 0);
-		in.setDuration(200);
-		TranslateAnimation out = new TranslateAnimation(0, mTabContent.getWidth(), 0, 0);
-		out.setDuration(200);
-		pre.startAnimation(in);
-		cur.startAnimation(out);
-		in.setAnimationListener(new AnimationListener() {
+		int width = mTabContent.getWidth();
+		pre.setTranslationX(offset - width);
+		cur.setTranslationX(offset);
+		mAnimatedViews.add(pre);
+		mAnimatedViews.add(cur);
+	}
 
-			@Override
-			public void onAnimationStart(Animation animation) {
-			}
+	private void moveNext(float offset) {
+		mIsMoveNext = true;
+		View next = getContentViewAt(mCurrentTab + 1);
+		View cur = getContentViewAt(mCurrentTab);
+		int width = mTabContent.getWidth();
+		next.setTranslationX(width - offset);
+		cur.setTranslationX(-offset);
+		mAnimatedViews.add(next);
+		mAnimatedViews.add(cur);
+	}
 
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-			}
+	private abstract class AnimatorListenerAdapter implements AnimatorListener {
 
+		@Override
+		public void onAnimationStart(Animator animation) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animation) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animation) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
+	private void resetAnimatedView() {
+		for (View v : mAnimatedViews) {
+			v.setTranslationX(0);
+		}
+	}
+
+	private void switchToPre() {
+		final View pre = getContentViewAt(mCurrentTab - 1);
+		final View cur = getContentViewAt(mCurrentTab);
+		Log.v(TAG, "switchToPre:" + cur.getTranslationX());
+
+		ValueAnimator animator = ValueAnimator.ofFloat(cur.getTranslationX(), mTabContent.getWidth()).setDuration(200);
+		animator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
-			public void onAnimationEnd(Animation animation) {
-				setCurrentTab(mCurrentTab - 1);
+			public void onAnimationUpdate(ValueAnimator animation) {
+				float translationValue = (Float) animation.getAnimatedValue();
+				Log.v(TAG, "onAnimationUpdate, value:" + translationValue);
+				pre.setTranslationX(translationValue - mTabContent.getWidth());
+				cur.setTranslationX(translationValue);
 			}
 		});
+		animator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				setCurrentTab(mCurrentTab - 1);
+				resetAnimatedView();
+			}
+		});
+		animator.start();
+		mAnimatedViews.add(pre);
+		mAnimatedViews.add(cur);
 	}
 
 	private void switchToNext() {
-		Log.v(TAG, "switchToPre");
-		View next = getContentViewAt(mCurrentTab + 1);
-		View cur = getContentViewAt(mCurrentTab);
-		TranslateAnimation in = new TranslateAnimation(mTabContent.getWidth(), 0, 0, 0);
-		in.setDuration(200);
-		TranslateAnimation out = new TranslateAnimation(0, -mTabContent.getWidth(), 0, 0);
-		out.setDuration(200);
-		cur.startAnimation(out);
-		next.startAnimation(in);
-		in.setAnimationListener(new AnimationListener() {
+		final View next = getContentViewAt(mCurrentTab + 1);
+		final View cur = getContentViewAt(mCurrentTab);
+		Log.v(TAG, "switchToNext:" + next.getTranslationX());
 
+		ValueAnimator animator = ValueAnimator.ofFloat(next.getTranslationX(), 0).setDuration(200);
+		animator.addUpdateListener(new AnimatorUpdateListener() {
 			@Override
-			public void onAnimationStart(Animation animation) {
-			}
-
-			@Override
-			public void onAnimationRepeat(Animation animation) {
-			}
-
-			@Override
-			public void onAnimationEnd(Animation animation) {
-				setCurrentTab(mCurrentTab + 1);
+			public void onAnimationUpdate(ValueAnimator animation) {
+				float translationValue = (Float) animation.getAnimatedValue();
+				Log.v(TAG, "onAnimationUpdate, value:" + translationValue);
+				cur.setTranslationX(translationValue - mTabContent.getWidth());
+				next.setTranslationX(translationValue);
 			}
 		});
+		animator.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				setCurrentTab(mCurrentTab + 1);
+				resetAnimatedView();
+			}
+		});
+		animator.start();
+		mAnimatedViews.add(next);
+		mAnimatedViews.add(cur);
 	}
 
 }

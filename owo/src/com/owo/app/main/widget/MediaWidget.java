@@ -42,8 +42,8 @@ public class MediaWidget extends FrameLayout {
 		}
 
 		mTabHost.addTab(mTabHost.newTabSpec("video").setIndicator(textViews[0]).setContent(mTabContentFactory));
-		//mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(textViews[1]).setContent(mTabContentFactory));
-		//mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(textViews[2]).setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(textViews[1]).setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(textViews[2]).setContent(mTabContentFactory));
 		addView(mTabHost);
 	}
 
