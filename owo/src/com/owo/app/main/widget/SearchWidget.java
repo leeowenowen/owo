@@ -67,7 +67,6 @@ public class SearchWidget extends LinearLayout implements IConfigurable {
 			}
 		});
 
-		// mSearchEdit.addTextChangedListener(mTextWatcher);
 		mSearchView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

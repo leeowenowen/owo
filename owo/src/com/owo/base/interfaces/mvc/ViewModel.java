@@ -15,4 +15,10 @@ public class ViewModel {
 	public void remove(DataSetObserver observer) {
 		mObservers.remove(observer);
 	}
+
+	public void notifyDataChanged() {
+		for (DataSetObserver observer : mObservers) {
+			observer.onChanged();
+		}
+	}
 }

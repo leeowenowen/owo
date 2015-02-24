@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.owo.app.system_settings.widget.SysSettingWidget;
+import com.owo.app.system_settings.widget.SystemSettingWidget;
 
 public class SysSettingActivity extends Activity {
 
@@ -15,7 +15,7 @@ public class SysSettingActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		setContentView(new SysSettingWidget(this));
+		setContentView(new SystemSettingWidget(this));
 	}
 
 	@Override

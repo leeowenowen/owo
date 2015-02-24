@@ -38,7 +38,9 @@ public class LocalVideoViewModel extends MediaViewModel {
 		if (mCursor == null) {
 			mCursor = query(null);
 		}
-		client.onDataChanged(mCursor);
+		if (mCursor != null) {
+			client.onDataChanged(mCursor);
+		}
 	}
 
 	@Override

@@ -119,6 +119,10 @@ public class ScrollTabControl extends owo_TabHost {
 		Log.v(TAG, "move_next:" + offset);
 		View next = getContentViewAt(mCurrentTab + 1);
 		View cur = getContentViewAt(mCurrentTab);
+		if(next == null || cur == null)
+		{
+			Log.v(TAG, "invalid param");
+		}
 		int width = mTabContent.getWidth();
 		next.setTranslationX(width - offset);
 		cur.setTranslationX(-offset);

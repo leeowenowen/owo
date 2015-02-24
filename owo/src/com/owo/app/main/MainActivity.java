@@ -13,8 +13,6 @@ import com.owo.app.common.ContextManager;
 import com.owo.app.language.LanguageResourceManager;
 import com.owo.app.language.zh_CN_Provider;
 import com.owo.app.main.widget.MainFrame;
-import com.owo.app.test.Data;
-import com.owo.app.test.Data.Observer;
 import com.owo.base.pattern.Instance;
 
 public class MainActivity extends Activity {
@@ -31,13 +29,6 @@ public class MainActivity extends Activity {
 
 		MainFrame mainFrame = new MainFrame(this);
 		setContentView(mainFrame);
-		Instance.of(Data.class).observer(new Observer() {
-
-			@Override
-			public void onDataChanged(String msg) {
-				Log.v("xxx", msg);
-			}
-		});
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class MediaCursorAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return mCursor.getCount();
+		return mCursor == null ? 0 : mCursor.getCount();
 	}
 
 	@Override
