@@ -19,9 +19,41 @@ public class ScrollTabControl extends owo_TabHost {
 		super(context);
 	}
 
-	private boolean mIntercepted;
-	private boolean mIsMoveNext;
-	private float mXDown;
+	private static final int STATE_NONE = 0;
+	private static final int STATE_MOVE_PRE = 1;
+	private static final int STATE_MOVE_NEXT = 2;
+	private static final int STATE_FLING_TO_PRE = 3;
+	private static final int STATE_FLING_TO_NEXT = 4;
+
+	private int mState = STATE_NONE;
+
+	private void switchState(int state) {
+		switch (state) {
+		case STATE_MOVE_NEXT:
+			if (mState == STATE_MOVE_PRE) {
+				movePre(0);
+			}
+			moveNext(mXDown - mXCur);
+			break;
+		case STATE_MOVE_PRE:
+			if (mState == STATE_MOVE_NEXT) {
+				moveNext(0);
+			}
+			movePre(mXCur - mXDown);
+			break;
+		case STATE_FLING_TO_NEXT:
+			flingToNext();
+			break;
+		case STATE_FLING_TO_PRE:
+			flingToPre();
+			break;
+		default:
+			break;
+		}
+		mState = state;
+	}
+
+	private float mXDown, mYDown, mXCur, mYCur;
 	private Set<View> mAnimatedViews = new HashSet<View>();
 
 	@Override
@@ -29,33 +61,36 @@ public class ScrollTabControl extends owo_TabHost {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			mXDown = event.getX();
-			mIntercepted = false;
-			Log.v(TAG, "dispatchTouchEvent,ACTION_DOWN");
+			mYDown = event.getY();
+			switchState(STATE_NONE);
+			Log.v(TAG, "down:" + mXDown);
 			break;
 		case MotionEvent.ACTION_MOVE:
-			float xCur = event.getX();
-			if (Math.abs(xCur - mXDown) > 10) {
-				if (xCur > mXDown && mCurrentTab > 0) {
-					mIntercepted = true;
-					movePre(xCur - mXDown);
-				} else if (xCur < mXDown && mCurrentTab < mTabSpecs.size() - 1) {
-					mIntercepted = true;
-					moveNext(mXDown - xCur);
+			mXCur = event.getX();
+			mYCur = event.getY();
+			Log.v(TAG, "move:" + mXCur);
+			Log.v(TAG, "move:" + mXDown);
+			float xOffset = mXCur - mXDown;
+			float yOffset = mYCur - mYDown;
+			Log.v(TAG, "move: [xoffset:" + xOffset + "][yoffset:" + yOffset + "]");
+			float absXOffset = Math.abs(xOffset);
+			float absYOffset = Math.abs(yOffset);
+			if (absXOffset > absYOffset && absXOffset > 10) {
+				if (xOffset > 0 && mCurrentTab > 0) {
+					switchState(STATE_MOVE_PRE);
+				} else if (xOffset < 0 && mCurrentTab < mTabSpecs.size() - 1) {
+					switchState(STATE_MOVE_NEXT);
 				}
 			}
-			Log.v(TAG, "dispatchTouchEvent,ACTION_MOVE");
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			Log.v(TAG, "dispatchTouchEvent,ACTION_CANCEL");
 			break;
 		case MotionEvent.ACTION_UP:
-			if (mIntercepted) {
-				// finish tab switch
-				if (mIsMoveNext) {
-					switchToNext();
-				} else {
-					switchToPre();
-				}
+			if (mState == STATE_MOVE_NEXT) {
+				switchState(STATE_FLING_TO_NEXT);
+			} else if (mState == STATE_MOVE_PRE) {
+				switchState(STATE_FLING_TO_PRE);
 			}
 			Log.v(TAG, "dispatchTouchEvent,ACTION_UP");
 			break;
@@ -63,14 +98,14 @@ public class ScrollTabControl extends owo_TabHost {
 			Log.v(TAG, "ACTION " + event.getAction());
 			break;
 		}
-		if (!mIntercepted) {
+		if (mState == STATE_NONE) {
 			super.dispatchTouchEvent(event);
 		}
 		return true;
 	}
 
 	private void movePre(float offset) {
-		mIsMoveNext = false;
+		Log.v(TAG, "move_pre:" + offset);
 		View pre = getContentViewAt(mCurrentTab - 1);
 		View cur = getContentViewAt(mCurrentTab);
 		int width = mTabContent.getWidth();
@@ -81,7 +116,7 @@ public class ScrollTabControl extends owo_TabHost {
 	}
 
 	private void moveNext(float offset) {
-		mIsMoveNext = true;
+		Log.v(TAG, "move_next:" + offset);
 		View next = getContentViewAt(mCurrentTab + 1);
 		View cur = getContentViewAt(mCurrentTab);
 		int width = mTabContent.getWidth();
@@ -95,20 +130,14 @@ public class ScrollTabControl extends owo_TabHost {
 
 		@Override
 		public void onAnimationStart(Animator animation) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onAnimationCancel(Animator animation) {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void onAnimationRepeat(Animator animation) {
-			// TODO Auto-generated method stub
-
 		}
 	}
 
@@ -118,7 +147,7 @@ public class ScrollTabControl extends owo_TabHost {
 		}
 	}
 
-	private void switchToPre() {
+	private void flingToPre() {
 		final View pre = getContentViewAt(mCurrentTab - 1);
 		final View cur = getContentViewAt(mCurrentTab);
 		Log.v(TAG, "switchToPre:" + cur.getTranslationX());
@@ -145,7 +174,7 @@ public class ScrollTabControl extends owo_TabHost {
 		mAnimatedViews.add(cur);
 	}
 
-	private void switchToNext() {
+	private void flingToNext() {
 		final View next = getContentViewAt(mCurrentTab + 1);
 		final View cur = getContentViewAt(mCurrentTab);
 		Log.v(TAG, "switchToNext:" + next.getTranslationX());
