@@ -1,6 +1,8 @@
 package com.owo.app.theme;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import android.graphics.Color;
@@ -23,10 +25,43 @@ import com.owo.base.pattern.Instance;
  */
 
 public class Theme {
+	private Paint mPaint;
+	private Paint mFillPaint;
+
+	private IThemeProvider mThemeProvider;
+	private final Map<String, IThemeProvider> mThemeProviders = new HashMap<String, IThemeProvider>();
+
 	private Theme() {
+		// 1) initialize provider
+		mThemeProviders.put(String.valueOf(Color.WHITE), new DefaultThemeProvider());
+		mThemeProviders.put(
+				String.valueOf(Color.BLACK),
+				new DefaultThemeProvider().textColor(Color.WHITE).paintColor(Color.WHITE)
+						.bgColor(Color.BLACK));
+		mThemeProviders.put(String.valueOf(Color.RED),
+				new DefaultThemeProvider().textColor(Color.YELLOW).paintColor(Color.YELLOW)
+						.bgColor(Color.RED));
+		initProvider();
+		// 2) initialize paint
+		mPaint = new Paint();
+		mPaint.setColor(mThemeProvider.paintColor());
+		mPaint.setStrokeWidth(5);
+		mPaint.setStyle(Paint.Style.STROKE);
+		mPaint.setAntiAlias(true);
+
+		mFillPaint = new Paint();
+		mFillPaint.setColor(mThemeProvider.paintColor());
+		mFillPaint.setStyle(Paint.Style.FILL);
+		mFillPaint.setAntiAlias(true);
+
+		// 3) register observer
 		Instance.of(SystemSettingsData.class).addObserver(SystemSettingKeys.Theme, new Observer() {
 			@Override
 			public void onDataChanged(String key, String oldValue, String newValue) {
+				mThemeProvider = mThemeProviders.get(newValue);
+				assert (mThemeProvider != null);
+				mPaint.setColor(mThemeProvider.paintColor());
+				mFillPaint.setColor(mThemeProvider.paintColor());
 				for (ThemeObserver observer : mObservers) {
 					observer.onThemeChanged();
 				}
@@ -34,44 +69,24 @@ public class Theme {
 		});
 	}
 
-	private Paint mPaint;
-	private Paint mFillPaint;
-	private int mTextColor;
-	private boolean mInited;
-
-	private void ensureInited() {
-		if (!mInited) {
-			mPaint = new Paint();
-			mPaint.setColor(Color.WHITE);
-			mPaint.setStrokeWidth(5);
-			mPaint.setStyle(Paint.Style.STROKE);
-			mPaint.setAntiAlias(true);
-			mTextColor = Color.WHITE;
-
-			mFillPaint = new Paint();
-			mFillPaint.setColor(Color.WHITE);
-			mFillPaint.setStyle(Paint.Style.FILL);
-			mFillPaint.setAntiAlias(true);
-		}
+	private void initProvider() {
+		mThemeProvider = mThemeProviders.get(String.valueOf(Color.WHITE));
 	}
 
 	public Paint paint() {
-		ensureInited();
 		return mPaint;
 	}
 
 	public Paint fillPaint() {
-		ensureInited();
 		return mFillPaint;
 	}
 
-	public void textColor(int color) {
-		mTextColor = color;
+	public int textColor() {
+		return mThemeProvider.textColor();
 	}
 
-	public int textColor() {
-		ensureInited();
-		return mTextColor;
+	public int bgColor() {
+		return mThemeProvider.bgColor();
 	}
 
 	private Set<ThemeObserver> mObservers = new HashSet<ThemeObserver>();

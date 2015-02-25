@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.owo.widget.owo_TabHost;
-import com.owo.widget.owo_TabHost.TabContentFactory;
+import com.owo.ui.owo_TabHost;
+import com.owo.ui.owo_TabHost.TabContentFactory;
 
 public class TabTest extends FrameLayout {
 	public TabTest(Context context) {

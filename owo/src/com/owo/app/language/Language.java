@@ -25,10 +25,11 @@ public class Language implements ILanguageProvider {
 	private ILanguageProvider mProvider;
 
 	private Language() {
-		// add providers
+		// 1) initialize providers
 		addProvider("zh-CN", new zh_CN_Provider());
 		addProvider("en-US", new en_US_Provider());
-		// register observer
+		initProvider();
+		// 2) register observer
 		Instance.of(SystemSettingsData.class).addObserver(SystemSettingKeys.Language, new Observer() {
 			@Override
 			public void onDataChanged(String key, String oldValue, String newValue) {
@@ -41,8 +42,8 @@ public class Language implements ILanguageProvider {
 		});
 	}
 
-	public void setProvider(ILanguageProvider provider) {
-		mProvider = provider;
+	private void initProvider() {
+		mProvider = mProviders.get("zh-CN");
 	}
 
 	@Override

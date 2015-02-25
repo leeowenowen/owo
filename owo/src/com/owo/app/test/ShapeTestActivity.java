@@ -17,8 +17,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.owo.app.common.ContextManager;
-import com.owo.mediaplayer.view.shape.VF;
-import com.owo.mediaplayer.view.shape.VF.ViewID;
+import com.owo.ui.shape.VF;
+import com.owo.ui.shape.VF.ViewID;
 
 public class ShapeTestActivity extends Activity {
 

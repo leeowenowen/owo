@@ -6,6 +6,8 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.owo.app.theme.Theme;
+import com.owo.base.pattern.Instance;
 import com.owo.base.util.DimensionUtil;
 
 class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
@@ -38,15 +40,16 @@ class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
 
 			LinearLayout attributes = new LinearLayout(context);
 			attributes.setOrientation(LinearLayout.VERTICAL);
-			attributes.setBackgroundColor(Color.argb(100, 100, 0, 0));
+			attributes.setBackgroundColor(Instance.of(Theme.class).bgColor());
 			attributes.addView(mSize);
 			attributes.addView(mDuration);
 			attributes.addView(mResolution);
 
 			setOrientation(LinearLayout.VERTICAL);
 
-			mThumbnailLayout.addView(attributes, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.LEFT
-					| Gravity.BOTTOM));
+			mThumbnailLayout.addView(attributes, new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT,
+					Gravity.LEFT | Gravity.BOTTOM));
 			addView(mThumbnailLayout);
 			addView(mPath);
 			addView(mTitle);

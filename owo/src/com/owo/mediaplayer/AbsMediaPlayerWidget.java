@@ -16,8 +16,8 @@ import com.owo.mediaplayer.core.VideoSurfaceView;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
 import com.owo.mediaplayer.interfaces.IMetaInfo;
-import com.owo.mediaplayer.view.shape.VF;
-import com.owo.mediaplayer.view.shape.VF.ViewID;
+import com.owo.ui.shape.VF;
+import com.owo.ui.shape.VF.ViewID;
 
 public abstract class AbsMediaPlayerWidget extends FrameLayout implements IMediaPlayerController.Client {
 

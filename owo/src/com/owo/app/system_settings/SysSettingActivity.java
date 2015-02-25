@@ -5,7 +5,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.owo.app.base.ConfigurableActivity;
-import com.owo.app.system_settings.widget.SystemSettingWidget;
+import com.owo.app.system_settings.ui.SystemSettingWidget;
 
 public class SysSettingActivity extends ConfigurableActivity {
 

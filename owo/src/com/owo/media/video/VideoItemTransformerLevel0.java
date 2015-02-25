@@ -5,7 +5,7 @@ import android.content.Context;
 import android.widget.LinearLayout;
 
 import com.owo.base.util.DimensionUtil;
-import com.owo.view.utils.LP;
+import com.owo.ui.utils.LP;
 
 class VideoItemTransformerLevel0 extends AbsVideoItemTransformer {
 	@Override

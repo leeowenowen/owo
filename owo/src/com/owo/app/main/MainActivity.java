@@ -10,9 +10,7 @@ import android.view.WindowManager;
 import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.common.BaseHandler;
 import com.owo.app.common.ContextManager;
-import com.owo.app.language.Language;
-import com.owo.app.language.zh_CN_Provider;
-import com.owo.app.main.widget.MainFrame;
+import com.owo.app.main.ui.MainFrame;
 import com.owo.base.pattern.Instance;
 
 public class MainActivity extends ConfigurableActivity {
@@ -25,7 +23,6 @@ public class MainActivity extends ConfigurableActivity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
-		Instance.of(Language.class).setProvider(new zh_CN_Provider());
 
 		MainFrame mainFrame = new MainFrame(this);
 		setContentView(mainFrame);
