@@ -22,6 +22,7 @@ class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
 
 		public VideoItemViewLevel3(Context context) {
 			super(context);
+			onThemeChanged();
 		}
 
 		@Override
@@ -54,6 +55,11 @@ class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
 			addView(mPath);
 			addView(mTitle);
 			setPadding(20, 10, 20, 0);
+		}
+
+		@Override
+		public void onThemeChanged() {
+			Theme.updateTheme(this);
 		}
 	}
 }

@@ -119,7 +119,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 			return view;
 		}
 
-		private class ItemView extends LinearLayout {
+		private class ItemView extends LinearLayout implements ThemeObserver, LanguageObserver {
 			private TextView mLanguage;
 			private ImageView mSelectedMark;
 
@@ -147,6 +147,18 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 				mSelectedMark.setVisibility(language.equals(curLanguage) ? VISIBLE : GONE);
 				mLanguage.setText(Instance.of(Language.class).get(
 						Language.toLanguageResourceKey(language)));
+				onThemeChanged();
+			}
+
+			@Override
+			public void onThemeChanged() {
+				mLanguage.setTextColor(Instance.of(Theme.class).textColor());
+			}
+
+			@Override
+			public void onLanguageChanged() {
+				// TODO Auto-generated method stub
+
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package com.owo.ui;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.PopupWindow;
 
@@ -17,6 +19,7 @@ public class ConfigurablePopupWindow extends PopupWindow implements ThemeObserve
 		mInterceptedContentView = contentView;
 		super.setContentView(contentView);
 		onContentViewSetted();
+		onThemeChanged();
 	}
 
 	private void onContentViewSetted() {
@@ -43,6 +46,9 @@ public class ConfigurablePopupWindow extends PopupWindow implements ThemeObserve
 
 	@Override
 	public void onThemeChanged() {
+		int textColor = Instance.of(Theme.class).textColor();
+		setBackgroundDrawable(new ColorDrawable(Color.argb(100, Color.red(textColor),
+				Color.green(textColor), Color.blue(textColor))));
 	}
 
 }

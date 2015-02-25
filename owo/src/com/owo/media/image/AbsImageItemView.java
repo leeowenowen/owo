@@ -17,12 +17,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.owo.app.common.BaseHandler;
+import com.owo.app.theme.ThemeObserver;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;
 import com.owo.ui.utils.LP;
 
-abstract class AbsImageItemView extends LinearLayout {
+abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 	protected TextView mTitle;
 	protected TextView mSize;
 	protected TextView mWH;
@@ -85,7 +86,8 @@ abstract class AbsImageItemView extends LinearLayout {
 
 				@Override
 				public void run() {
-					final Bitmap bmp = MediaUtil.createImageThumbnail(path, mThumbnaiWidth, mThumbnailHeight, null, null);
+					final Bitmap bmp = MediaUtil.createImageThumbnail(path, mThumbnaiWidth,
+							mThumbnailHeight, null, null);
 					if (bmp == null) {
 						Log.v("xxx", "error:" + path);
 					}

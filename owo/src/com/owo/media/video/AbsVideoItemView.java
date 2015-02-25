@@ -16,12 +16,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.owo.app.common.BaseHandler;
+import com.owo.app.theme.ThemeObserver;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;
 import com.owo.ui.utils.LP;
 
-abstract class AbsVideoItemView extends LinearLayout {
+abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 	protected TextView mTitle;
 	protected TextView mSize;
 	protected TextView mDuration;
@@ -60,16 +61,12 @@ abstract class AbsVideoItemView extends LinearLayout {
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public void update(Cursor cursor) {
-		int duration = cursor.getInt(cursor
-				.getColumnIndex(MediaStore.Video.Media.DURATION));
+		int duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
 		mDuration.setText(MediaUtil.format(duration));
-		mResolution.setText(QueryUtil.getColumn(cursor,
-				MediaStore.Video.Media.RESOLUTION));
-		final String path = QueryUtil.getColumn(cursor,
-				MediaStore.Video.Media.DATA);
+		mResolution.setText(QueryUtil.getColumn(cursor, MediaStore.Video.Media.RESOLUTION));
+		final String path = QueryUtil.getColumn(cursor, MediaStore.Video.Media.DATA);
 		mPath.setText(path);
-		mTitle.setText(QueryUtil
-				.getColumn(cursor, MediaStore.Video.Media.TITLE));
+		mTitle.setText(QueryUtil.getColumn(cursor, MediaStore.Video.Media.TITLE));
 		String size = QueryUtil.getColumn(cursor, MediaStore.Video.Media.SIZE);
 		if (size == null) {
 			size = String.valueOf(new File(path).length());
@@ -90,8 +87,8 @@ abstract class AbsVideoItemView extends LinearLayout {
 
 				@Override
 				public void run() {
-					final Bitmap bmp = MediaUtil.createVideoThumbnail(path,
-							mThumbnaiWidth, mThumbnailHeight, null, null);
+					final Bitmap bmp = MediaUtil.createVideoThumbnail(path, mThumbnaiWidth,
+							mThumbnailHeight, null, null);
 					BaseHandler.post(new Runnable() {
 
 						@Override
@@ -99,9 +96,7 @@ abstract class AbsVideoItemView extends LinearLayout {
 							ThumbnailCache.add(path, bmp);
 							if (mSelfMark == mMark) {
 								loading(false, bmp);
-								mThumbnail
-										.setBackgroundDrawable(new BitmapDrawable(
-												bmp));
+								mThumbnail.setBackgroundDrawable(new BitmapDrawable(bmp));
 							}
 						}
 					});
@@ -116,10 +111,10 @@ abstract class AbsVideoItemView extends LinearLayout {
 	private void loading(boolean flag, Bitmap bmp) {
 		mThumbnail.setVisibility(flag ? INVISIBLE : VISIBLE);
 		mProgressBar.setVisibility(flag ? VISIBLE : INVISIBLE);
-//		int width = flag ? mThumbnaiWidth : bmp.getWidth();
-//		int height = flag ? mThumbnailHeight : bmp.getHeight();
-//		mThumbnailLayout.setLayoutParams(new LinearLayout.LayoutParams(width,
-//				height));
+		// int width = flag ? mThumbnaiWidth : bmp.getWidth();
+		// int height = flag ? mThumbnailHeight : bmp.getHeight();
+		// mThumbnailLayout.setLayoutParams(new LinearLayout.LayoutParams(width,
+		// height));
 	}
 
 	protected abstract void setupLayout(Context context);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.owo.app.language.Language;
 import com.owo.app.language.LanguageObserver;
 import com.owo.app.language.LanguageResourceKeys;
+import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
 import com.owo.media.audio.LocalAudioView;
@@ -35,10 +36,15 @@ public class MediaWidget extends FrameLayout implements ThemeObserver, LanguageO
 			mTextViews[i].setGravity(Gravity.CENTER);
 		}
 
-		mTabHost.addTab(mTabHost.newTabSpec("video").setIndicator(mTextViews[0]).setContent(mTabContentFactory));
-		mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(mTextViews[1]).setContent(mTabContentFactory));
-		mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(mTextViews[2]).setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("video").setIndicator(mTextViews[0])
+				.setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("audio").setIndicator(mTextViews[1])
+				.setContent(mTabContentFactory));
+		mTabHost.addTab(mTabHost.newTabSpec("image").setIndicator(mTextViews[2])
+				.setContent(mTabContentFactory));
 		addView(mTabHost);
+		onLanguageChanged();
+		onThemeChanged();
 	}
 
 	private TabContentFactory mTabContentFactory = new TabContentFactory() {
@@ -77,7 +83,9 @@ public class MediaWidget extends FrameLayout implements ThemeObserver, LanguageO
 
 	@Override
 	public void onThemeChanged() {
-		// TODO Auto-generated method stub
-
+		setBackgroundColor(Instance.of(Theme.class).bgColor());
+		for (int i = 0; i < 3; ++i) {
+			mTextViews[i].setTextColor(Instance.of(Theme.class).textColor());
+		}
 	}
 }

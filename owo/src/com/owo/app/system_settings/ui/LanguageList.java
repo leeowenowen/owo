@@ -10,8 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.owo.app.language.LanguageObserver;
 import com.owo.app.system_settings.SystemSettingKeys;
 import com.owo.app.system_settings.SystemSettingsData;
+import com.owo.app.theme.Theme;
+import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
 
 public class LanguageList extends ListView {
@@ -24,7 +27,8 @@ public class LanguageList extends ListView {
 		private String[] mSupportedLanguages;
 
 		LanguageListAdapter() {
-			String supportedLanguages = Instance.of(SystemSettingsData.class).get(SystemSettingKeys.SupportedLanguage);
+			String supportedLanguages = Instance.of(SystemSettingsData.class).get(
+					SystemSettingKeys.SupportedLanguage);
 			mSupportedLanguages = supportedLanguages.split("##");
 		}
 
@@ -52,7 +56,8 @@ public class LanguageList extends ListView {
 					@Override
 					public void onClick(View v) {
 						String language = mSupportedLanguages[position];
-						Instance.of(SystemSettingsData.class).set(SystemSettingKeys.Language, language);
+						Instance.of(SystemSettingsData.class).set(SystemSettingKeys.Language,
+								language);
 					}
 				});
 			}
@@ -60,7 +65,7 @@ public class LanguageList extends ListView {
 			return view;
 		}
 
-		private class ItemView extends LinearLayout {
+		private class ItemView extends LinearLayout implements ThemeObserver, LanguageObserver {
 			private TextView mLanguage;
 			private ImageView mSelectedMark;
 
@@ -70,17 +75,34 @@ public class LanguageList extends ListView {
 				mLanguage = new TextView(context);
 				mSelectedMark = new ImageView(context);
 
-				LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+				LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.MATCH_PARENT);
 				lParams.gravity = Gravity.LEFT;
-				LinearLayout.LayoutParams rParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+				LinearLayout.LayoutParams rParams = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.WRAP_CONTENT,
+						LinearLayout.LayoutParams.MATCH_PARENT);
 				rParams.gravity = Gravity.RIGHT;
 				addView(mLanguage, lParams);
 				addView(mSelectedMark, rParams);
 			}
 
 			public void updateData(String language) {
-				String curLanguage = Instance.of(SystemSettingsData.class).get(SystemSettingKeys.Language);
+				String curLanguage = Instance.of(SystemSettingsData.class).get(
+						SystemSettingKeys.Language);
 				mSelectedMark.setVisibility(language.equals(curLanguage) ? VISIBLE : GONE);
+				onThemeChanged();
+			}
+
+			@Override
+			public void onLanguageChanged() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onThemeChanged() {
+				mLanguage.setTextColor(Instance.of(Theme.class).textColor());
 			}
 		}
 	}

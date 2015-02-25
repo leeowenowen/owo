@@ -3,6 +3,7 @@ package com.owo.media.audio;
 import android.content.Context;
 import android.widget.LinearLayout;
 
+import com.owo.app.theme.Theme;
 import com.owo.ui.utils.LP;
 
 class AudioItemTransformerLevel0 extends AbsAudioItemTransformer {
@@ -17,6 +18,7 @@ class AudioItemTransformerLevel0 extends AbsAudioItemTransformer {
 
 		public AudioItemViewLevel0(Context context) {
 			super(context);
+			onThemeChanged();
 		}
 
 		@Override
@@ -34,6 +36,11 @@ class AudioItemTransformerLevel0 extends AbsAudioItemTransformer {
 			addView(mTitle);
 			addView(mPath);
 			addView(attributes);
+		}
+
+		@Override
+		public void onThemeChanged() {
+			Theme.updateTheme(this);
 		}
 	}
 

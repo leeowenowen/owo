@@ -14,7 +14,7 @@ import com.owo.base.pattern.Instance;
 import com.owo.ui.shape.CircleShape;
 
 public class ThemeSelectWidget extends LinearLayout implements ThemeObserver, LanguageObserver {
-	private static final int SIZE = 3;
+	private static final int SIZE = 5;
 	private View[] mViews;
 	private CircleShape[] mCircleShapes;
 
@@ -44,6 +44,8 @@ public class ThemeSelectWidget extends LinearLayout implements ThemeObserver, La
 		mCircleShapes[0].color(Color.WHITE);
 		mCircleShapes[1].color(Color.BLACK);
 		mCircleShapes[2].color(Color.RED);
+		mCircleShapes[3].color(Color.BLUE);
+		mCircleShapes[4].color(Color.GREEN);
 	}
 
 	public static interface Client {

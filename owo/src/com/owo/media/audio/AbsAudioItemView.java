@@ -10,10 +10,11 @@ import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.owo.app.theme.ThemeObserver;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 
-abstract class AbsAudioItemView extends LinearLayout {
+abstract class AbsAudioItemView extends LinearLayout implements ThemeObserver {
 	protected TextView mTitle;
 	protected TextView mSize;
 	protected TextView mDuration;

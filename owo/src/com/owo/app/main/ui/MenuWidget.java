@@ -61,7 +61,7 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 						dialog.dismiss();
 					}
 				});
-				dialog.setContentView(widget, new ViewGroup.LayoutParams(800, 300));
+				dialog.setContentView(widget, new ViewGroup.LayoutParams(1000, 300));
 				dialog.show();
 			}
 		});
@@ -91,6 +91,7 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 
 	@Override
 	public void onThemeChanged() {
-		setBackgroundColor(Instance.of(Theme.class).bgColor());
+		// setBackgroundColor(Instance.of(Theme.class).bgColor());
+		Theme.updateTheme(this);
 	}
 }

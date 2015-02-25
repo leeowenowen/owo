@@ -1,11 +1,12 @@
 package com.owo.media;
 
-import com.owo.media.interfaces.ICursorTransformer;
-
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.owo.app.theme.Theme;
+import com.owo.media.interfaces.ICursorTransformer;
 
 public class MediaCursorAdapter extends BaseAdapter {
 	private Cursor mCursor;
@@ -42,6 +43,8 @@ public class MediaCursorAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		mCursor.moveToPosition(position);
-		return mTransformer.transform(convertView, mCursor);
+		View view = mTransformer.transform(convertView, mCursor);
+		Theme.updateTheme(view);
+		return view;
 	}
 }

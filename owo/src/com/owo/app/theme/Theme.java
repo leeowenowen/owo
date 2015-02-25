@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.owo.app.system_settings.SystemSettingKeys;
 import com.owo.app.system_settings.SystemSettingsData;
@@ -41,6 +43,14 @@ public class Theme {
 		mThemeProviders.put(String.valueOf(Color.RED),
 				new DefaultThemeProvider().textColor(Color.YELLOW).paintColor(Color.YELLOW)
 						.bgColor(Color.RED));
+		mThemeProviders.put(
+				String.valueOf(Color.BLUE),
+				new DefaultThemeProvider().textColor(Color.WHITE).paintColor(Color.WHITE)
+						.bgColor(Color.BLUE));
+		mThemeProviders.put(
+				String.valueOf(Color.GREEN),
+				new DefaultThemeProvider().textColor(Color.WHITE).paintColor(Color.WHITE)
+						.bgColor(Color.GREEN));
 		initProvider();
 		// 2) initialize paint
 		mPaint = new Paint();
@@ -86,6 +96,9 @@ public class Theme {
 	}
 
 	public int bgColor() {
+		// int bgColor = mThemeProvider.bgColor();
+		// return Color.argb(100, Color.red(bgColor), Color.green(bgColor),
+		// Color.blue(bgColor));
 		return mThemeProvider.bgColor();
 	}
 
@@ -107,6 +120,24 @@ public class Theme {
 			ViewGroup vg = (ViewGroup) v;
 			for (int i = 0; i < vg.getChildCount(); ++i) {
 				notifyChanged(vg.getChildAt(i));
+			}
+		}
+	}
+
+	public static void updateTheme(View v) {
+		int textColor = Instance.of(Theme.class).textColor();
+		int bgColor = Instance.of(Theme.class).bgColor();
+		if (!(v instanceof ImageView)) {
+			v.setBackgroundColor(bgColor);
+		}
+		if (v instanceof TextView) {
+			TextView tView = (TextView) v;
+			tView.setTextColor(textColor);
+		}
+		if (v instanceof ViewGroup) {
+			ViewGroup vg = (ViewGroup) v;
+			for (int i = 0; i < vg.getChildCount(); ++i) {
+				updateTheme(vg.getChildAt(i));
 			}
 		}
 	}

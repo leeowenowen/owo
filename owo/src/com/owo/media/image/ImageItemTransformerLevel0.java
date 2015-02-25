@@ -3,8 +3,8 @@ package com.owo.media.image;
 import android.content.Context;
 import android.widget.LinearLayout;
 
+import com.owo.app.theme.Theme;
 import com.owo.base.util.DimensionUtil;
-import com.owo.base.util.SysInfoHelper;
 import com.owo.ui.utils.LP;
 
 class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
@@ -19,6 +19,7 @@ class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
 
 		public ImageItemViewLevel0(Context context) {
 			super(context);
+			onThemeChanged();
 		}
 
 		@Override
@@ -58,6 +59,11 @@ class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
 			// addView(mPath);
 			// addView(attributes);
 			// addView(mThumbnailLayout);
+		}
+
+		@Override
+		public void onThemeChanged() {
+			Theme.updateTheme(this);
 		}
 	}
 }

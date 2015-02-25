@@ -3,8 +3,8 @@ package com.owo.media.video;
 import android.content.Context;
 import android.widget.LinearLayout;
 
+import com.owo.app.theme.Theme;
 import com.owo.base.util.DimensionUtil;
-import com.owo.base.util.SysInfoHelper;
 import com.owo.ui.utils.LP;
 
 class VideoItemTransformerLevel1 extends AbsVideoItemTransformer {
@@ -19,6 +19,7 @@ class VideoItemTransformerLevel1 extends AbsVideoItemTransformer {
 
 		public VideoItemViewLevel1(Context context) {
 			super(context);
+			onThemeChanged();
 		}
 
 		@Override
@@ -42,6 +43,11 @@ class VideoItemTransformerLevel1 extends AbsVideoItemTransformer {
 			addView(mTitle);
 			addView(mPath);
 			addView(attributes);
+		}
+
+		@Override
+		public void onThemeChanged() {
+			Theme.updateTheme(this);
 		}
 	}
 }

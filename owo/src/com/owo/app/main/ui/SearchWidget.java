@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,6 +13,7 @@ import com.owo.app.common.ContextManager;
 import com.owo.app.language.Language;
 import com.owo.app.language.LanguageObserver;
 import com.owo.app.language.LanguageResourceKeys;
+import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
 import com.owo.media.MediaStoreData;
@@ -78,12 +78,6 @@ public class SearchWidget extends LinearLayout implements LanguageObserver, Them
 	}
 
 	@Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		// TODO Auto-generated method stub
-		return super.dispatchKeyEvent(event);
-	}
-
-	@Override
 	public void onLanguageChanged() {
 		mSearchEdit.setHint(Instance.of(Language.class).get(LanguageResourceKeys.Search));
 	}
@@ -92,5 +86,10 @@ public class SearchWidget extends LinearLayout implements LanguageObserver, Them
 	public void onThemeChanged() {
 		mSearchView.invalidate();
 		mMenuView.invalidate();
+		int textColor = Instance.of(Theme.class).textColor();
+		mSearchEdit.setTextColor(textColor);
+		mSearchEdit.setHintTextColor(Color.argb(100, Color.red(textColor), Color.green(textColor),
+				Color.blue(textColor)));
+		setBackgroundColor(Instance.of(Theme.class).bgColor());
 	}
 }

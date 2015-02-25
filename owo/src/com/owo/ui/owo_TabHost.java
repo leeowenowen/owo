@@ -3,7 +3,6 @@ package com.owo.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
@@ -16,6 +15,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.owo.app.theme.ThemeObserver;
 import com.owo.base.util.ReflectHelper;
 
 /**
@@ -26,7 +26,8 @@ import com.owo.base.util.ReflectHelper;
  * on the child elements themselves.
  * 
  */
-public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouchModeChangeListener {
+public class owo_TabHost extends LinearLayout implements
+		ViewTreeObserver.OnTouchModeChangeListener, ThemeObserver {
 
 	public static final int owo_TabWidget_LOCATION_LEFT = 0;
 	public static final int owo_TabWidget_LOCATION_TOP = 1;
@@ -142,7 +143,8 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 	public void addTab(TabSpec tabSpec) {
 
 		if (tabSpec.mIndicatorStrategy == null) {
-			throw new IllegalArgumentException("you must specify a way to create the tab indicator.");
+			throw new IllegalArgumentException(
+					"you must specify a way to create the tab indicator.");
 		}
 
 		if (tabSpec.mContentStrategy == null) {
@@ -230,11 +232,13 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 
 		switch (mowo_TabWidget.getOrientation()) {
 		case LinearLayout.VERTICAL:
-			location = (mTabContent.getLeft() < mowo_TabWidget.getLeft()) ? owo_TabWidget_LOCATION_RIGHT : owo_TabWidget_LOCATION_LEFT;
+			location = (mTabContent.getLeft() < mowo_TabWidget.getLeft()) ? owo_TabWidget_LOCATION_RIGHT
+					: owo_TabWidget_LOCATION_LEFT;
 			break;
 		case LinearLayout.HORIZONTAL:
 		default:
-			location = (mTabContent.getTop() < mowo_TabWidget.getTop()) ? owo_TabWidget_LOCATION_BOTTOM : owo_TabWidget_LOCATION_TOP;
+			location = (mTabContent.getTop() < mowo_TabWidget.getTop()) ? owo_TabWidget_LOCATION_BOTTOM
+					: owo_TabWidget_LOCATION_TOP;
 			break;
 		}
 		return location;
@@ -253,7 +257,8 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 		// focus searching
 		Object obj = ReflectHelper.invoke(mCurrentView, "isRootNamespace");
 		boolean flag = (obj == null) ? false : (Boolean) obj;
-		if (!handled && (event.getAction() == KeyEvent.ACTION_DOWN) && (mCurrentView != null) && (flag) && (mCurrentView.hasFocus())) {
+		if (!handled && (event.getAction() == KeyEvent.ACTION_DOWN) && (mCurrentView != null)
+				&& (flag) && (mCurrentView.hasFocus())) {
 			int keyCodeShouldChangeFocus = KeyEvent.KEYCODE_DPAD_UP;
 			int directionShouldChangeFocus = View.FOCUS_UP;
 			int soundEffect = SoundEffectConstants.NAVIGATION_UP;
@@ -281,7 +286,8 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 				soundEffect = SoundEffectConstants.NAVIGATION_UP;
 				break;
 			}
-			if (event.getKeyCode() == keyCodeShouldChangeFocus && mCurrentView.findFocus().focusSearch(directionShouldChangeFocus) == null) {
+			if (event.getKeyCode() == keyCodeShouldChangeFocus
+					&& mCurrentView.findFocus().focusSearch(directionShouldChangeFocus) == null) {
 				mowo_TabWidget.getChildTabViewAt(mCurrentTab).requestFocus();
 				playSoundEffect(soundEffect);
 				return true;
@@ -351,7 +357,8 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 		mCurrentView = spec.mContentStrategy.getContentView();
 
 		if (mCurrentView.getParent() == null) {
-			mTabContent.addView(mCurrentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+			mTabContent.addView(mCurrentView, new ViewGroup.LayoutParams(
+					ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		}
 
 		if (!mowo_TabWidget.hasFocus()) {
@@ -519,5 +526,9 @@ public class owo_TabHost extends LinearLayout implements ViewTreeObserver.OnTouc
 				mTabContent.setVisibility(View.GONE);
 			}
 		}
+	}
+
+	@Override
+	public void onThemeChanged() {
 	}
 }
