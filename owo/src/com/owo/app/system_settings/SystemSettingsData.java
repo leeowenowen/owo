@@ -53,6 +53,7 @@ public class SystemSettingsData {
 		Set<Observer> keyObservers = mObservers.get(key);
 		if (keyObservers == null) {
 			keyObservers = new HashSet<Observer>();
+			mObservers.put(key, keyObservers);
 		}
 		keyObservers.add(observer);
 	}

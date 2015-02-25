@@ -1,6 +1,5 @@
 package com.owo.app.main;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,14 +7,15 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.common.BaseHandler;
 import com.owo.app.common.ContextManager;
-import com.owo.app.language.LanguageResourceManager;
+import com.owo.app.language.Language;
 import com.owo.app.language.zh_CN_Provider;
 import com.owo.app.main.widget.MainFrame;
 import com.owo.base.pattern.Instance;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ConfigurableActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
-		Instance.of(LanguageResourceManager.class).setProvider(new zh_CN_Provider());
+		Instance.of(Language.class).setProvider(new zh_CN_Provider());
 
 		MainFrame mainFrame = new MainFrame(this);
 		setContentView(mainFrame);

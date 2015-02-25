@@ -12,17 +12,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.owo.app.language.Language;
+import com.owo.app.language.LanguageObserver;
 import com.owo.app.language.LanguageResourceKeys;
-import com.owo.app.language.LanguageResourceManager;
 import com.owo.app.system_settings.SystemSettingKeys;
 import com.owo.app.system_settings.SystemSettingsData;
+import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
-import com.owo.widget.interfaces.IConfigurable;
+import com.owo.widget.ConfigurablePopupWindow;
 
-public class SystemSettingWidget extends LinearLayout implements IConfigurable {
+public class SystemSettingWidget extends LinearLayout implements LanguageObserver, ThemeObserver {
 	private TextView mChangeLanguageTextView;
 
 	public SystemSettingWidget(Context context) {
@@ -30,8 +31,8 @@ public class SystemSettingWidget extends LinearLayout implements IConfigurable {
 
 		initComponents(context);
 		setupListener();
-		updateLanguage();
-		updateTheme();
+		onLanguageChanged();
+		onThemeChanged();
 	}
 
 	private void initComponents(Context context) {
@@ -45,7 +46,7 @@ public class SystemSettingWidget extends LinearLayout implements IConfigurable {
 		mChangeLanguageTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final PopupWindow popupWindow = new PopupWindow();
+				final ConfigurablePopupWindow popupWindow = new ConfigurablePopupWindow();
 				popupWindow.setOutsideTouchable(false);
 				popupWindow.setFocusable(true);
 				popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 100, 0, 0)));
@@ -71,12 +72,12 @@ public class SystemSettingWidget extends LinearLayout implements IConfigurable {
 	}
 
 	@Override
-	public void updateLanguage() {
-		mChangeLanguageTextView.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.ChangeLanguage));
+	public void onLanguageChanged() {
+		mChangeLanguageTextView.setText(Instance.of(Language.class).get(LanguageResourceKeys.ChangeLanguage));
 	}
 
 	@Override
-	public void updateTheme() {
+	public void onThemeChanged() {
 		setBackgroundColor(Color.BLACK);
 	}
 
@@ -135,7 +136,7 @@ public class SystemSettingWidget extends LinearLayout implements IConfigurable {
 			public void updateData(String language) {
 				String curLanguage = Instance.of(SystemSettingsData.class).get(SystemSettingKeys.Language);
 				mSelectedMark.setVisibility(language.equals(curLanguage) ? VISIBLE : GONE);
-				mLanguage.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceManager.toLanguageResourceKey(language)));
+				mLanguage.setText(Instance.of(Language.class).get(Language.toLanguageResourceKey(language)));
 			}
 		}
 	}

@@ -8,13 +8,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.owo.app.common.ContextManager;
+import com.owo.app.language.LanguageObserver;
 import com.owo.app.language.LanguageResourceKeys;
-import com.owo.app.language.LanguageResourceManager;
+import com.owo.app.language.Language;
 import com.owo.app.system_settings.SysSettingActivity;
+import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
-import com.owo.widget.interfaces.IConfigurable;
 
-public class MenuWidget extends LinearLayout implements IConfigurable {
+public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeObserver {
 	private TextView mChangeSkin;
 	private TextView mSettings;
 	private TextView mHelp;
@@ -23,8 +24,8 @@ public class MenuWidget extends LinearLayout implements IConfigurable {
 		super(context);
 		initComponents(context);
 		setupListener();
-		updateLanguage();
-		updateTheme();
+		onLanguageChanged();
+		onThemeChanged();
 	}
 
 	private void initComponents(Context context) {
@@ -63,14 +64,14 @@ public class MenuWidget extends LinearLayout implements IConfigurable {
 	}
 
 	@Override
-	public void updateLanguage() {
-		mChangeSkin.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.ChangeSkin));
-		mSettings.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Setting));
-		mHelp.setText(Instance.of(LanguageResourceManager.class).get(LanguageResourceKeys.Help));
+	public void onLanguageChanged() {
+		mChangeSkin.setText(Instance.of(Language.class).get(LanguageResourceKeys.ChangeSkin));
+		mSettings.setText(Instance.of(Language.class).get(LanguageResourceKeys.Setting));
+		mHelp.setText(Instance.of(Language.class).get(LanguageResourceKeys.Help));
 	}
 
 	@Override
-	public void updateTheme() {
+	public void onThemeChanged() {
 		setBackgroundColor(Color.argb(255, 100, 100, 0));
 	}
 }

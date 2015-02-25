@@ -11,6 +11,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.owo.app.theme.Theme;
+import com.owo.base.pattern.Instance;
 import com.owo.mediaplayer.core.VideoSurfaceView;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
@@ -18,8 +19,7 @@ import com.owo.mediaplayer.interfaces.IMetaInfo;
 import com.owo.mediaplayer.view.shape.VF;
 import com.owo.mediaplayer.view.shape.VF.ViewID;
 
-public abstract class AbsMediaPlayerWidget extends FrameLayout implements
-		IMediaPlayerController.Client {
+public abstract class AbsMediaPlayerWidget extends FrameLayout implements IMediaPlayerController.Client {
 
 	private static final String TAG = "AbsMediaPlayerWidget";
 	protected IMediaPlayerController mMediaPlayerController;
@@ -62,10 +62,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		}
 
 		@Override
-		public void surfaceChanged(SurfaceHolder holder, int format, int width,
-				int height) {
-			Log.v(TAG, "surfaceDestroyed[format:" + format + "][width:" + width
-					+ "][height:" + height + "]");
+		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+			Log.v(TAG, "surfaceDestroyed[format:" + format + "][width:" + width + "][height:" + height + "]");
 		}
 	};
 
@@ -121,8 +119,9 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	}
 
 	protected void initUIContent() {
-		mEndTime.setTextColor(Theme.textColor());
-		mCurrentTime.setTextColor(Theme.textColor());
+		int textColor = Instance.of(Theme.class).textColor();
+		mEndTime.setTextColor(textColor);
+		mCurrentTime.setTextColor(textColor);
 	}
 
 	protected void initUIState() {
@@ -153,8 +152,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		}
 
 		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress,
-				boolean fromUser) {
+		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 			if (fromUser) {
 				mMediaPlayerController.seek(progress, maxProgress());
 			}

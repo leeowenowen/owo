@@ -1,5 +1,5 @@
 package com.owo.app.language;
 
-public interface ILanguageResourceProvider {
+public interface ILanguageProvider {
 	String get(LanguageResourceKeys key);
 }

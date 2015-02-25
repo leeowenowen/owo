@@ -1,6 +1,5 @@
 package com.owo.mediaplayer;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Debug;
@@ -10,15 +9,16 @@ import android.view.SurfaceHolder;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.common.BaseHandler;
 import com.owo.app.common.ContextManager;
-import com.owo.app.language.LanguageResourceManager;
+import com.owo.app.language.Language;
 import com.owo.app.language.zh_CN_Provider;
 import com.owo.base.pattern.Instance;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IPlayList;
 
-public class MediaPlayActivity extends Activity {
+public class MediaPlayActivity extends ConfigurableActivity {
 	private static final String TAG = "MediaPlayActivity";
 	private MediaPlayerController mController;
 	private IPlayList mPlayList;
@@ -32,7 +32,7 @@ public class MediaPlayActivity extends Activity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
-		Instance.of(LanguageResourceManager.class).setProvider(new zh_CN_Provider());
+		Instance.of(Language.class).setProvider(new zh_CN_Provider());
 		Debug.waitForDebugger();
 
 		mController = new MediaPlayerController();

@@ -1,13 +1,13 @@
 package com.owo.app.system_settings;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.system_settings.widget.SystemSettingWidget;
 
-public class SysSettingActivity extends Activity {
+public class SysSettingActivity extends ConfigurableActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
