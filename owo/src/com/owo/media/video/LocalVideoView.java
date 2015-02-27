@@ -48,9 +48,17 @@ public class LocalVideoView extends ListView {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Cursor cursor = (Cursor) mAdapter.getItem(position);
 			final String path = QueryUtil.getColumn(cursor, MediaStore.Video.Media.DATA);
+			String pathString = "";
+			cursor.moveToFirst();
+			while (!cursor.isLast()) {
+				pathString += QueryUtil.getColumn(cursor, MediaStore.Video.Media.DATA);
+				pathString += "##";
+				cursor.moveToNext();
+			}
 
 			Intent intent = new Intent(ContextManager.activity(), MediaPlayActivity.class);
-			intent.putExtra("path", path);
+			intent.putExtra("path", pathString);
+			intent.putExtra("index", position);
 			ContextManager.activity().startActivity(intent);
 		}
 	};

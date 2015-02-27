@@ -123,11 +123,18 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	private IPlayList mPlayList;
 	private int mCurIndex;
 
+	public int curPlayItemIndex() {
+		return mCurIndex;
+	}
+
 	public void playList(IPlayList list) {
 		mPlayList = list;
-		if (mPlayList.size() > 0) {
-			setCurPlayItem(mCurIndex, false);
-		}
+		setCurPlayItem(mCurIndex, false);
+	}
+
+	public void playList(IPlayList list, int index) {
+		mPlayList = list;
+		setCurPlayItem(index, false);
 	}
 
 	public void setCurPlayItem(int index, boolean start) {
@@ -148,6 +155,7 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	@Override
 	public void pre() {
 		if (mCurIndex > 0) {
+			mMediaPlayer.reset();
 			setCurPlayItem(--mCurIndex, true);
 		}
 
@@ -157,6 +165,7 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	@Override
 	public void next() {
 		if (mCurIndex < mPlayList.size() - 1) {
+			mMediaPlayer.reset();
 			setCurPlayItem(++mCurIndex, true);
 		}
 		checkPreNextState();

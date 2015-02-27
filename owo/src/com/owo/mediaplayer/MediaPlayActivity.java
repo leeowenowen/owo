@@ -43,11 +43,15 @@ public class MediaPlayActivity extends ConfigurableActivity {
 			public void run(SurfaceHolder surface) {
 				mController = new MediaPlayerController();
 				mMediaPlayerWidget.setMPController(mController);
-				final String path = getIntent().getStringExtra("path");
+				final String pathString = getIntent().getStringExtra("path");
+				String[] items = pathString.split("##");
 				mPlayList = new DefaultPlayList();
-				mPlayList.add(new PlayItem().source(path));
+				for (String item : items) {
+					mPlayList.add(new PlayItem().source(item));
+				}
+				int index = getIntent().getIntExtra("index", 0);
 				mController.create(MediaPlayActivity.this, surface);
-				mController.playList(mPlayList);
+				mController.playList(mPlayList, index);
 				mController.start();
 			}
 		});
@@ -72,7 +76,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 			mIsPaused = true;
 			mLastPosition = mController.current();
 			mController.destroy();
-			//mController.pause();
+			// mController.pause();
 			BaseHandler.clear();
 		}
 		super.onPause();
@@ -89,7 +93,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 					mController.playList(mPlayList);
 					mController.start();
 					mController.seek(mLastPosition);
-					//mController.resume();
+					// mController.resume();
 				}
 			});
 		}
