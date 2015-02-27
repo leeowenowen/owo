@@ -62,6 +62,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 				final String[] supportedLanguages = supportedLanguage.split("##");
 				SingleSelectListAdapter adapter = new SingleSelectListAdapter(supportedLanguages);
 				listView.setAdapter(adapter);
+				listView.setDivider(null);
 				listView.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -133,6 +134,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 
 				mLanguage = new TextView(context);
 				mSelectedMark = new ImageView(context);
+				mLanguage.setGravity(Gravity.CENTER);
 
 				LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
 						LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -142,6 +144,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 						LinearLayout.LayoutParams.WRAP_CONTENT,
 						LinearLayout.LayoutParams.MATCH_PARENT);
 				rParams.gravity = Gravity.RIGHT;
+
 				addView(mLanguage, lParams);
 				addView(mSelectedMark, rParams);
 				setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
@@ -151,7 +154,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 			public void updateData(String language) {
 				String curLanguage = Instance.of(SystemSettingsData.class).get(
 						SystemSettingKeys.Language);
-				mSelectedMark.setVisibility(language.equals(curLanguage) ? VISIBLE : GONE);
+				mSelectedMark.setVisibility(language.equals(curLanguage) ? VISIBLE : INVISIBLE);
 				mLanguage.setText(Instance.of(Language.class).get(
 						Language.toLanguageResourceKey(language)));
 				onThemeChanged();
@@ -164,8 +167,6 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 
 			@Override
 			public void onLanguageChanged() {
-				// TODO Auto-generated method stub
-
 			}
 		}
 	}

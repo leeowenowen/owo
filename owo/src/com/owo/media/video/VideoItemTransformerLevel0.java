@@ -16,8 +16,6 @@ class VideoItemTransformerLevel0 extends AbsVideoItemTransformer {
 	class VideoItemViewLevel0 extends AbsVideoItemView {
 		private static final int sTitleSize = 15;
 		private static final int sContentSize = 12;
-		private final int WIDTH = DimensionUtil.dip2Pixel(300);
-		private final int HEIGHT = DimensionUtil.dip2Pixel(200);
 
 		public VideoItemViewLevel0(Context context) {
 			super(context);

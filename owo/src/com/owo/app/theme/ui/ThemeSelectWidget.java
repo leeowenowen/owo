@@ -2,6 +2,7 @@ package com.owo.app.theme.ui;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.view.Gravity;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.LinearLayout;
 import com.owo.app.language.LanguageObserver;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
-import com.owo.base.pattern.Instance;
 import com.owo.base.util.DimensionUtil;
 import com.owo.ui.shape.CircleShape;
 
@@ -48,15 +48,17 @@ public class ThemeSelectWidget extends LinearLayout implements ThemeObserver, La
 		mCircleShapes[2].color(Color.RED);
 		mCircleShapes[3].color(Color.BLUE);
 		mCircleShapes[4].color(Color.GREEN);
+		onLanguageChanged();
+		onThemeChanged();
 	}
 
-	public static interface Client {
+	public static interface ThemeSelectWidgetClient {
 		void onThemeSelected(String themeColor);
 	}
 
-	private Client mClient;
+	private ThemeSelectWidgetClient mClient;
 
-	public void client(Client client) {
+	public void client(ThemeSelectWidgetClient client) {
 		mClient = client;
 	}
 
@@ -64,10 +66,10 @@ public class ThemeSelectWidget extends LinearLayout implements ThemeObserver, La
 	public void onLanguageChanged() {
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onThemeChanged() {
-		int color = Instance.of(Theme.class).bgColor();
-		setBackgroundColor(Color.argb(100, Color.red(color), Color.green(color), Color.blue(color)));
+		setBackgroundDrawable(new ColorDrawable(Theme.maskedBgColor()));
 	}
 
 }

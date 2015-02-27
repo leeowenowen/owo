@@ -19,7 +19,8 @@ import com.owo.mediaplayer.interfaces.IMetaInfo;
 import com.owo.ui.shape.VF;
 import com.owo.ui.shape.VF.ViewID;
 
-public abstract class AbsMediaPlayerWidget extends FrameLayout implements IMediaPlayerController.Client {
+public abstract class AbsMediaPlayerWidget extends FrameLayout implements
+		IMediaPlayerController.Client {
 
 	private static final String TAG = "AbsMediaPlayerWidget";
 	protected IMediaPlayerController mMediaPlayerController;
@@ -63,7 +64,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements IMedia
 
 		@Override
 		public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-			Log.v(TAG, "surfaceDestroyed[format:" + format + "][width:" + width + "][height:" + height + "]");
+			Log.v(TAG, "surfaceDestroyed[format:" + format + "][width:" + width + "][height:"
+					+ height + "]");
 		}
 	};
 

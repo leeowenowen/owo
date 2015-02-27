@@ -1,6 +1,7 @@
 package com.owo.media.video;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import com.owo.app.theme.Theme;
@@ -24,8 +25,8 @@ class VideoItemTransformerLevel2 extends AbsVideoItemTransformer {
 
 		@Override
 		protected void setupLayout(Context context) {
-			mThumbnaiWidth = DimensionUtil.dip2Pixel(300);
-			mThumbnailHeight = DimensionUtil.dip2Pixel(200);
+			mThumbnaiWidth = DimensionUtil.w(300);
+			mThumbnailHeight = DimensionUtil.h(200);
 			mTitle.setTextSize(sTitleSize);
 			mSize.setTextSize(sContentSize);
 			mDuration.setTextSize(sContentSize);
@@ -44,8 +45,11 @@ class VideoItemTransformerLevel2 extends AbsVideoItemTransformer {
 			right.addView(attributes);
 			right.setPadding(10, 0, 0, 0);
 
+			setGravity(Gravity.CENTER_VERTICAL);
 			setPadding(20, 10, 20, 10);
-			addView(mThumbnailLayout);
+			LinearLayout.LayoutParams thumbnailLayoutParams = new LinearLayout.LayoutParams(
+					mThumbnaiWidth, mThumbnailHeight);
+			addView(mThumbnailLayout, thumbnailLayoutParams);
 			addView(right);
 		}
 

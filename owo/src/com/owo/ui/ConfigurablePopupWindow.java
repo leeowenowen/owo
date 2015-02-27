@@ -1,5 +1,6 @@
 package com.owo.ui;
 
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.PopupWindow;
 
@@ -50,10 +51,7 @@ public class ConfigurablePopupWindow extends PopupWindow implements ThemeObserve
 
 	@Override
 	public void onThemeChanged() {
-		// int bgColor = Instance.of(Theme.class).bgColor();
-		// setBackgroundDrawable(new ColorDrawable(Color.argb(255,
-		// Color.red(bgColor) + 0,
-		// Color.green(bgColor) + 0, Color.blue(bgColor) + 0)));
+		setBackgroundDrawable(new ColorDrawable(Theme.maskedBgColor()));
 	}
 
 }

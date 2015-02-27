@@ -113,6 +113,17 @@ public class Theme {
 		mObservers.remove(observer);
 	}
 
+	private static int convertColor(int channel) {
+		return channel == 0 ? 0 : channel - 100;
+	}
+
+	public static int maskedBgColor() {
+		int bgColor = Instance.of(Theme.class).bgColor();
+		return Color.argb(Color.alpha(bgColor), convertColor(Color.red(bgColor)),//
+				convertColor(Color.green(bgColor)),//
+				convertColor(Color.blue(bgColor)));
+	}
+
 	public static void notifyChanged(View v) {
 		if (v instanceof ThemeObserver) {
 			((ThemeObserver) v).onThemeChanged();

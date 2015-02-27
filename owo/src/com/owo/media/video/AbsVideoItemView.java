@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -96,7 +97,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 							ThumbnailCache.add(path, bmp);
 							if (mSelfMark == mMark) {
 								loading(false, bmp);
-								mThumbnail.setBackgroundDrawable(new BitmapDrawable(bmp));
+								mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
 							}
 						}
 					});
@@ -104,7 +105,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 			}.mark(++mMark));
 		} else {
 			loading(false, bmp);
-			mThumbnail.setBackgroundDrawable(new BitmapDrawable(bmp));
+			mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
 		}
 	}
 

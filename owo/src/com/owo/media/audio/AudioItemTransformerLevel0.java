@@ -1,6 +1,7 @@
 package com.owo.media.audio;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import com.owo.app.theme.Theme;
@@ -13,7 +14,7 @@ class AudioItemTransformerLevel0 extends AbsAudioItemTransformer {
 	}
 
 	private class AudioItemViewLevel0 extends AbsAudioItemView {
-		private static final int sTitleSize = 15;
+		private static final int sTitleSize = 20;
 		private static final int sContentSize = 12;
 
 		public AudioItemViewLevel0(Context context) {
@@ -32,6 +33,7 @@ class AudioItemTransformerLevel0 extends AbsAudioItemTransformer {
 			attributes.addView(mSize, LP.L0W1);
 			attributes.addView(mDuration, LP.L0W1);
 
+			setGravity(Gravity.CENTER_VERTICAL);
 			setOrientation(LinearLayout.VERTICAL);
 			addView(mTitle);
 			addView(mPath);

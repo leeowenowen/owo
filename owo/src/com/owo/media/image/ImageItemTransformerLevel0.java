@@ -1,6 +1,7 @@
 package com.owo.media.image;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 
 import com.owo.app.theme.Theme;
@@ -24,8 +25,8 @@ class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
 
 		@Override
 		protected void setupLayout(Context context) {
-			mThumbnaiWidth = 300;// SysInfoHelper.displayMetrics().widthPixels;
-			mThumbnailHeight = DimensionUtil.screenHeight();
+			mThumbnaiWidth = DimensionUtil.w(300);
+			mThumbnailHeight = DimensionUtil.h(200);
 			mTitle.setTextSize(sTitleSize);
 			mSize.setTextSize(sContentSize);
 			mWH.setTextSize(sContentSize);
@@ -35,30 +36,20 @@ class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
 			attributes.addView(mSize, LP.L0W1);
 			attributes.addView(mWH, LP.L0W1);
 
-			setOrientation(LinearLayout.VERTICAL);
-			addView(mTitle);
-			addView(mPath);
-			addView(attributes);
-			addView(mThumbnailLayout);
+			LinearLayout right = new LinearLayout(context);
+			right.setOrientation(LinearLayout.VERTICAL);
+			right.addView(mTitle);
+			right.addView(mPath);
+			right.addView(attributes);
+			right.setPadding(10, 0, 0, 0);
 
-			// mThumbnaiWidth = SysInfoHelper.displayMetrics().widthPixels;
-			// mThumbnailHeight = SysInfoHelper.displayMetrics().heightPixels;
-			// mTitle.setTextSize(sTitleSize);
-			// mSize.setTextSize(sContentSize);
-			// mDuration.setTextSize(sContentSize);
-			// mResolution.setTextSize(sContentSize);
-			// mPath.setTextSize(sContentSize);
-			//
-			// LinearLayout attributes = new LinearLayout(context);
-			// attributes.addView(mSize, LP.L0W1);
-			// attributes.addView(mDuration, LP.L0W1);
-			// attributes.addView(mResolution, LP.L0W1);
-			//
-			// setOrientation(LinearLayout.VERTICAL);
-			// addView(mTitle);
-			// addView(mPath);
-			// addView(attributes);
-			// addView(mThumbnailLayout);
+			setGravity(Gravity.CENTER_VERTICAL);
+			setPadding(20, 10, 20, 10);
+			LinearLayout.LayoutParams thumbnailLayoutParams = new LinearLayout.LayoutParams(
+					mThumbnaiWidth, mThumbnailHeight);
+
+			addView(mThumbnailLayout, thumbnailLayoutParams);
+			addView(right);
 		}
 
 		@Override

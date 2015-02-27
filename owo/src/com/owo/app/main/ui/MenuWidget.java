@@ -3,8 +3,6 @@ package com.owo.app.main.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,7 @@ import com.owo.app.system_settings.SystemSettingsData;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.app.theme.ui.ThemeSelectWidget;
-import com.owo.app.theme.ui.ThemeSelectWidget.Client;
+import com.owo.app.theme.ui.ThemeSelectWidget.ThemeSelectWidgetClient;
 import com.owo.base.pattern.Instance;
 import com.owo.base.util.DimensionUtil;
 
@@ -57,13 +55,21 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 	}
 
 	private void setupListener() {
-		mChangeSkin.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+		mChangeSkin.setOnClickListener(mOnClickListener);
+		mSettings.setOnClickListener(mOnClickListener);
+		mHelp.setOnClickListener(mOnClickListener);
+	}
+
+	private OnClickListener mOnClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			assert (mClient != null);
+			mClient.onItemSelected();
+			if (v.equals(mChangeSkin)) {
 				final Dialog dialog = new Dialog(getContext());
 				dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 				ThemeSelectWidget widget = new ThemeSelectWidget(getContext());
-				widget.client(new Client() {
+				widget.client(new ThemeSelectWidgetClient() {
 					@Override
 					public void onThemeSelected(String themeColor) {
 						Instance.of(SystemSettingsData.class).set(SystemSettingKeys.Theme,
@@ -74,24 +80,14 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 				dialog.setContentView(widget, new ViewGroup.LayoutParams(DimensionUtil.w(1000),
 						DimensionUtil.h(300)));
 				dialog.show();
-			}
-		});
 
-		mSettings.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
+			} else if (v.equals(mSettings)) {
 				Intent intent = new Intent(ContextManager.activity(), SysSettingActivity.class);
 				ContextManager.activity().startActivity(intent);
+			} else if (v.equals(mHelp)) {
 			}
-		});
-
-		mHelp.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-
-			}
-		});
-	}
+		}
+	};
 
 	@Override
 	public void onLanguageChanged() {
@@ -100,28 +96,21 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 		mHelp.setText(Instance.of(Language.class).get(LanguageResourceKeys.Help));
 	}
 
-	private static int convertColor(int channel) {
-		if (channel == 0) {
-			return 0;
-		} else {
-			return channel - 100;
-		}
-	}
-
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onThemeChanged() {
-		// setBackgroundColor(Instance.of(Theme.class).bgColor());
-		// Theme.updateTheme(this);
-		int bgColor = Instance.of(Theme.class).bgColor();
-		setBackgroundDrawable(new ColorDrawable(Color.argb(Color.alpha(bgColor),
-				convertColor(Color.red(bgColor)),//
-				convertColor(Color.green(bgColor)),//
-				convertColor(Color.blue(bgColor)))));
-
 		int textColor = Instance.of(Theme.class).textColor();
 		mChangeSkin.setTextColor(textColor);
 		mSettings.setTextColor(textColor);
 		mHelp.setTextColor(textColor);
+	}
+
+	public static interface MenuWidgetClient {
+		void onItemSelected();
+	}
+
+	private MenuWidgetClient mClient;
+
+	public void client(MenuWidgetClient client) {
+		mClient = client;
 	}
 }

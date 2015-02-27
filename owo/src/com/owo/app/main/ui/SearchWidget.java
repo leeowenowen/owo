@@ -13,6 +13,7 @@ import com.owo.app.common.ContextManager;
 import com.owo.app.language.Language;
 import com.owo.app.language.LanguageObserver;
 import com.owo.app.language.LanguageResourceKeys;
+import com.owo.app.main.ui.MenuWidget.MenuWidgetClient;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
@@ -59,11 +60,18 @@ public class SearchWidget extends LinearLayout implements LanguageObserver, Them
 		mMenuView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				ConfigurablePopupWindow popup = new ConfigurablePopupWindow();
+				final ConfigurablePopupWindow popup = new ConfigurablePopupWindow();
 				popup.setOutsideTouchable(false);
 				popup.setFocusable(true);
 				popup.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 100, 0, 0)));
-				popup.setContentView(new MenuWidget(ContextManager.context()));
+				MenuWidget menuWidget = new MenuWidget(ContextManager.context());
+				menuWidget.client(new MenuWidgetClient() {
+					@Override
+					public void onItemSelected() {
+						popup.dismiss();
+					}
+				});
+				popup.setContentView(menuWidget);
 				popup.setWidth(DimensionUtil.w(300));
 				popup.setHeight(DimensionUtil.h(500));
 

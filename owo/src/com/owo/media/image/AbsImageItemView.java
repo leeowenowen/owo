@@ -97,7 +97,7 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 							ThumbnailCache.add(path, bmp);
 							if (mSelfMark == mMark) {
 								loading(false, bmp);
-								mThumbnail.setBackgroundDrawable(new BitmapDrawable(bmp));
+								mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
 							}
 						}
 					});
@@ -105,7 +105,7 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 			}.mark(++mMark));
 		} else {
 			loading(false, bmp);
-			mThumbnail.setBackgroundDrawable(new BitmapDrawable(bmp));
+			mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
 		}
 	}
 
