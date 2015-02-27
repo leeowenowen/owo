@@ -35,6 +35,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public void destroy() {
+		mIsValid = false;
 		mMediaPlayer.release();
 	}
 
@@ -51,10 +52,12 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 		}
 	};
 
+	private boolean mIsValid;
 	private MediaPlayer.OnPreparedListener mPreparedListener = new OnPreparedListener() {
 
 		@Override
 		public void onPrepared(MediaPlayer mp) {
+			mIsValid = true;
 			int width = mp.getVideoWidth();
 			int height = mp.getVideoHeight();
 			SysMetaInfo metaInfo = new SysMetaInfo();
@@ -63,6 +66,10 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 			MetaData metaData = new MetaData(mp);
 			metaData.exists();
 			mMediaPlayer.start();
+			if (mPendingSeekOffset != 0) {
+				mMediaPlayer.seekTo(mPendingSeekOffset);
+				mPendingSeekOffset = 0;
+			}
 			for (Listener observer : observers()) {
 				observer.onLoadStop();
 				observer.onMetaInfo(metaInfo);
@@ -122,9 +129,12 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 		}
 	}
 
+	private int mPendingSeekOffset;
+
 	@Override
 	public void start() {
 		// 1) do prepare and start asynchronously
+		mIsValid = false;
 		mMediaPlayer.setOnPreparedListener(mPreparedListener);
 		mMediaPlayer.prepareAsync();
 
@@ -186,7 +196,11 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public void seek(int position) {
-		mMediaPlayer.seekTo(position);
+		if (mIsValid) {
+			mMediaPlayer.seekTo(position);
+		} else {
+			mPendingSeekOffset = position;
+		}
 	}
 
 	@Override

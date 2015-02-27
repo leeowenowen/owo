@@ -16,6 +16,7 @@ import com.owo.mediaplayer.interfaces.IPlayItem;
 import com.owo.mediaplayer.interfaces.IPlayList;
 import com.owo.mediaplayer.interfaces.ITimeFormatter;
 
+//TODO: add pending state to avoid re-operation(re-reset, re-destroy, re-start)
 public class MediaPlayerController implements IMediaPlayerController, IMediaPlayer.Listener {
 	private static final String TAG = "MediaPlayerController";
 	private IMediaPlayer mMediaPlayer;
@@ -131,7 +132,6 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 
 	public void setCurPlayItem(int index, boolean start) {
 		mCurIndex = index;
-		mMediaPlayer.reset();
 		IPlayItem item = mPlayList.at(mCurIndex);
 		uri(item.source());
 		if (start) {
@@ -178,7 +178,8 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 
 	private void updateDisplayMetric() {
 		mDisplayMetrics = new DisplayMetrics();
-		ContextManager.activity().getWindowManager().getDefaultDisplay().getMetrics(mDisplayMetrics);
+		ContextManager.activity().getWindowManager().getDefaultDisplay()
+				.getMetrics(mDisplayMetrics);
 	}
 
 	private int mLastWidth;
@@ -368,7 +369,8 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	}
 
 	private void updateTimeInfo() {
-		mClient.onReceivedTimeInfo(mTimeFormatter.format(mMediaPlayer.duration()), mTimeFormatter.format(mMediaPlayer.current()));
+		mClient.onReceivedTimeInfo(mTimeFormatter.format(mMediaPlayer.duration()),
+				mTimeFormatter.format(mMediaPlayer.current()));
 	}
 
 	private int mLastPosition;

@@ -19,6 +19,13 @@ public class BaseHandler {
 		}
 	}
 
+	public static void clear() {
+		if (sHandler != null) {
+			// If token is null, all callbacks and messages will be removed.
+			sHandler.removeCallbacksAndMessages(null);
+		}
+	}
+
 	public static void destroy() {
 		if (sHandler != null) {
 			// If token is null, all callbacks and messages will be removed.

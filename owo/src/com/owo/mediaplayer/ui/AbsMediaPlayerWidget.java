@@ -26,7 +26,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	protected IMediaPlayerController mMediaPlayerController;
 
 	protected VideoSurfaceView mSurfaceView;
-	private boolean mSurfaceCreated;
+	private boolean mSurfaceValid;
 
 	protected SeekBar mSeekBar;
 	protected View mPause, mResume;
@@ -51,6 +51,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 		@Override
 		public void surfaceDestroyed(SurfaceHolder holder) {
+			mSurfaceValid = false;
 			Log.v(TAG, "surfaceDestroyed");
 		}
 
@@ -58,7 +59,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		public void surfaceCreated(SurfaceHolder holder) {
 			Log.v(TAG, "surfaceCreated");
 			holder.setKeepScreenOn(true);
-			mSurfaceCreated = true;
+			mSurfaceValid = true;
 			mCreateCallback.run(holder);
 		}
 
@@ -71,20 +72,30 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 	private Callback<SurfaceHolder> mCreateCallback;
 
-	public void create(Callback<SurfaceHolder> callback) {
-		if (mSurfaceCreated) {
-			callback.run(mSurfaceView.getHolder());
-			return;
+	//
+	// public void create(Callback<SurfaceHolder> callback) {
+	// if (mSurfaceValid) {
+	// callback.run(mSurfaceView.getHolder());
+	// return;
+	// }
+	// mCreateCallback = callback;
+	// }
+
+	public void createSurfaceView(Callback<SurfaceHolder> callback) {
+		if (mSurfaceView != null) {
+			removeView(mSurfaceView);
 		}
 		mCreateCallback = callback;
+		mSurfaceView = new VideoSurfaceView(getContext());
+		mSurfaceView.getHolder().addCallback(mSurfaceHolderCallback);
+		addView(mSurfaceView, 0, new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
 	}
 
 	@SuppressLint("NewApi")
 	private void createUIComponents() {
 		// setAlpha(0.5f);
 		final Context context = getContext();
-		mSurfaceView = new VideoSurfaceView(context);
-		mSurfaceView.getHolder().addCallback(mSurfaceHolderCallback);
 
 		mSeekBar = new SeekBar(context);
 		mSeekBar.setMax(maxProgress());

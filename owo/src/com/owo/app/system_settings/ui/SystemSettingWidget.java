@@ -88,6 +88,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 
 	@Override
 	public void onThemeChanged() {
+		mChangeLanguageTextView.setTextColor(Instance.of(Theme.class).textColor());
 		setBackgroundColor(Instance.of(Theme.class).bgColor());
 	}
 

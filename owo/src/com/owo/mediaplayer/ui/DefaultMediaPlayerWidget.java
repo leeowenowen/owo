@@ -20,11 +20,8 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 	@SuppressLint("NewApi")
 	@Override
 	protected void setupLayout() {
-		// surface view
-		addView(mSurfaceView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-				FrameLayout.LayoutParams.MATCH_PARENT));
-
-		// progress bar
+		// 1) surface view has add as first child in parent
+		// 2) progress bar
 		LinearLayout progressLinearLayout = new LinearLayout(getContext());
 		progressLinearLayout.setGravity(Gravity.CENTER);
 		LinearLayout.LayoutParams timeLP = new LinearLayout.LayoutParams(DimensionUtil.w(150),
@@ -61,5 +58,4 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 				FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM));
 		bottomBar.setBackgroundColor(Instance.of(Theme.class).bgColor());
 	}
-
 }
