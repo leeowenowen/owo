@@ -3,6 +3,9 @@ package com.owo.app.main.ui;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -21,6 +24,7 @@ import com.owo.app.theme.ThemeObserver;
 import com.owo.app.theme.ui.ThemeSelectWidget;
 import com.owo.app.theme.ui.ThemeSelectWidget.Client;
 import com.owo.base.pattern.Instance;
+import com.owo.base.util.DimensionUtil;
 
 public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeObserver {
 	private TextView mChangeSkin;
@@ -36,14 +40,20 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 	}
 
 	private void initComponents(Context context) {
-		setOrientation(LinearLayout.VERTICAL);
 		mChangeSkin = new TextView(context);
 		mSettings = new TextView(context);
 		mHelp = new TextView(context);
 
-		addView(mChangeSkin);
-		addView(mSettings);
-		addView(mHelp);
+		mChangeSkin.setGravity(Gravity.CENTER);
+		mSettings.setGravity(Gravity.CENTER);
+		mHelp.setGravity(Gravity.CENTER);
+
+		setOrientation(LinearLayout.VERTICAL);
+		LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, DimensionUtil.rowHeight());
+		addView(mChangeSkin, lParams);
+		addView(mSettings, lParams);
+		addView(mHelp, lParams);
 	}
 
 	private void setupListener() {
@@ -61,7 +71,8 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 						dialog.dismiss();
 					}
 				});
-				dialog.setContentView(widget, new ViewGroup.LayoutParams(1000, 300));
+				dialog.setContentView(widget, new ViewGroup.LayoutParams(DimensionUtil.w(1000),
+						DimensionUtil.h(300)));
 				dialog.show();
 			}
 		});
@@ -89,9 +100,28 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 		mHelp.setText(Instance.of(Language.class).get(LanguageResourceKeys.Help));
 	}
 
+	private static int convertColor(int channel) {
+		if (channel == 0) {
+			return 0;
+		} else {
+			return channel - 100;
+		}
+	}
+
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onThemeChanged() {
 		// setBackgroundColor(Instance.of(Theme.class).bgColor());
-		Theme.updateTheme(this);
+		// Theme.updateTheme(this);
+		int bgColor = Instance.of(Theme.class).bgColor();
+		setBackgroundDrawable(new ColorDrawable(Color.argb(Color.alpha(bgColor),
+				convertColor(Color.red(bgColor)),//
+				convertColor(Color.green(bgColor)),//
+				convertColor(Color.blue(bgColor)))));
+
+		int textColor = Instance.of(Theme.class).textColor();
+		mChangeSkin.setTextColor(textColor);
+		mSettings.setTextColor(textColor);
+		mHelp.setTextColor(textColor);
 	}
 }

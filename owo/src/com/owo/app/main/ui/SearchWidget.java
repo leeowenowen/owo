@@ -16,6 +16,7 @@ import com.owo.app.language.LanguageResourceKeys;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
+import com.owo.base.util.DimensionUtil;
 import com.owo.media.MediaStoreData;
 import com.owo.ui.ConfigurablePopupWindow;
 import com.owo.ui.shape.VF;
@@ -48,7 +49,8 @@ public class SearchWidget extends LinearLayout implements LanguageObserver, Them
 		titleLayoutParams.setMargins(10, 0, 10, 0);
 		addView(mTitle);
 		addView(mSearchEdit, LP.L0W1);
-		LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(150, 150);
+		int size = DimensionUtil.rowHeight();
+		LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(size, size);
 		addView(mSearchView, itemLayoutParams);
 		addView(mMenuView, itemLayoutParams);
 	}
@@ -62,8 +64,8 @@ public class SearchWidget extends LinearLayout implements LanguageObserver, Them
 				popup.setFocusable(true);
 				popup.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 100, 0, 0)));
 				popup.setContentView(new MenuWidget(ContextManager.context()));
-				popup.setWidth(300);
-				popup.setHeight(300);
+				popup.setWidth(DimensionUtil.w(300));
+				popup.setHeight(DimensionUtil.h(500));
 
 				popup.showAsDropDown(mMenuView);
 			}
@@ -90,6 +92,8 @@ public class SearchWidget extends LinearLayout implements LanguageObserver, Them
 		mSearchEdit.setTextColor(textColor);
 		mSearchEdit.setHintTextColor(Color.argb(100, Color.red(textColor), Color.green(textColor),
 				Color.blue(textColor)));
-		setBackgroundColor(Instance.of(Theme.class).bgColor());
+		int bgColor = Instance.of(Theme.class).bgColor();
+		mSearchEdit.setBackgroundColor(bgColor);
+		setBackgroundColor(bgColor);
 	}
 }

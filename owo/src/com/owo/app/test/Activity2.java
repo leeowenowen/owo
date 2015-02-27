@@ -1,8 +1,6 @@
 package com.owo.app.test;
 
-import com.owo.app.R;
-import com.owo.app.R.layout;
-
+import android.R;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -38,7 +36,7 @@ public class Activity2 extends Activity {
 				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 		getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 		getWindow().setLayout(w, h);
-		setContentView(R.layout.translucent_background);
+		//setContentView(R.layout.translucent_background);
 
 	}
 }

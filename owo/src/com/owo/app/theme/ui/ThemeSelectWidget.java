@@ -11,6 +11,7 @@ import com.owo.app.language.LanguageObserver;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
+import com.owo.base.util.DimensionUtil;
 import com.owo.ui.shape.CircleShape;
 
 public class ThemeSelectWidget extends LinearLayout implements ThemeObserver, LanguageObserver {
@@ -25,7 +26,8 @@ public class ThemeSelectWidget extends LinearLayout implements ThemeObserver, La
 
 		mViews = new View[SIZE];
 		mCircleShapes = new CircleShape[SIZE];
-		LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(200, 200);
+		int size = DimensionUtil.iconSize();
+		LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(size, size);
 		for (int i = 0; i < SIZE; ++i) {
 			mViews[i] = new View(context);
 			mCircleShapes[i] = new CircleShape();

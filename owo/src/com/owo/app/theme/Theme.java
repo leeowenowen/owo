@@ -16,6 +16,7 @@ import com.owo.app.system_settings.SystemSettingKeys;
 import com.owo.app.system_settings.SystemSettingsData;
 import com.owo.app.system_settings.SystemSettingsData.Observer;
 import com.owo.base.pattern.Instance;
+import com.owo.base.util.DimensionUtil;
 
 /**
  * <pre>
@@ -55,7 +56,7 @@ public class Theme {
 		// 2) initialize paint
 		mPaint = new Paint();
 		mPaint.setColor(mThemeProvider.paintColor());
-		mPaint.setStrokeWidth(5);
+		mPaint.setStrokeWidth(DimensionUtil.w(5));
 		mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setAntiAlias(true);
 

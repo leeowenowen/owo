@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -22,6 +23,7 @@ import com.owo.app.system_settings.SystemSettingsData;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
+import com.owo.base.util.DimensionUtil;
 import com.owo.ui.ConfigurablePopupWindow;
 
 public class SystemSettingWidget extends LinearLayout implements LanguageObserver, ThemeObserver {
@@ -38,9 +40,12 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 
 	private void initComponents(Context context) {
 		mChangeLanguageTextView = new TextView(context);
+		mChangeLanguageTextView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
 
 		setOrientation(LinearLayout.VERTICAL);
-		addView(mChangeLanguageTextView);
+		LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT, DimensionUtil.rowHeight());
+		addView(mChangeLanguageTextView, lParams);
 	}
 
 	private void setupListener() {
@@ -67,8 +72,8 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 					}
 				});
 				popupWindow.setContentView(listView);
-				popupWindow.setWidth(300);
-				popupWindow.setHeight(300);
+				popupWindow.setWidth(DimensionUtil.w(300));
+				popupWindow.setHeight(DimensionUtil.h(500));
 				popupWindow.showAsDropDown(mChangeLanguageTextView);
 			}
 		});
@@ -139,6 +144,8 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 				rParams.gravity = Gravity.RIGHT;
 				addView(mLanguage, lParams);
 				addView(mSelectedMark, rParams);
+				setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+						DimensionUtil.rowHeight()));
 			}
 
 			public void updateData(String language) {

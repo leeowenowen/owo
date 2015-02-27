@@ -1,7 +1,5 @@
 package com.owo.ui;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.PopupWindow;
 
@@ -16,6 +14,12 @@ public class ConfigurablePopupWindow extends PopupWindow implements ThemeObserve
 
 	@Override
 	public void setContentView(View contentView) {
+		// in constructor of PopupWindow, #setContentView will be invoked
+		// some known existing bug in 2.x devices may lead to crash
+		// TODO: read source code of #PopupWindow of SDK 2.X
+		if (contentView == null) {
+			return;
+		}
 		mInterceptedContentView = contentView;
 		super.setContentView(contentView);
 		onContentViewSetted();
@@ -46,9 +50,10 @@ public class ConfigurablePopupWindow extends PopupWindow implements ThemeObserve
 
 	@Override
 	public void onThemeChanged() {
-		int textColor = Instance.of(Theme.class).textColor();
-		setBackgroundDrawable(new ColorDrawable(Color.argb(100, Color.red(textColor),
-				Color.green(textColor), Color.blue(textColor))));
+		// int bgColor = Instance.of(Theme.class).bgColor();
+		// setBackgroundDrawable(new ColorDrawable(Color.argb(255,
+		// Color.red(bgColor) + 0,
+		// Color.green(bgColor) + 0, Color.blue(bgColor) + 0)));
 	}
 
 }

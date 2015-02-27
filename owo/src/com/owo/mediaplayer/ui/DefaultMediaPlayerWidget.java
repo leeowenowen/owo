@@ -1,4 +1,4 @@
-package com.owo.mediaplayer;
+package com.owo.mediaplayer.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import com.owo.app.theme.Theme;
 import com.owo.base.pattern.Instance;
-import com.owo.mediaplayer.ui.SwitchView;
+import com.owo.base.util.DimensionUtil;
 import com.owo.ui.utils.LP;
 
 public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
@@ -27,7 +27,7 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		// progress bar
 		LinearLayout progressLinearLayout = new LinearLayout(getContext());
 		progressLinearLayout.setGravity(Gravity.CENTER);
-		LinearLayout.LayoutParams timeLP = new LinearLayout.LayoutParams(150,
+		LinearLayout.LayoutParams timeLP = new LinearLayout.LayoutParams(DimensionUtil.w(150),
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		progressLinearLayout.addView(mCurrentTime, timeLP);
 		progressLinearLayout.addView(mSeekBar, new LinearLayout.LayoutParams(0,
@@ -43,7 +43,8 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 
 		LinearLayout controlBar = new LinearLayout(getContext());
 		controlBar.setGravity(Gravity.CENTER);
-		LinearLayout.LayoutParams iconLP = new LinearLayout.LayoutParams(200, 200);
+		int size = DimensionUtil.rowHeight();
+		LinearLayout.LayoutParams iconLP = new LinearLayout.LayoutParams(size, size);
 		controlBar.addView(mPre, iconLP);
 		controlBar.addView(startStop, iconLP);
 		controlBar.addView(mNext, iconLP);

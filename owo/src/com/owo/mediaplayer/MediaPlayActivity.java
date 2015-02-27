@@ -15,6 +15,7 @@ import com.owo.app.common.ContextManager;
 import com.owo.base.pattern.Instance;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IPlayList;
+import com.owo.mediaplayer.ui.DefaultMediaPlayerWidget;
 
 public class MediaPlayActivity extends ConfigurableActivity {
 	private static final String TAG = "MediaPlayActivity";

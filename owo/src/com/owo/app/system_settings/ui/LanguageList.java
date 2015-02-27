@@ -1,9 +1,11 @@
 package com.owo.app.system_settings.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,10 +18,14 @@ import com.owo.app.system_settings.SystemSettingsData;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Instance;
+import com.owo.base.util.DimensionUtil;
 
 public class LanguageList extends ListView {
 	public LanguageList(Context context) {
 		super(context);
+
+		setDivider(null);
+		setCacheColorHint(Color.TRANSPARENT);
 		setAdapter(new LanguageListAdapter());
 	}
 
@@ -60,6 +66,8 @@ public class LanguageList extends ListView {
 								language);
 					}
 				});
+			} else {
+				view = new ItemView(getContext());
 			}
 			view.updateData(mSupportedLanguages[position]);
 			return view;
@@ -85,6 +93,10 @@ public class LanguageList extends ListView {
 				rParams.gravity = Gravity.RIGHT;
 				addView(mLanguage, lParams);
 				addView(mSelectedMark, rParams);
+
+				setGravity(Gravity.CENTER);
+				setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+						DimensionUtil.rowHeight()));
 			}
 
 			public void updateData(String language) {

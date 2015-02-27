@@ -8,12 +8,29 @@ public class DimensionUtil {
 	/*
 	 * Screen info
 	 */
+	public static int rowHeight() {
+		return w(150);
+	}
+
+	public static int iconSize() {
+		return w(200);
+	}
+
+	public static int w(int w) {
+		return w * displayMetrics().widthPixels / 1080;
+	}
+
+	public static int h(int h) {
+		return h * displayMetrics().heightPixels / 1920;
+	}
+
 	private static DisplayMetrics sDisplayMetrics = null;
 
 	public static DisplayMetrics displayMetrics() {
 		if (sDisplayMetrics == null) {
 			sDisplayMetrics = new DisplayMetrics();
-			ContextManager.activity().getWindowManager().getDefaultDisplay().getMetrics(sDisplayMetrics);
+			ContextManager.activity().getWindowManager().getDefaultDisplay()
+					.getMetrics(sDisplayMetrics);
 		}
 		return sDisplayMetrics;
 	}

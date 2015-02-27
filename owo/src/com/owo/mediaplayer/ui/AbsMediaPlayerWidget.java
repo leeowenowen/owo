@@ -1,4 +1,4 @@
-package com.owo.mediaplayer;
+package com.owo.mediaplayer.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
