@@ -36,7 +36,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
-		Debug.waitForDebugger();
+		//Debug.waitForDebugger();
 		mMediaPlayerWidget = new DefaultMediaPlayerWidget(MediaPlayActivity.this);
 		mMediaPlayerWidget.createSurfaceView(new Callback<SurfaceHolder>() {
 			@Override
