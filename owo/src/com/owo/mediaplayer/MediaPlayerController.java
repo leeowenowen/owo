@@ -149,12 +149,13 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 
 	private void checkPreNextState() {
 		mClient.onCanPre(mCurIndex > 0);
-		mClient.onCanNext(mCurIndex < mPlayList.size() - 1);
+		mClient.onCanNext(mCurIndex < mPlayList.size());
 	}
 
 	@Override
 	public void pre() {
 		if (mCurIndex > 0) {
+			stopProgressUpdateTime();
 			mMediaPlayer.reset();
 			setCurPlayItem(--mCurIndex, true);
 		}
@@ -165,6 +166,7 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	@Override
 	public void next() {
 		if (mCurIndex < mPlayList.size() - 1) {
+			stopProgressUpdateTime();
 			mMediaPlayer.reset();
 			setCurPlayItem(++mCurIndex, true);
 		}

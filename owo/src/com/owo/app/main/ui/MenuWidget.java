@@ -21,7 +21,7 @@ import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
 import com.owo.app.theme.ui.ThemeSelectWidget;
 import com.owo.app.theme.ui.ThemeSelectWidget.ThemeSelectWidgetClient;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.DimensionUtil;
 
 public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeObserver {
@@ -72,7 +72,7 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 				widget.client(new ThemeSelectWidgetClient() {
 					@Override
 					public void onThemeSelected(String themeColor) {
-						Instance.of(SystemSettingsData.class).set(SystemSettingKeys.Theme,
+						Singleton.of(SystemSettingsData.class).set(SystemSettingKeys.Theme,
 								themeColor);
 						dialog.dismiss();
 					}
@@ -91,14 +91,14 @@ public class MenuWidget extends LinearLayout implements LanguageObserver, ThemeO
 
 	@Override
 	public void onLanguageChanged() {
-		mChangeSkin.setText(Instance.of(Language.class).get(LanguageResourceKeys.ChangeSkin));
-		mSettings.setText(Instance.of(Language.class).get(LanguageResourceKeys.Setting));
-		mHelp.setText(Instance.of(Language.class).get(LanguageResourceKeys.Help));
+		mChangeSkin.setText(Singleton.of(Language.class).get(LanguageResourceKeys.ChangeSkin));
+		mSettings.setText(Singleton.of(Language.class).get(LanguageResourceKeys.Setting));
+		mHelp.setText(Singleton.of(Language.class).get(LanguageResourceKeys.Help));
 	}
 
 	@Override
 	public void onThemeChanged() {
-		int textColor = Instance.of(Theme.class).textColor();
+		int textColor = Singleton.of(Theme.class).textColor();
 		mChangeSkin.setTextColor(textColor);
 		mSettings.setTextColor(textColor);
 		mHelp.setTextColor(textColor);

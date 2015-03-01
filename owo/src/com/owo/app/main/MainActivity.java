@@ -11,7 +11,7 @@ import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.common.BaseHandler;
 import com.owo.app.common.ContextManager;
 import com.owo.app.main.ui.MainFrame;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 
 public class MainActivity extends ConfigurableActivity {
 	@Override
@@ -33,7 +33,7 @@ public class MainActivity extends ConfigurableActivity {
 		super.onDestroy();
 		BaseHandler.destroy();
 		ContextManager.destroy();
-		Instance.destroy();
+		Singleton.destroy();
 	}
 
 	@Override

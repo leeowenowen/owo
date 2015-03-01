@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.owo.app.theme.Theme;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.DimensionUtil;
 
 class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
@@ -41,7 +41,7 @@ class VideoItemTransformerLevel3 extends AbsVideoItemTransformer {
 
 			LinearLayout attributes = new LinearLayout(context);
 			attributes.setOrientation(LinearLayout.VERTICAL);
-			attributes.setBackgroundColor(Instance.of(Theme.class).bgColor());
+			attributes.setBackgroundColor(Singleton.of(Theme.class).bgColor());
 			attributes.addView(mSize);
 			attributes.addView(mDuration);
 			attributes.addView(mResolution);

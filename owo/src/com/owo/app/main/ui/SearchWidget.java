@@ -3,6 +3,8 @@ package com.owo.app.main.ui;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -16,9 +18,9 @@ import com.owo.app.language.LanguageResourceKeys;
 import com.owo.app.main.ui.MenuWidget.MenuWidgetClient;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.DimensionUtil;
-import com.owo.media.MediaStoreData;
+import com.owo.media.MediaData;
 import com.owo.ui.ConfigurablePopupWindow;
 import com.owo.ui.shape.VF;
 import com.owo.ui.utils.LP;
@@ -79,28 +81,48 @@ public class SearchWidget extends LinearLayout implements LanguageObserver, Them
 			}
 		});
 
+		mSearchEdit.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				Singleton.of(MediaData.class).searchText(mSearchEdit.getText().toString());
+			}
+		});
+
 		mSearchView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Instance.of(MediaStoreData.class).searchText(mSearchEdit.getText().toString());
+
 			}
 		});
 	}
 
 	@Override
 	public void onLanguageChanged() {
-		mSearchEdit.setHint(Instance.of(Language.class).get(LanguageResourceKeys.Search));
+		mSearchEdit.setHint(Singleton.of(Language.class).get(LanguageResourceKeys.Search));
 	}
 
 	@Override
 	public void onThemeChanged() {
 		mSearchView.invalidate();
 		mMenuView.invalidate();
-		int textColor = Instance.of(Theme.class).textColor();
+		int textColor = Singleton.of(Theme.class).textColor();
 		mSearchEdit.setTextColor(textColor);
 		mSearchEdit.setHintTextColor(Color.argb(100, Color.red(textColor), Color.green(textColor),
 				Color.blue(textColor)));
-		int bgColor = Instance.of(Theme.class).bgColor();
+		int bgColor = Singleton.of(Theme.class).bgColor();
 		mSearchEdit.setBackgroundColor(bgColor);
 		setBackgroundColor(bgColor);
 	}

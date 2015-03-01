@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.owo.app.theme.Theme;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.DimensionUtil;
 import com.owo.ui.utils.LP;
 
@@ -56,6 +56,6 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 
 		addView(bottomBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM));
-		bottomBar.setBackgroundColor(Instance.of(Theme.class).bgColor());
+		bottomBar.setBackgroundColor(Singleton.of(Theme.class).bgColor());
 	}
 }

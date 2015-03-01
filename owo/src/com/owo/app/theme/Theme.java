@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.owo.app.system_settings.SystemSettingKeys;
 import com.owo.app.system_settings.SystemSettingsData;
 import com.owo.app.system_settings.SystemSettingsData.Observer;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.DimensionUtil;
 
 /**
@@ -66,7 +66,7 @@ public class Theme {
 		mFillPaint.setAntiAlias(true);
 
 		// 3) register observer
-		Instance.of(SystemSettingsData.class).addObserver(SystemSettingKeys.Theme, new Observer() {
+		Singleton.of(SystemSettingsData.class).addObserver(SystemSettingKeys.Theme, new Observer() {
 			@Override
 			public void onDataChanged(String key, String oldValue, String newValue) {
 				mThemeProvider = mThemeProviders.get(newValue);
@@ -118,7 +118,7 @@ public class Theme {
 	}
 
 	public static int maskedBgColor() {
-		int bgColor = Instance.of(Theme.class).bgColor();
+		int bgColor = Singleton.of(Theme.class).bgColor();
 		return Color.argb(Color.alpha(bgColor), convertColor(Color.red(bgColor)),//
 				convertColor(Color.green(bgColor)),//
 				convertColor(Color.blue(bgColor)));
@@ -137,8 +137,8 @@ public class Theme {
 	}
 
 	public static void updateTheme(View v) {
-		int textColor = Instance.of(Theme.class).textColor();
-		int bgColor = Instance.of(Theme.class).bgColor();
+		int textColor = Singleton.of(Theme.class).textColor();
+		int bgColor = Singleton.of(Theme.class).bgColor();
 		if (!(v instanceof ImageView)) {
 			v.setBackgroundColor(bgColor);
 		}

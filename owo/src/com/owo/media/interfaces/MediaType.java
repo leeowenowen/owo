@@ -1,8 +1,7 @@
 package com.owo.media.interfaces;
 
 public final class MediaType {
-	public static final int sInvalid = -1;
-	public static final int sVideo = 0;
-	public static final int sAudio = 1;
-	public static final int sIMage = 2;
+	public static final String VIDEO = "video";
+	public static final String AUDIO = "audio";
+	public static final String IMAGE = "image";
 }

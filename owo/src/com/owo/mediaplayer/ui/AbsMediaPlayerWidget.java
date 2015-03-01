@@ -11,7 +11,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.owo.app.theme.Theme;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.mediaplayer.core.VideoSurfaceView;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
@@ -119,7 +119,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	}
 
 	protected void initUIContent() {
-		int textColor = Instance.of(Theme.class).textColor();
+		int textColor = Singleton.of(Theme.class).textColor();
 		mEndTime.setTextColor(textColor);
 		mCurrentTime.setTextColor(textColor);
 	}

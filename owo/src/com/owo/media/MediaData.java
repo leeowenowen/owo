@@ -5,17 +5,21 @@ import java.util.Set;
 
 import android.text.TextUtils;
 
-public class MediaStoreData {
-	private int mType;
+public class MediaData {
+	private String mType;
 	private int mLevel;
 	private String mSearchText;
 
-	public MediaStoreData type(int type) {
+	public MediaData type(String type) {
 		mType = type;
 		return this;
 	}
 
-	public MediaStoreData level(int level) {
+	public String type() {
+		return mType;
+	}
+
+	public MediaData level(int level) {
 		mLevel = level;
 		return this;
 	}

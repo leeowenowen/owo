@@ -22,7 +22,7 @@ import com.owo.app.system_settings.SystemSettingKeys;
 import com.owo.app.system_settings.SystemSettingsData;
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.DimensionUtil;
 import com.owo.ui.ConfigurablePopupWindow;
 
@@ -57,7 +57,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 				popupWindow.setFocusable(true);
 				popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 100, 0, 0)));
 				ListView listView = new ListView(getContext());
-				String supportedLanguage = Instance.of(SystemSettingsData.class).get(
+				String supportedLanguage = Singleton.of(SystemSettingsData.class).get(
 						SystemSettingKeys.SupportedLanguage);
 				final String[] supportedLanguages = supportedLanguage.split("##");
 				SingleSelectListAdapter adapter = new SingleSelectListAdapter(supportedLanguages);
@@ -67,7 +67,7 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						String selectLanguages = supportedLanguages[position];
-						Instance.of(SystemSettingsData.class).set(SystemSettingKeys.Language,
+						Singleton.of(SystemSettingsData.class).set(SystemSettingKeys.Language,
 								selectLanguages);
 						popupWindow.dismiss();
 					}
@@ -82,14 +82,14 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 
 	@Override
 	public void onLanguageChanged() {
-		mChangeLanguageTextView.setText(Instance.of(Language.class).get(
+		mChangeLanguageTextView.setText(Singleton.of(Language.class).get(
 				LanguageResourceKeys.ChangeLanguage));
 	}
 
 	@Override
 	public void onThemeChanged() {
-		mChangeLanguageTextView.setTextColor(Instance.of(Theme.class).textColor());
-		setBackgroundColor(Instance.of(Theme.class).bgColor());
+		mChangeLanguageTextView.setTextColor(Singleton.of(Theme.class).textColor());
+		setBackgroundColor(Singleton.of(Theme.class).bgColor());
 	}
 
 	private class SingleSelectListAdapter extends BaseAdapter {
@@ -153,17 +153,17 @@ public class SystemSettingWidget extends LinearLayout implements LanguageObserve
 			}
 
 			public void updateData(String language) {
-				String curLanguage = Instance.of(SystemSettingsData.class).get(
+				String curLanguage = Singleton.of(SystemSettingsData.class).get(
 						SystemSettingKeys.Language);
 				mSelectedMark.setVisibility(language.equals(curLanguage) ? VISIBLE : INVISIBLE);
-				mLanguage.setText(Instance.of(Language.class).get(
+				mLanguage.setText(Singleton.of(Language.class).get(
 						Language.toLanguageResourceKey(language)));
 				onThemeChanged();
 			}
 
 			@Override
 			public void onThemeChanged() {
-				mLanguage.setTextColor(Instance.of(Theme.class).textColor());
+				mLanguage.setTextColor(Singleton.of(Theme.class).textColor());
 			}
 
 			@Override

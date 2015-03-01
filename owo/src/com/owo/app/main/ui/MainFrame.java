@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
 
+import com.owo.media.MediaWidget;
 import com.owo.ui.utils.LP;
 
 public class MainFrame extends LinearLayout {

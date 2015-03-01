@@ -19,7 +19,7 @@ import java.util.HashMap;
  * <code>Instance.of(X.class)</code> during the life-cycle of A.
  * </p>
  */
-public class Instance {
+public class Singleton {
 	private static final HashMap<Class<?>, Object> sInstanceMap = new HashMap<>();
 
 	@SuppressWarnings("unchecked")

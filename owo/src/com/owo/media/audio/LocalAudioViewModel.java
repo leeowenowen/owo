@@ -4,16 +4,17 @@ import android.database.Cursor;
 import android.provider.MediaStore;
 
 import com.owo.app.common.ContextManager;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.TextHelper;
-import com.owo.media.MediaStoreData;
+import com.owo.media.MediaData;
 import com.owo.media.MediaViewModel;
+import com.owo.media.interfaces.MediaType;
 
 public class LocalAudioViewModel extends MediaViewModel {
 	private Cursor mCursor;
 
 	public LocalAudioViewModel() {
-		Instance.of(MediaStoreData.class).addListener(mListener);
+		Singleton.of(MediaData.class).addListener(mListener);
 	}
 
 	private Cursor query(String searchText) {
@@ -24,9 +25,13 @@ public class LocalAudioViewModel extends MediaViewModel {
 				MediaStore.Audio.Media.DURATION,//
 				MediaStore.Audio.Media.MIME_TYPE };
 		if (TextHelper.isEmptyOrSpaces(searchText)) {
-			return ContextManager.contentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, audioColumns, null, null, null);
+			return ContextManager.contentResolver().query(
+					MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, audioColumns, null, null, null);
 		} else {
-			return ContextManager.contentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, audioColumns, "title like %?s%", new String[] { searchText }, null);
+			String queryString = MediaStore.Audio.Media.TITLE + " like '%" + searchText + "%'";
+			return ContextManager.contentResolver().query(
+					MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, audioColumns, queryString, null,
+					null);
 		}
 	}
 
@@ -47,7 +52,7 @@ public class LocalAudioViewModel extends MediaViewModel {
 		void onLevelChanged(int level);
 	}
 
-	private MediaStoreData.Listener mListener = new MediaStoreData.Listener() {
+	private MediaData.Listener mListener = new MediaData.Listener() {
 
 		@Override
 		public void onTypeChanged(int type) {
@@ -57,6 +62,9 @@ public class LocalAudioViewModel extends MediaViewModel {
 
 		@Override
 		public void onSearchTextChanged(String text) {
+			if (!MediaType.AUDIO.equals(Singleton.of(MediaData.class).type())) {
+				return;
+			}
 			Cursor cursor = query(text);
 			mClient.onDataChanged(cursor);
 		}

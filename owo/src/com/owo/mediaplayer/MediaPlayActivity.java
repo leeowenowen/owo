@@ -2,6 +2,7 @@ package com.owo.mediaplayer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
@@ -11,7 +12,7 @@ import android.view.WindowManager;
 import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.common.BaseHandler;
 import com.owo.app.common.ContextManager;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IPlayList;
 import com.owo.mediaplayer.ui.DefaultMediaPlayerWidget;
@@ -35,7 +36,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
-		// Debug.waitForDebugger();
+		Debug.waitForDebugger();
 		mMediaPlayerWidget = new DefaultMediaPlayerWidget(MediaPlayActivity.this);
 		mMediaPlayerWidget.createSurfaceView(new Callback<SurfaceHolder>() {
 			@Override
@@ -111,7 +112,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 		Log.v(TAG, "onDestroy");
 		BaseHandler.destroy();
 		ContextManager.destroy();
-		Instance.destroy();
+		Singleton.destroy();
 	}
 
 	@Override

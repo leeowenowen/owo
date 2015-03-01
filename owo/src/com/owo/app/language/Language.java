@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.owo.app.system_settings.SystemSettingKeys;
 import com.owo.app.system_settings.SystemSettingsData;
 import com.owo.app.system_settings.SystemSettingsData.Observer;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 
 /**
  * <pre>
@@ -30,7 +30,7 @@ public class Language implements ILanguageProvider {
 		addProvider("en-US", new en_US_Provider());
 		initProvider();
 		// 2) register observer
-		Instance.of(SystemSettingsData.class).addObserver(SystemSettingKeys.Language, new Observer() {
+		Singleton.of(SystemSettingsData.class).addObserver(SystemSettingKeys.Language, new Observer() {
 			@Override
 			public void onDataChanged(String key, String oldValue, String newValue) {
 				mProvider = provider(newValue);

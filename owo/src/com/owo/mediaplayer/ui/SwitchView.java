@@ -6,7 +6,7 @@ import android.widget.FrameLayout;
 
 import com.owo.app.theme.Theme;
 import com.owo.app.theme.ThemeObserver;
-import com.owo.base.pattern.Instance;
+import com.owo.base.pattern.Singleton;
 import com.owo.ui.utils.LP;
 
 public class SwitchView extends FrameLayout implements ThemeObserver {
@@ -24,6 +24,6 @@ public class SwitchView extends FrameLayout implements ThemeObserver {
 
 	@Override
 	public void onThemeChanged() {
-		setBackgroundColor(Instance.of(Theme.class).bgColor());
+		setBackgroundColor(Singleton.of(Theme.class).bgColor());
 	}
 }
