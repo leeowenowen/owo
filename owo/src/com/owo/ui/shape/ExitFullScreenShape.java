@@ -15,7 +15,8 @@ public class ExitFullScreenShape extends HalfRectShape {
 	 * </pre>
 	 */
 	@Override
-	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width, float height) {
+	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width,
+			float height) {
 		float xCenter = left + width / 2;
 		float yCenter = top + height / 2;
 		float delta = 22.0f;

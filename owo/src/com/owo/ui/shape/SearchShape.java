@@ -7,7 +7,8 @@ import com.owo.base.util.MathHelper;
 
 public class SearchShape extends HalfRectShape {
 	@Override
-	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width, float height) {
+	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width,
+			float height) {
 		float xO = left + width / 3;
 		float yO = top + height / 3;
 		float rO = MathHelper.diag(width, height) / 3;

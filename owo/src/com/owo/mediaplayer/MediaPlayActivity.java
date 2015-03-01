@@ -2,7 +2,6 @@ package com.owo.mediaplayer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
@@ -36,7 +35,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
-		//Debug.waitForDebugger();
+		// Debug.waitForDebugger();
 		mMediaPlayerWidget = new DefaultMediaPlayerWidget(MediaPlayActivity.this);
 		mMediaPlayerWidget.createSurfaceView(new Callback<SurfaceHolder>() {
 			@Override

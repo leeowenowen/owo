@@ -3,9 +3,8 @@ package com.owo.ui.shape;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RectF;
 
-public class PreShape extends ThemeRectShape {
+public class PreShape extends HalfRectShape {
 	private Path mPath = new Path();
 
 	/**
@@ -17,18 +16,14 @@ public class PreShape extends ThemeRectShape {
 	 * </pre>
 	 */
 	@Override
-	public void draw(Canvas canvas, Paint paint) {
-		RectF rectF = rect();
-		float halfHeight = rectF.height() / 2;
-		float halfWidth = rectF.width() / 2;
-		float quarterHeight = rectF.height() / 4;
-		float quarterWidth = rectF.width() / 4;
-		float xA = rectF.left + quarterWidth;
-		float yA = rectF.top + halfHeight;
-		float xB = xA + halfWidth;
-		float yB = yA - quarterHeight;
+	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width,
+			float height) {
+		float xA = left;
+		float yA = top + height / 2;
+		float xB = xA + width;
+		float yB = top;
 		float xC = xB;
-		float yC = yA + quarterHeight;
+		float yC = top + height;
 		mPath.reset();
 		mPath.moveTo(xB, yB);
 		mPath.lineTo(xC, yC);

@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class EnterFullScreenShape extends HalfRectShape {
-
 	/**
 	 * <pre>
 	 * A x             x C
@@ -16,7 +15,8 @@ public class EnterFullScreenShape extends HalfRectShape {
 	 * B x             x DD
 	 */
 	@Override
-	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width, float height) {
+	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width,
+			float height) {
 		float xA = left;
 		float yA = top;
 		float xC = left + width;

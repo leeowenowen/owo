@@ -24,7 +24,8 @@ public class UnLockShape extends HalfRectShape {
 	private RectF mArgRectF = new RectF();
 
 	@Override
-	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width, float height) {
+	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width,
+			float height) {
 		float xA = left;
 		float yA = top + height / 2;
 		float xB = left + width / 4;

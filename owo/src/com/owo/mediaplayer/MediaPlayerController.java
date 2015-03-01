@@ -337,6 +337,8 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	@Override
 	public void onComplete() {
 		// TODO: make it a setting item
+		stopProgressUpdateTime();
+		mLastPosition = 0;
 		mMediaPlayer.seek(0);
 		mClient.onComplete();
 		switchState(State.Finished);
@@ -388,6 +390,7 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 			int cur = mMediaPlayer.current();
 			if (cur != mLastPosition) {
 				onProgressChanged(cur);
+				mLastPosition = cur;
 			}
 			startProgressUpdateTimer();
 		}

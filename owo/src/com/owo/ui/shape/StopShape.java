@@ -2,17 +2,11 @@ package com.owo.ui.shape;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 
-public class StopShape extends ThemeRectShape {
+public class StopShape extends HalfRectShape {
 	@Override
-	public void draw(Canvas canvas, Paint paint) {
-		RectF rectF = rect();
-		float left = rectF.left + rectF.width() / 4;
-		float top = rectF.top + rectF.height() / 4;
-
-		canvas.drawRect(left, top, left + rectF.width() / 2,
-				top + rectF.width() / 2, paint());
-
+	protected void drawImpl(Canvas canvas, Paint paint, float left, float top, float width,
+			float height) {
+		canvas.drawRect(left, top, left + width, top + height, paint);
 	}
 }

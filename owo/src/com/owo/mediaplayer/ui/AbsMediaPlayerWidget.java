@@ -26,7 +26,6 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	protected IMediaPlayerController mMediaPlayerController;
 
 	protected VideoSurfaceView mSurfaceView;
-	private boolean mSurfaceValid;
 
 	protected SeekBar mSeekBar;
 	protected View mPause, mResume;
@@ -51,7 +50,6 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 		@Override
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			mSurfaceValid = false;
 			Log.v(TAG, "surfaceDestroyed");
 		}
 
@@ -59,7 +57,6 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		public void surfaceCreated(SurfaceHolder holder) {
 			Log.v(TAG, "surfaceCreated");
 			holder.setKeepScreenOn(true);
-			mSurfaceValid = true;
 			mCreateCallback.run(holder);
 		}
 
@@ -71,15 +68,6 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	};
 
 	private Callback<SurfaceHolder> mCreateCallback;
-
-	//
-	// public void create(Callback<SurfaceHolder> callback) {
-	// if (mSurfaceValid) {
-	// callback.run(mSurfaceView.getHolder());
-	// return;
-	// }
-	// mCreateCallback = callback;
-	// }
 
 	public void createSurfaceView(Callback<SurfaceHolder> callback) {
 		if (mSurfaceView != null) {
@@ -94,7 +82,6 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 	@SuppressLint("NewApi")
 	private void createUIComponents() {
-		// setAlpha(0.5f);
 		final Context context = getContext();
 
 		mSeekBar = new SeekBar(context);
