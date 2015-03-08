@@ -45,6 +45,7 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		playProgressLinearLayout.addView(mCurrentTime, timeLP);
 		playProgressLinearLayout.addView(mSeekBar, new LinearLayout.LayoutParams(0,
 				LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+		mEndTime.setGravity(Gravity.RIGHT);
 		playProgressLinearLayout.addView(mEndTime, timeLP);
 
 		// control bar
@@ -141,7 +142,7 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		mLock.setOnClickListener(mOnClickListener);
 		mUnLock.setOnClickListener(mOnClickListener);
 		setOnClickListener(mOnClickListener);
-		switchToOverlayMode(true);
+		//switchToOverlayMode(true);
 	}
 
 	private OnClickListener mOnClickListener = new OnClickListener() {

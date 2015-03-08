@@ -42,6 +42,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 			@Override
 			public void run(SurfaceHolder surface) {
 				mController = new MediaPlayerController();
+				mController.create();
 				mMediaPlayerWidget.setMPController(mController);
 				final String pathString = getIntent().getStringExtra("path");
 				String[] items = pathString.split("##");
@@ -50,7 +51,6 @@ public class MediaPlayActivity extends ConfigurableActivity {
 					mPlayList.add(new PlayItem().source(item));
 				}
 				int index = getIntent().getIntExtra("index", 0);
-				mController.create(MediaPlayActivity.this, surface);
 				mController.playList(mPlayList, index);
 				mController.start();
 			}
@@ -75,9 +75,9 @@ public class MediaPlayActivity extends ConfigurableActivity {
 		if (mController != null) {
 			mIsPaused = true;
 			mLastPosition = mController.current();
-			mController.destroy();
-			// mController.pause();
-			BaseHandler.clear();
+			// mController.destroy();
+			mController.pause();
+			//BaseHandler.clear();
 		}
 		super.onPause();
 		Log.v(TAG, "onPause");
@@ -86,16 +86,19 @@ public class MediaPlayActivity extends ConfigurableActivity {
 	@Override
 	protected void onResume() {
 		if (mController != null && mIsPaused) {
-			mMediaPlayerWidget.createSurfaceView(new Callback<SurfaceHolder>() {
-				@Override
-				public void run(SurfaceHolder surface) {
-					mController.create(MediaPlayActivity.this, surface);
-					mController.playList(mPlayList);
-					mController.start();
-					mController.seek(mLastPosition);
-					// mController.resume();
-				}
-			});
+			mController.resume();
+			// mController.start();
+			// mController.seek(mLastPosition);
+			// mMediaPlayerWidget.createSurfaceView(new
+			// Callback<SurfaceHolder>() {
+			// @Override
+			// public void run(SurfaceHolder surface) {
+			// mController.create();
+			// mController.playList(mPlayList);
+			// mController.start();
+			// mController.seek(mLastPosition);
+			// }
+			// });
 		}
 		mIsPaused = false;
 		super.onResume();

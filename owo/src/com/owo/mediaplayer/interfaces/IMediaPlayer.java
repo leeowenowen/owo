@@ -4,9 +4,13 @@ import android.content.Context;
 import android.view.SurfaceHolder;
 
 public interface IMediaPlayer {
-	void create(Context context, SurfaceHolder surface);
+	void create(Context context);
 
 	void destroy();
+
+	void attachSurface(SurfaceHolder surface);
+
+	void detachSurface();
 
 	void uri(String uri);
 

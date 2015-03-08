@@ -1,13 +1,16 @@
 package com.owo.mediaplayer.interfaces;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.view.SurfaceHolder;
 
 public interface IMediaPlayerController {
-	void create(Context context, SurfaceHolder surface);
+	void create();
 
 	void destroy();
+
+	void attachSurface(SurfaceHolder surface);
+
+	void detachSurface();
 
 	void uri(String uri);
 

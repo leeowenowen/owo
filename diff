@@ -1,0 +1,310 @@
+diff --git a/owo/src/com/owo/mediaplayer/MediaPlayActivity.java b/owo/src/com/owo/mediaplayer/MediaPlayActivity.java
+index 96d70a1..0bcc32f 100644
+--- a/owo/src/com/owo/mediaplayer/MediaPlayActivity.java
++++ b/owo/src/com/owo/mediaplayer/MediaPlayActivity.java
+@@ -42,6 +42,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
+ 			@Override
+ 			public void run(SurfaceHolder surface) {
+ 				mController = new MediaPlayerController();
++				mController.create();
+ 				mMediaPlayerWidget.setMPController(mController);
+ 				final String pathString = getIntent().getStringExtra("path");
+ 				String[] items = pathString.split("##");
+@@ -50,7 +51,6 @@ public class MediaPlayActivity extends ConfigurableActivity {
+ 					mPlayList.add(new PlayItem().source(item));
+ 				}
+ 				int index = getIntent().getIntExtra("index", 0);
+-				mController.create(MediaPlayActivity.this, surface);
+ 				mController.playList(mPlayList, index);
+ 				mController.start();
+ 			}
+@@ -75,9 +75,9 @@ public class MediaPlayActivity extends ConfigurableActivity {
+ 		if (mController != null) {
+ 			mIsPaused = true;
+ 			mLastPosition = mController.current();
+-			mController.destroy();
+-			// mController.pause();
+-			BaseHandler.clear();
++			// mController.destroy();
++			mController.pause();
++			//BaseHandler.clear();
+ 		}
+ 		super.onPause();
+ 		Log.v(TAG, "onPause");
+@@ -86,16 +86,19 @@ public class MediaPlayActivity extends ConfigurableActivity {
+ 	@Override
+ 	protected void onResume() {
+ 		if (mController != null && mIsPaused) {
+-			mMediaPlayerWidget.createSurfaceView(new Callback<SurfaceHolder>() {
+-				@Override
+-				public void run(SurfaceHolder surface) {
+-					mController.create(MediaPlayActivity.this, surface);
+-					mController.playList(mPlayList);
+-					mController.start();
+-					mController.seek(mLastPosition);
+-					// mController.resume();
+-				}
+-			});
++			mController.resume();
++			// mController.start();
++			// mController.seek(mLastPosition);
++			// mMediaPlayerWidget.createSurfaceView(new
++			// Callback<SurfaceHolder>() {
++			// @Override
++			// public void run(SurfaceHolder surface) {
++			// mController.create();
++			// mController.playList(mPlayList);
++			// mController.start();
++			// mController.seek(mLastPosition);
++			// }
++			// });
+ 		}
+ 		mIsPaused = false;
+ 		super.onResume();
+diff --git a/owo/src/com/owo/mediaplayer/MediaPlayerController.java b/owo/src/com/owo/mediaplayer/MediaPlayerController.java
+index 058a9b6..47ca9b4 100644
+--- a/owo/src/com/owo/mediaplayer/MediaPlayerController.java
++++ b/owo/src/com/owo/mediaplayer/MediaPlayerController.java
+@@ -1,6 +1,5 @@
+ package com.owo.mediaplayer;
+ 
+-import android.content.Context;
+ import android.content.res.Configuration;
+ import android.util.DisplayMetrics;
+ import android.util.Log;
+@@ -49,10 +48,23 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
+ 	}
+ 
+ 	@Override
+-	public void create(Context context, SurfaceHolder surface) {
++	public void attachSurface(SurfaceHolder surface) {
++		mMediaPlayer.attachSurface(surface);
++	}
++
++	@Override
++	public void detachSurface() {
++		if (mMediaPlayer != null) {
++			mMediaPlayer.detachSurface();
++		}
++	}
++
++	// do nothing here
++	@Override
++	public void create() {
+ 		mMediaPlayer = new SysMediaPlayer();
+ 		mMediaPlayer.addListener(this);
+-		mMediaPlayer.create(context, surface);
++		mMediaPlayer.create(ContextManager.context());
+ 	}
+ 
+ 	@Override
+diff --git a/owo/src/com/owo/mediaplayer/android/SysMediaPlayer.java b/owo/src/com/owo/mediaplayer/android/SysMediaPlayer.java
+index 6a76b99..a888bf3 100644
+--- a/owo/src/com/owo/mediaplayer/android/SysMediaPlayer.java
++++ b/owo/src/com/owo/mediaplayer/android/SysMediaPlayer.java
+@@ -18,14 +18,11 @@ public class SysMediaPlayer extends AbsMediaPlayer {
+ 
+ 	private static final String TAG = "SysMediaPlayer";
+ 	private MediaPlayer mMediaPlayer;
+-	private SurfaceHolder mSurfaceHolder;
+ 
+ 	@Override
+-	public void create(Context context, SurfaceHolder surface) {
+-		mSurfaceHolder = surface;
++	public void create(Context context) {
+ 		mMediaPlayer = new MediaPlayer();
+ 		mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+-		mMediaPlayer.setDisplay(mSurfaceHolder);
+ 		mMediaPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
+ 		mMediaPlayer.setOnCompletionListener(mCompletionListener);
+ 		mMediaPlayer.setOnErrorListener(mErrorListener);
+@@ -34,6 +31,16 @@ public class SysMediaPlayer extends AbsMediaPlayer {
+ 	}
+ 
+ 	@Override
++	public void attachSurface(SurfaceHolder surface) {
++		mMediaPlayer.setDisplay(surface);
++	}
++
++	@Override
++	public void detachSurface() {
++		mMediaPlayer.setDisplay(null);
++	}
++
++	@Override
+ 	public void destroy() {
+ 		mIsValid = false;
+ 		mMediaPlayer.release();
+@@ -191,6 +198,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
+ 
+ 	@Override
+ 	public int current() {
++		Log.v("XXX", "[" + mMediaPlayer + "][" + mMediaPlayer.getCurrentPosition() + "]");
+ 		return mMediaPlayer.getCurrentPosition();
+ 	}
+ 
+diff --git a/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayer.java b/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayer.java
+index 847ff2d..2e70ce1 100644
+--- a/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayer.java
++++ b/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayer.java
+@@ -4,10 +4,14 @@ import android.content.Context;
+ import android.view.SurfaceHolder;
+ 
+ public interface IMediaPlayer {
+-	void create(Context context, SurfaceHolder surface);
++	void create(Context context);
+ 
+ 	void destroy();
+ 
++	void attachSurface(SurfaceHolder surface);
++
++	void detachSurface();
++
+ 	void uri(String uri);
+ 
+ 	void start();
+diff --git a/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayerController.java b/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayerController.java
+index 56a00e2..376c562 100644
+--- a/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayerController.java
++++ b/owo/src/com/owo/mediaplayer/interfaces/IMediaPlayerController.java
+@@ -1,14 +1,17 @@
+ package com.owo.mediaplayer.interfaces;
+ 
+-import android.content.Context;
+ import android.content.res.Configuration;
+ import android.view.SurfaceHolder;
+ 
+ public interface IMediaPlayerController {
+-	void create(Context context, SurfaceHolder surface);
++	void create();
+ 
+ 	void destroy();
+ 
++	void attachSurface(SurfaceHolder surface);
++
++	void detachSurface();
++
+ 	void uri(String uri);
+ 
+ 	void start();
+diff --git a/owo/src/com/owo/mediaplayer/ui/AbsMediaPlayerWidget.java b/owo/src/com/owo/mediaplayer/ui/AbsMediaPlayerWidget.java
+index 38683c7..987a573 100644
+--- a/owo/src/com/owo/mediaplayer/ui/AbsMediaPlayerWidget.java
++++ b/owo/src/com/owo/mediaplayer/ui/AbsMediaPlayerWidget.java
+@@ -24,7 +24,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
+ 		IMediaPlayerController.Client {
+ 
+ 	private static final String TAG = "AbsMediaPlayerWidget";
+-	protected IMediaPlayerController mMediaPlayerController;
++	protected IMediaPlayerController mController;
+ 
+ 	protected VideoSurfaceView mSurfaceView;
+ 
+@@ -55,13 +55,18 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
+ 		@Override
+ 		public void surfaceDestroyed(SurfaceHolder holder) {
+ 			Log.v(TAG, "surfaceDestroyed");
++			mController.detachSurface();
+ 		}
+ 
+ 		@Override
+ 		public void surfaceCreated(SurfaceHolder holder) {
+ 			Log.v(TAG, "surfaceCreated");
+ 			holder.setKeepScreenOn(true);
+-			mCreateCallback.run(holder);
++			if (mCreateCallback != null) {
++				mCreateCallback.run(holder);
++				mCreateCallback = null;
++			}
++			mController.attachSurface(holder);
+ 		}
+ 
+ 		@Override
+@@ -144,8 +149,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
+ 	}
+ 
+ 	public void setMPController(IMediaPlayerController mediaPlayerController) {
+-		mMediaPlayerController = mediaPlayerController;
+-		mMediaPlayerController.client(this);
++		mController = mediaPlayerController;
++		mController.client(this);
+ 	}
+ 
+ 	protected boolean mIsDraggingSeekBar;
+@@ -163,7 +168,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
+ 		@Override
+ 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+ 			if (fromUser) {
+-				mMediaPlayerController.seek(progress, maxProgress());
++				mController.seek(progress, maxProgress());
+ 			}
+ 		}
+ 	};
+@@ -171,27 +176,27 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
+ 	private OnClickListener mOnClickListener = new OnClickListener() {
+ 		@Override
+ 		public void onClick(View v) {
+-			assert (mMediaPlayerController != null);
++			assert (mController != null);
+ 			if (v == mPause) {
+-				mMediaPlayerController.pause();
++				mController.pause();
+ 			} else if (v == mResume) {
+-				mMediaPlayerController.resume();
++				mController.resume();
+ 			} else if (v == mStart) {
+-				mMediaPlayerController.start();
++				mController.start();
+ 			} else if (v == mStop) {
+-				mMediaPlayerController.stop();
++				mController.stop();
+ 			} else if (v == mPre) {
+-				mMediaPlayerController.pre();
++				mController.pre();
+ 			} else if (v == mNext) {
+-				mMediaPlayerController.next();
++				mController.next();
+ 			} else if (v == mFastForward) {
+-				mMediaPlayerController.fastForward();
++				mController.fastForward();
+ 			} else if (v == mFastBackward) {
+-				mMediaPlayerController.fastBackward();
++				mController.fastBackward();
+ 			} else if (v == mEnterFullScreen) {
+-				mMediaPlayerController.enterFullScreen();
++				mController.enterFullScreen();
+ 			} else if (v == mExitFullScreen) {
+-				mMediaPlayerController.exitFullScreen();
++				mController.exitFullScreen();
+ 			}
+ 		}
+ 	};
+@@ -231,6 +236,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
+ 
+ 	@Override
+ 	public void onProgressChanged(int progress) {
++		Log.v("XXX", "" + progress);
+ 		mSeekBar.setProgress(progress);
+ 	}
+ 
+diff --git a/owo/src/com/owo/mediaplayer/ui/DefaultMediaPlayerWidget.java b/owo/src/com/owo/mediaplayer/ui/DefaultMediaPlayerWidget.java
+index 176964e..e3ab97a 100644
+--- a/owo/src/com/owo/mediaplayer/ui/DefaultMediaPlayerWidget.java
++++ b/owo/src/com/owo/mediaplayer/ui/DefaultMediaPlayerWidget.java
+@@ -45,6 +45,7 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
+ 		playProgressLinearLayout.addView(mCurrentTime, timeLP);
+ 		playProgressLinearLayout.addView(mSeekBar, new LinearLayout.LayoutParams(0,
+ 				LinearLayout.LayoutParams.WRAP_CONTENT, 1));
++		mEndTime.setGravity(Gravity.RIGHT);
+ 		playProgressLinearLayout.addView(mEndTime, timeLP);
+ 
+ 		// control bar
+@@ -141,7 +142,7 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
+ 		mLock.setOnClickListener(mOnClickListener);
+ 		mUnLock.setOnClickListener(mOnClickListener);
+ 		setOnClickListener(mOnClickListener);
+-		switchToOverlayMode(true);
++		//switchToOverlayMode(true);
+ 	}
+ 
+ 	private OnClickListener mOnClickListener = new OnClickListener() {

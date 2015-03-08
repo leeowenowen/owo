@@ -1,6 +1,5 @@
 package com.owo.mediaplayer;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -49,10 +48,23 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	}
 
 	@Override
-	public void create(Context context, SurfaceHolder surface) {
+	public void attachSurface(SurfaceHolder surface) {
+		mMediaPlayer.attachSurface(surface);
+	}
+
+	@Override
+	public void detachSurface() {
+		if (mMediaPlayer != null) {
+			mMediaPlayer.detachSurface();
+		}
+	}
+
+	// do nothing here
+	@Override
+	public void create() {
 		mMediaPlayer = new SysMediaPlayer();
 		mMediaPlayer.addListener(this);
-		mMediaPlayer.create(context, surface);
+		mMediaPlayer.create(ContextManager.context());
 	}
 
 	@Override

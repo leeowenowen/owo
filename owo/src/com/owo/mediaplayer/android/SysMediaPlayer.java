@@ -18,19 +18,26 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	private static final String TAG = "SysMediaPlayer";
 	private MediaPlayer mMediaPlayer;
-	private SurfaceHolder mSurfaceHolder;
 
 	@Override
-	public void create(Context context, SurfaceHolder surface) {
-		mSurfaceHolder = surface;
+	public void create(Context context) {
 		mMediaPlayer = new MediaPlayer();
 		mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-		mMediaPlayer.setDisplay(mSurfaceHolder);
 		mMediaPlayer.setOnVideoSizeChangedListener(mSizeChangedListener);
 		mMediaPlayer.setOnCompletionListener(mCompletionListener);
 		mMediaPlayer.setOnErrorListener(mErrorListener);
 		mMediaPlayer.setOnInfoListener(mOnInfoListener);
 		mMediaPlayer.setOnBufferingUpdateListener(mBufferingUpdateListener);
+	}
+
+	@Override
+	public void attachSurface(SurfaceHolder surface) {
+		mMediaPlayer.setDisplay(surface);
+	}
+
+	@Override
+	public void detachSurface() {
+		mMediaPlayer.setDisplay(null);
 	}
 
 	@Override
@@ -191,6 +198,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public int current() {
+		Log.v("XXX", "[" + mMediaPlayer + "][" + mMediaPlayer.getCurrentPosition() + "]");
 		return mMediaPlayer.getCurrentPosition();
 	}
 

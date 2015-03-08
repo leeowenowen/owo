@@ -24,7 +24,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		IMediaPlayerController.Client {
 
 	private static final String TAG = "AbsMediaPlayerWidget";
-	protected IMediaPlayerController mMediaPlayerController;
+	protected IMediaPlayerController mController;
 
 	protected VideoSurfaceView mSurfaceView;
 
@@ -55,13 +55,18 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		@Override
 		public void surfaceDestroyed(SurfaceHolder holder) {
 			Log.v(TAG, "surfaceDestroyed");
+			mController.detachSurface();
 		}
 
 		@Override
 		public void surfaceCreated(SurfaceHolder holder) {
 			Log.v(TAG, "surfaceCreated");
 			holder.setKeepScreenOn(true);
-			mCreateCallback.run(holder);
+			if (mCreateCallback != null) {
+				mCreateCallback.run(holder);
+				mCreateCallback = null;
+			}
+			mController.attachSurface(holder);
 		}
 
 		@Override
@@ -144,8 +149,8 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	}
 
 	public void setMPController(IMediaPlayerController mediaPlayerController) {
-		mMediaPlayerController = mediaPlayerController;
-		mMediaPlayerController.client(this);
+		mController = mediaPlayerController;
+		mController.client(this);
 	}
 
 	protected boolean mIsDraggingSeekBar;
@@ -163,7 +168,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 			if (fromUser) {
-				mMediaPlayerController.seek(progress, maxProgress());
+				mController.seek(progress, maxProgress());
 			}
 		}
 	};
@@ -171,27 +176,27 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	private OnClickListener mOnClickListener = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			assert (mMediaPlayerController != null);
+			assert (mController != null);
 			if (v == mPause) {
-				mMediaPlayerController.pause();
+				mController.pause();
 			} else if (v == mResume) {
-				mMediaPlayerController.resume();
+				mController.resume();
 			} else if (v == mStart) {
-				mMediaPlayerController.start();
+				mController.start();
 			} else if (v == mStop) {
-				mMediaPlayerController.stop();
+				mController.stop();
 			} else if (v == mPre) {
-				mMediaPlayerController.pre();
+				mController.pre();
 			} else if (v == mNext) {
-				mMediaPlayerController.next();
+				mController.next();
 			} else if (v == mFastForward) {
-				mMediaPlayerController.fastForward();
+				mController.fastForward();
 			} else if (v == mFastBackward) {
-				mMediaPlayerController.fastBackward();
+				mController.fastBackward();
 			} else if (v == mEnterFullScreen) {
-				mMediaPlayerController.enterFullScreen();
+				mController.enterFullScreen();
 			} else if (v == mExitFullScreen) {
-				mMediaPlayerController.exitFullScreen();
+				mController.exitFullScreen();
 			}
 		}
 	};
@@ -231,6 +236,7 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 	@Override
 	public void onProgressChanged(int progress) {
+		Log.v("XXX", "" + progress);
 		mSeekBar.setProgress(progress);
 	}
 
