@@ -43,10 +43,11 @@ class VideoItemTransformerLevel2 extends AbsVideoItemTransformer {
 			right.addView(mTitle);
 			right.addView(mPath);
 			right.addView(attributes);
-			right.setPadding(10, 0, 0, 0);
+			right.setPadding(DimensionUtil.w(10), 0, 0, 0);
 
 			setGravity(Gravity.CENTER_VERTICAL);
-			setPadding(20, 10, 20, 10);
+			setPadding(DimensionUtil.w(20), DimensionUtil.h(10), DimensionUtil.w(20),
+					DimensionUtil.h(10));
 			LinearLayout.LayoutParams thumbnailLayoutParams = new LinearLayout.LayoutParams(
 					mThumbnaiWidth, mThumbnailHeight);
 			addView(mThumbnailLayout, thumbnailLayoutParams);

@@ -236,7 +236,6 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 
 	@Override
 	public void onProgressChanged(int progress) {
-		Log.v("XXX", "" + progress);
 		mSeekBar.setProgress(progress);
 	}
 

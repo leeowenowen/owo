@@ -23,7 +23,8 @@ public class MediaPlayActivity extends ConfigurableActivity {
 	private DefaultMediaPlayerWidget mMediaPlayerWidget;
 	private IPlayList mPlayList;
 	private boolean mIsPaused;
-	private int mLastPosition;
+
+	// private int mLastPosition;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 		// initialize
 		ContextManager.init(this);
 		BaseHandler.initialize();
-		Debug.waitForDebugger();
+		//Debug.waitForDebugger();
 		mMediaPlayerWidget = new DefaultMediaPlayerWidget(MediaPlayActivity.this);
 		mMediaPlayerWidget.createSurfaceView(new Callback<SurfaceHolder>() {
 			@Override
@@ -44,11 +45,12 @@ public class MediaPlayActivity extends ConfigurableActivity {
 				mController = new MediaPlayerController();
 				mController.create();
 				mMediaPlayerWidget.setMPController(mController);
-				final String pathString = getIntent().getStringExtra("path");
-				String[] items = pathString.split("##");
+				final String pathString = getIntent().getStringExtra("path_title");
+				String[] items = pathString.split("####");
 				mPlayList = new DefaultPlayList();
 				for (String item : items) {
-					mPlayList.add(new PlayItem().source(item));
+					String[] path_title = item.split("@@@@");
+					mPlayList.add(new PlayItem().source(path_title[0]).title(path_title[1]));
 				}
 				int index = getIntent().getIntExtra("index", 0);
 				mController.playList(mPlayList, index);
@@ -74,10 +76,10 @@ public class MediaPlayActivity extends ConfigurableActivity {
 	protected void onPause() {
 		if (mController != null) {
 			mIsPaused = true;
-			mLastPosition = mController.current();
+//			mLastPosition = mController.current();
 			// mController.destroy();
 			mController.pause();
-			//BaseHandler.clear();
+			// BaseHandler.clear();
 		}
 		super.onPause();
 		Log.v(TAG, "onPause");

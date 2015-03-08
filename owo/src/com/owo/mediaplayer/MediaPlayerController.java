@@ -418,4 +418,19 @@ public class MediaPlayerController implements IMediaPlayerController, IMediaPlay
 	private void stopProgressUpdateTime() {
 		BaseHandler.removeCallbacks(mCheckProgressRunnable);
 	}
+
+	@Override
+	public IPlayList playList() {
+		return mPlayList;
+	}
+
+	@Override
+	public int currentPlayIndex() {
+		return mCurIndex;
+	}
+
+	@Override
+	public IPlayItem currentPlayItem() {
+		return mPlayList.at(mCurIndex);
+	}
 }

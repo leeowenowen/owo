@@ -44,7 +44,6 @@ public class MainActivity extends ConfigurableActivity {
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-			Log.v("xxx", "back");
 		}
 		return super.dispatchKeyEvent(event);
 

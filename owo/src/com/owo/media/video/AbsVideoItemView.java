@@ -6,12 +6,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,6 +19,7 @@ import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;
 import com.owo.ui.utils.LP;
+import com.owo.ui.view.ShapeImageView;
 
 abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 	protected TextView mTitle;
@@ -29,7 +27,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 	protected TextView mDuration;
 	protected TextView mResolution;
 	protected TextView mPath;
-	protected ImageView mThumbnail;
+	protected ShapeImageView mThumbnail;
 	protected ProgressBar mProgressBar;
 
 	protected FrameLayout mThumbnailLayout;
@@ -51,7 +49,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 		mDuration = new TextView(context);
 		mResolution = new TextView(context);
 		mPath = new TextView(context);
-		mThumbnail = new ImageView(context);
+		mThumbnail = new ShapeImageView(context, ShapeImageView.TYPE_ROUND_RECT);
 		mProgressBar = new ProgressBar(context);
 		mThumbnailLayout = new FrameLayout(context);
 
@@ -59,7 +57,6 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 		mThumbnailLayout.addView(mThumbnail, LP.FMM);
 	}
 
-	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public void update(Cursor cursor) {
 		int duration = cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.DURATION));
@@ -97,7 +94,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 							ThumbnailCache.add(path, bmp);
 							if (mSelfMark == mMark) {
 								loading(false, bmp);
-								mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
+								mThumbnail.setImageBitmap(bmp);
 							}
 						}
 					});
@@ -105,7 +102,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 			}.mark(++mMark));
 		} else {
 			loading(false, bmp);
-			mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
+			mThumbnail.setImageBitmap(bmp);
 		}
 	}
 

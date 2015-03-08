@@ -6,16 +6,21 @@ import android.database.Cursor;
 public class QueryUtil {
 	@SuppressLint("NewApi")
 	public static String getColumn(Cursor cursor, String column) {
+		String ret = null;
 		int columnIndex = cursor.getColumnIndex(column);
 		switch (cursor.getType(columnIndex)) {
 		case Cursor.FIELD_TYPE_STRING:
-			return cursor.getString(columnIndex);
+			ret = cursor.getString(columnIndex);
+			break;
 		case Cursor.FIELD_TYPE_FLOAT:
-			return Float.toString(cursor.getFloat(columnIndex));
+			ret = Float.toString(cursor.getFloat(columnIndex));
+			break;
 		case Cursor.FIELD_TYPE_INTEGER:
-			return Integer.toString(cursor.getInt(columnIndex));
+			ret = Integer.toString(cursor.getInt(columnIndex));
+			break;
 		default:
-			return null;
+			break;
 		}
+		return ret == null ? "" : ret;
 	}
 }

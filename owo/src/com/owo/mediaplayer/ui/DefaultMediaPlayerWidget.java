@@ -18,6 +18,9 @@ import com.owo.ui.utils.LP;
 
 public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 
+	private FrameLayout mCenterFrameLayout;
+	private LinearLayout mOverlayLayout;
+
 	public DefaultMediaPlayerWidget(Context context) {
 		super(context);
 		setupGestureDetector();
@@ -84,8 +87,11 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		mLoadingBar.setVisibility(INVISIBLE);
 	}
 
-	private FrameLayout mCenterFrameLayout;
-	private LinearLayout mOverlayLayout;
+	@Override
+	public void onStart() {
+		super.onStart();
+		mTitle.setText(mController.currentPlayItem().title());
+	}
 
 	private void setupGestureDetector() {
 		mGestureDetector = new GestureDetector(getContext(), new OnGestureListener() {
@@ -142,7 +148,7 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		mLock.setOnClickListener(mOnClickListener);
 		mUnLock.setOnClickListener(mOnClickListener);
 		setOnClickListener(mOnClickListener);
-		//switchToOverlayMode(true);
+		switchToOverlayMode(true);
 	}
 
 	private OnClickListener mOnClickListener = new OnClickListener() {

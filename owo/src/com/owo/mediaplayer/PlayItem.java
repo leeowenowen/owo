@@ -7,6 +7,7 @@ public class PlayItem implements IPlayItem {
 	private int mWidth;
 	private int mHeight;
 	private String mSource;
+	private String mTitle;
 
 	@Override
 	public int width() {
@@ -35,6 +36,16 @@ public class PlayItem implements IPlayItem {
 
 	public PlayItem source(String source) {
 		mSource = source;
+		return this;
+	}
+
+	@Override
+	public String title() {
+		return mTitle;
+	}
+
+	public PlayItem title(String title) {
+		mTitle = title;
 		return this;
 	}
 

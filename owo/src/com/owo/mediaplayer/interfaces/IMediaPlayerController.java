@@ -57,6 +57,12 @@ public interface IMediaPlayerController {
 
 	void resize(int w, int h);
 
+	IPlayList playList();
+
+	int currentPlayIndex();
+
+	IPlayItem currentPlayItem();
+
 	public interface Client {
 		void onStart();
 

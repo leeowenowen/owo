@@ -198,7 +198,6 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public int current() {
-		Log.v("XXX", "[" + mMediaPlayer + "][" + mMediaPlayer.getCurrentPosition() + "]");
 		return mMediaPlayer.getCurrentPosition();
 	}
 

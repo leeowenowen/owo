@@ -6,4 +6,6 @@ public interface IPlayItem {
 	int height();
 
 	String source();
+	
+	String title();
 }

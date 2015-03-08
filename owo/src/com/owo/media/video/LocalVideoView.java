@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -47,17 +48,21 @@ public class LocalVideoView extends ListView {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Cursor cursor = (Cursor) mAdapter.getItem(position);
-			final String path = QueryUtil.getColumn(cursor, MediaStore.Video.Media.DATA);
+			// final String path = QueryUtil.getColumn(cursor,
+			// MediaStore.Video.Media.DATA);
 			String pathString = "";
 			cursor.moveToFirst();
 			while (!cursor.isLast()) {
-				pathString += QueryUtil.getColumn(cursor, MediaStore.Video.Media.DATA);
-				pathString += "##";
+				String path = QueryUtil.getColumn(cursor, MediaStore.Video.Media.DATA);
+				String title = QueryUtil.getColumn(cursor, MediaStore.Video.Media.TITLE);
+				Log.v("xxx", "[path:" + path + "][title:" + title + "]");
+				pathString += (path + "@@@@" + title);
+				pathString += "####";
 				cursor.moveToNext();
 			}
 
 			Intent intent = new Intent(ContextManager.activity(), MediaPlayActivity.class);
-			intent.putExtra("path", pathString);
+			intent.putExtra("path_title", pathString);
 			intent.putExtra("index", position);
 			ContextManager.activity().startActivity(intent);
 		}
