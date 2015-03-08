@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -33,8 +34,11 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 	protected View mPre, mNext;
 	protected View mFastForward, mFastBackward;
 	protected View mEnterFullScreen, mExitFullScreen;
+	protected View mLock, mUnLock;
 	protected TextView mEndTime, mCurrentTime;
 	protected TextView mLoadingText;
+	protected TextView mTitle;
+	protected ProgressBar mLoadingBar;
 
 	public AbsMediaPlayerWidget(Context context) {
 		super(context);
@@ -99,9 +103,14 @@ public abstract class AbsMediaPlayerWidget extends FrameLayout implements
 		mEnterFullScreen = VF.of(context, ViewID.EnterFullScreen);
 		mExitFullScreen = VF.of(context, ViewID.ExitFullScreen);
 
+		mLock = VF.of(context, ViewID.Lock);
+		mUnLock = VF.of(context, ViewID.UnLock);
+
 		mEndTime = new TextView(context);
 		mCurrentTime = new TextView(context);
+		mTitle = new TextView(context);
 		mLoadingText = new TextView(context);
+		mLoadingBar = new ProgressBar(context);
 	}
 
 	private void setupListeners() {

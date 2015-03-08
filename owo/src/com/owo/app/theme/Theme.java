@@ -97,9 +97,6 @@ public class Theme {
 	}
 
 	public int bgColor() {
-		// int bgColor = mThemeProvider.bgColor();
-		// return Color.argb(100, Color.red(bgColor), Color.green(bgColor),
-		// Color.blue(bgColor));
 		return mThemeProvider.bgColor();
 	}
 
@@ -122,6 +119,12 @@ public class Theme {
 		return Color.argb(Color.alpha(bgColor), convertColor(Color.red(bgColor)),//
 				convertColor(Color.green(bgColor)),//
 				convertColor(Color.blue(bgColor)));
+	}
+
+	public static int alpha(int color, int alpha) {
+		return Color.argb(alpha, convertColor(Color.red(color)),//
+				convertColor(Color.green(color)),//
+				convertColor(Color.blue(color)));
 	}
 
 	public static void notifyChanged(View v) {

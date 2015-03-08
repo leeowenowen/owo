@@ -30,7 +30,6 @@ public class VF {
 		Menu, //
 	}
 
-	private static HashMap<ViewID, View> mViews = new HashMap<VF.ViewID, View>();
 	private static HashMap<ViewID, HalfRectShape> mShapes;
 	private static HashMap<ViewID, HalfRectShape> mDarkShapes;
 
@@ -72,17 +71,12 @@ public class VF {
 
 	public static View of(Context context, ViewID id) {
 		ensure();
-		View v = mViews.get(id);
-		if (v == null) {
-			v = create(context, id);
-		}
-		return v;
+		return create(context, id);
 	}
 
 	@SuppressWarnings("deprecation")
 	private static View create(Context context, ViewID id) {
 		View view = new View(context);
-		// view.setBackgroundDrawable(new ShapeDrawable(shape));
 		StateListDrawable drawable = new StateListDrawable();
 		HalfRectShape shape = mDarkShapes.get(id);
 		shape.bgColor(Theme.maskedBgColor());
