@@ -12,8 +12,8 @@ import android.view.WindowManager;
 import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.common.BaseHandler;
 import com.owo.app.common.ContextManager;
+import com.owo.base.common.Callback;
 import com.owo.base.pattern.Singleton;
-import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IPlayList;
 import com.owo.mediaplayer.ui.DefaultMediaPlayerWidget;
 
@@ -49,6 +49,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 				String[] items = pathString.split("####");
 				mPlayList = new DefaultPlayList();
 				for (String item : items) {
+					Log.v("xxx", "############################" + item);
 					String[] path_title = item.split("@@@@");
 					mPlayList.add(new PlayItem().source(path_title[0]).title(path_title[1]));
 				}
@@ -57,6 +58,14 @@ public class MediaPlayActivity extends ConfigurableActivity {
 				mController.start();
 			}
 		});
+		// WindowManager wm = (WindowManager)getSystemService(WINDOW_SERVICE);
+		// WindowManager.LayoutParams lParams = new
+		// WindowManager.LayoutParams(300, 300, LayoutParams.TYPE_PHONE, 0, 0);
+		// wm.addView(mMediaPlayerWidget, lParams);
+		// TextView tView = new TextView(this);
+		// tView.setBackgroundColor(Color.RED);
+		// setContentView(tView);
+		// setVisible(false);
 		setContentView(mMediaPlayerWidget);
 	}
 
@@ -76,7 +85,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 	protected void onPause() {
 		if (mController != null) {
 			mIsPaused = true;
-//			mLastPosition = mController.current();
+			// mLastPosition = mController.current();
 			// mController.destroy();
 			mController.pause();
 			// BaseHandler.clear();
@@ -115,6 +124,7 @@ public class MediaPlayActivity extends ConfigurableActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.v(TAG, "onDestroy");
+		super.onDestroy();
 		BaseHandler.destroy();
 		ContextManager.destroy();
 		Singleton.destroy();
@@ -130,7 +140,6 @@ public class MediaPlayActivity extends ConfigurableActivity {
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		// TODO Auto-generated method stub
 		return super.dispatchKeyEvent(event);
 	}
 }

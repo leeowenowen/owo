@@ -1,5 +1,8 @@
 package com.owo.base.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -40,15 +43,14 @@ public class BitmapHelper {
 	 * @param config
 	 *            {@link Config#RGB_565} or {@link Config#ARGB_8888}
 	 */
-	public static Bitmap decodeBitmap(int pathType, String filePath,
-			int maxWidth, int maxHeight, Rect outPaddings, Config config) {
+	public static Bitmap decodeBitmap(int pathType, String filePath, int maxWidth, int maxHeight,
+			Rect outPaddings, Config config) {
 		InputStream stream = FileHelper.open(pathType, filePath);
 		if (stream == null) {
 			return null;
 		}
 
-		Bitmap bitmap = decodeBitmap(stream, maxWidth, maxHeight, outPaddings,
-				config);
+		Bitmap bitmap = decodeBitmap(stream, maxWidth, maxHeight, outPaddings, config);
 
 		try {
 			stream.close();
@@ -56,16 +58,15 @@ public class BitmapHelper {
 		}
 		return bitmap;
 	}
-	
-	public static Bitmap decodeBitmapThumbnail(int pathType, String filePath,
-			int maxWidth, int maxHeight, Rect outPaddings, Config config) {
+
+	public static Bitmap decodeBitmapThumbnail(int pathType, String filePath, int maxWidth,
+			int maxHeight, Rect outPaddings, Config config) {
 		InputStream stream = FileHelper.open(pathType, filePath);
 		if (stream == null) {
 			return null;
 		}
 
-		Bitmap bitmap = decodeBitmap(stream, maxWidth, maxHeight, outPaddings,
-				config);
+		Bitmap bitmap = decodeBitmap(stream, maxWidth, maxHeight, outPaddings, config);
 
 		try {
 			stream.close();
@@ -82,8 +83,8 @@ public class BitmapHelper {
 	 * @param config
 	 *            {@link Config#RGB_565} or {@link Config#ARGB_8888}
 	 */
-	public static Bitmap decodeBitmap(InputStream stream, int maxWidth,
-			int maxHeight, Rect outPaddings, Config config) {
+	public static Bitmap decodeBitmap(InputStream stream, int maxWidth, int maxHeight,
+			Rect outPaddings, Config config) {
 		// 1) decode
 		Options op = getOptions();
 		op.inJustDecodeBounds = false;
@@ -103,8 +104,8 @@ public class BitmapHelper {
 	 * @param config
 	 *            {@link Config#RGB_565} or {@link Config#ARGB_8888}
 	 */
-	public static Bitmap decodeBitmap(byte[] data, int offset, int length,
-			int maxWidth, int maxHeight, Config config) {
+	public static Bitmap decodeBitmap(byte[] data, int offset, int length, int maxWidth,
+			int maxHeight, Config config) {
 		// 1) decode
 		Options op = getOptions();
 		op.inJustDecodeBounds = false;
@@ -116,16 +117,14 @@ public class BitmapHelper {
 		return ensureBitmapSize(bitmap, maxWidth, maxHeight);
 	}
 
-	private static Bitmap ensureBitmapSize(Bitmap bitmap, int maxWidth,
-			int maxHeight) {
+	private static Bitmap ensureBitmapSize(Bitmap bitmap, int maxWidth, int maxHeight) {
 		if (maxWidth != WRAP_CONTENT || maxHeight != WRAP_CONTENT) {
 			// 1) calc size
 			int width = bitmap.getWidth();
 			int height = bitmap.getHeight();
 			float scale = Math.max(//
 					maxWidth != WRAP_CONTENT ? ((float) maxWidth / width) : 0, //
-					maxHeight != WRAP_CONTENT ? ((float) maxHeight / height)
-							: 0);
+					maxHeight != WRAP_CONTENT ? ((float) maxHeight / height) : 0);
 			if (maxWidth == WRAP_CONTENT) {
 				width = Math.round(width * scale);
 			} else if (maxHeight == WRAP_CONTENT) {
@@ -198,8 +197,7 @@ public class BitmapHelper {
 		int oldWidth = source.getWidth();
 		int oldHeight = source.getHeight();
 		if (width != oldWidth || height != oldHeight) {
-			SCALE_MATRIX.setScale((float) width / oldWidth, (float) height
-					/ oldHeight);
+			SCALE_MATRIX.setScale((float) width / oldWidth, (float) height / oldHeight);
 			canvas.setMatrix(SCALE_MATRIX);
 		} else {
 			canvas.setMatrix(null);
@@ -220,5 +218,31 @@ public class BitmapHelper {
 		}
 
 		return bitmap;
+	}
+
+	public static void saveBitmap(Bitmap b, String path) {
+		FileOutputStream fos = null;
+		try {
+			File f = new File(path);
+			if (f.exists()) {
+				f.delete();
+			}
+
+			fos = new FileOutputStream(f);
+			if (null != fos) {
+				b.compress(Bitmap.CompressFormat.PNG, 90, fos);
+				fos.flush();
+				fos.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static Bitmap loadBitmap(String path) {
+		return decodeBitmap(FileHelper.TYPE_FILE_SYSTEM, path, WRAP_CONTENT, WRAP_CONTENT, null,
+				null);
 	}
 }

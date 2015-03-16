@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.owo.app.common.BaseHandler;
 import com.owo.app.theme.ThemeObserver;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;
@@ -72,7 +73,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 
 		mSize.setText(MediaUtil.size(Long.parseLong(size.trim())));
 
-		Bitmap bmp = ThumbnailCache.get(path);
+		Bitmap bmp = Singleton.of(ThumbnailCache.class).get(path);
 		if (bmp == null) {
 			loading(true, bmp);
 			AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
@@ -91,7 +92,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 
 						@Override
 						public void run() {
-							ThumbnailCache.add(path, bmp);
+							Singleton.of(ThumbnailCache.class).add(path, bmp);
 							if (mSelfMark == mMark) {
 								loading(false, bmp);
 								mThumbnail.setImageBitmap(bmp);

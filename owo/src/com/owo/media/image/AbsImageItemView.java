@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.owo.app.common.BaseHandler;
 import com.owo.app.theme.ThemeObserver;
+import com.owo.base.pattern.Singleton;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
 import com.owo.media.ThumbnailCache;
@@ -73,9 +74,9 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 		}
 
 		mSize.setText(MediaUtil.size(Long.parseLong(size.trim())));
-		Bitmap bmp = ThumbnailCache.get(path);
-		if (bmp == null) {
-			loading(true, bmp);
+		boolean exists = Singleton.of(ThumbnailCache.class).contains(path);
+		if (!exists) {
+			loading(true, null);
 			AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
 				private long mSelfMark;
 
@@ -94,7 +95,7 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 					BaseHandler.post(new Runnable() {
 						@Override
 						public void run() {
-							ThumbnailCache.add(path, bmp);
+							Singleton.of(ThumbnailCache.class).add(path, bmp);
 							if (mSelfMark == mMark) {
 								loading(false, bmp);
 								mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
@@ -104,6 +105,7 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 				}
 			}.mark(++mMark));
 		} else {
+			Bitmap bmp = Singleton.of(ThumbnailCache.class).get(path);
 			loading(false, bmp);
 			mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
 		}

@@ -12,9 +12,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.owo.app.theme.Theme;
+import com.owo.base.common.Callback;
 import com.owo.base.pattern.Singleton;
 import com.owo.mediaplayer.core.VideoSurfaceView;
-import com.owo.mediaplayer.interfaces.Callback;
 import com.owo.mediaplayer.interfaces.IMediaPlayerController;
 import com.owo.mediaplayer.interfaces.IMetaInfo;
 import com.owo.ui.shape.VF;

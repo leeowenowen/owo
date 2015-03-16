@@ -52,7 +52,7 @@ public class LocalVideoView extends ListView {
 			// MediaStore.Video.Media.DATA);
 			String pathString = "";
 			cursor.moveToFirst();
-			while (!cursor.isLast()) {
+			while (!cursor.isAfterLast()) {
 				String path = QueryUtil.getColumn(cursor, MediaStore.Video.Media.DATA);
 				String title = QueryUtil.getColumn(cursor, MediaStore.Video.Media.TITLE);
 				Log.v("xxx", "[path:" + path + "][title:" + title + "]");
@@ -60,7 +60,7 @@ public class LocalVideoView extends ListView {
 				pathString += "####";
 				cursor.moveToNext();
 			}
-
+			Log.v("xxx","############################pathString:" + pathString);
 			Intent intent = new Intent(ContextManager.activity(), MediaPlayActivity.class);
 			intent.putExtra("path_title", pathString);
 			intent.putExtra("index", position);

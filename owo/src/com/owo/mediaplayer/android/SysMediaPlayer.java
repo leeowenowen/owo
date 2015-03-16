@@ -37,7 +37,7 @@ public class SysMediaPlayer extends AbsMediaPlayer {
 
 	@Override
 	public void detachSurface() {
-		mMediaPlayer.setDisplay(null);
+		//mMediaPlayer.setDisplay(null);
 	}
 
 	@Override

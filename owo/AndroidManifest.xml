@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:allowBackup="true"
@@ -45,6 +47,19 @@
             android:label="aaa"
             android:process="com.owo.app.aaa" >
         </activity>
+        <receiver
+            android:name="com.owo.app.test.MyWidgetProvider"
+            android:icon="@drawable/ic_app_logo">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="zyf.test.widget.UP" />
+                <action android:name="zyf.test.widget.DOWN" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_provider" />
+        </receiver>
     </application>
 
 </manifest>
