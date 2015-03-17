@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -88,8 +89,12 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 				public void run() {
 					final Bitmap bmp = MediaUtil.createVideoThumbnail(path, mThumbnaiWidth,
 							mThumbnailHeight, null, null);
+					if(bmp == null)
+					{
+						Log.v("xxx", "error, video thumbnail create failed:" + path);
+						return;
+					}
 					BaseHandler.post(new Runnable() {
-
 						@Override
 						public void run() {
 							Singleton.of(ThumbnailCache.class).add(path, bmp);

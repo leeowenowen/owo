@@ -40,6 +40,7 @@ public class ShapeImageView extends View {
 
 	public void setImageBitmap(Bitmap bitmap) {
 		mBgBitmap = bitmap;
+		invalidate();
 	}
 
 	private Bitmap makeDst() {

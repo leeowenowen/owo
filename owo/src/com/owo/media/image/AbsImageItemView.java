@@ -90,7 +90,8 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 					final Bitmap bmp = MediaUtil.createImageThumbnail(path, mThumbnaiWidth,
 							mThumbnailHeight, null, null);
 					if (bmp == null) {
-						Log.v("xxx", "error:" + path);
+						Log.v("xxx", "error, image thumbnail create failed:" + path);
+						return;
 					}
 					BaseHandler.post(new Runnable() {
 						@Override

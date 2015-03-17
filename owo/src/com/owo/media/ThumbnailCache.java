@@ -68,7 +68,6 @@ public class ThumbnailCache implements Serializable {
 
 	public void add(String key, final Bitmap bitmap) {
 		CacheItem item = mBmps.get(key);
-		Check.d(item == null);
 		if (item != null) {
 			item.bitmap = bitmap;
 		} else {
