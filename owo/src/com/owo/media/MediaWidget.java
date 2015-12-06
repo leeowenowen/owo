@@ -15,15 +15,18 @@ import com.owo.app.theme.ThemeObserver;
 import com.owo.base.pattern.Singleton;
 import com.owo.base.util.DimensionUtil;
 import com.owo.media.audio.LocalAudioView;
-import com.owo.media.image.LocalImageView;
+import com.owo.media.image.LocalImageListViewProvider;
+import com.owo.media.interfaces.ListViewType;
 import com.owo.media.interfaces.MediaType;
 import com.owo.media.video.LocalVideoView;
+import com.owo.mediaplayer.interfaces.ListViewConfig;
 import com.owo.ui.ScrollTabControl;
 import com.owo.ui.ScrollTabControl.IndicatorView;
 import com.owo.ui.ScrollTabControl.OnTabChangeListener;
 import com.owo.ui.ScrollTabControl.TabContentFactory;
 
-public class MediaWidget extends FrameLayout implements ThemeObserver, LanguageObserver {
+public class MediaWidget extends FrameLayout implements ThemeObserver,
+		LanguageObserver {
 	private ScrollTabControl mScrollTabControl;
 
 	private TextView[] mTextViews;
@@ -42,17 +45,20 @@ public class MediaWidget extends FrameLayout implements ThemeObserver, LanguageO
 		mTextViews = new TextView[3];
 		for (int i = 0; i < 3; ++i) {
 			mTextViews[i] = new TextView(context);
-			mTextViews[i]
-					.setLayoutParams(new LinearLayout.LayoutParams(0, DimensionUtil.h(100), 1));
+			mTextViews[i].setLayoutParams(new LinearLayout.LayoutParams(0,
+					DimensionUtil.h(100), 1));
 			mTextViews[i].setGravity(Gravity.CENTER);
 		}
 
 		mScrollTabControl.addTab(mScrollTabControl.newTabSpec(MediaType.VIDEO)
-				.setIndicator(new TextViewIndicator(mTextViews[0])).setContent(mTabContentFactory));
+				.setIndicator(new TextViewIndicator(mTextViews[0]))
+				.setContent(mTabContentFactory));
 		mScrollTabControl.addTab(mScrollTabControl.newTabSpec(MediaType.AUDIO)
-				.setIndicator(new TextViewIndicator(mTextViews[1])).setContent(mTabContentFactory));
+				.setIndicator(new TextViewIndicator(mTextViews[1]))
+				.setContent(mTabContentFactory));
 		mScrollTabControl.addTab(mScrollTabControl.newTabSpec(MediaType.IMAGE)
-				.setIndicator(new TextViewIndicator(mTextViews[2])).setContent(mTabContentFactory));
+				.setIndicator(new TextViewIndicator(mTextViews[2]))
+				.setContent(mTabContentFactory));
 		addView(mScrollTabControl);
 		onLanguageChanged();
 		onThemeChanged();
@@ -87,7 +93,10 @@ public class MediaWidget extends FrameLayout implements ThemeObserver, LanguageO
 		@Override
 		public View createTabContent(String tag) {
 			if (tag.equals(MediaType.IMAGE)) {
-				return new LocalImageView(getContext());
+				ListViewConfig config = new ListViewConfig()
+						.type(ListViewType.sAndroidGridView);
+				return new LocalImageListViewProvider(getContext(), config)
+						.get();
 			} else if (tag.equals(MediaType.VIDEO)) {
 				return new LocalVideoView(getContext());
 			} else if (tag.equals(MediaType.AUDIO)) {
@@ -103,13 +112,16 @@ public class MediaWidget extends FrameLayout implements ThemeObserver, LanguageO
 			String text = "";
 			switch (i) {
 			case 0:
-				text = Singleton.of(Language.class).get(LanguageResourceKeys.Video);
+				text = Singleton.of(Language.class).get(
+						LanguageResourceKeys.Video);
 				break;
 			case 1:
-				text = Singleton.of(Language.class).get(LanguageResourceKeys.Audio);
+				text = Singleton.of(Language.class).get(
+						LanguageResourceKeys.Audio);
 				break;
 			case 2:
-				text = Singleton.of(Language.class).get(LanguageResourceKeys.Image);
+				text = Singleton.of(Language.class).get(
+						LanguageResourceKeys.Image);
 				break;
 			}
 			mTextViews[i].setText(text);

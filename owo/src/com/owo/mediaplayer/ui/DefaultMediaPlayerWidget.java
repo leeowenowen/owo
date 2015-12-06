@@ -32,8 +32,8 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 	protected void setupLayout() {
 		int size = DimensionUtil.rowHeight();
 		// center: loading or lock
-		FrameLayout.LayoutParams lockLayoutParams = new FrameLayout.LayoutParams(size, size,
-				Gravity.CENTER);
+		FrameLayout.LayoutParams lockLayoutParams = new FrameLayout.LayoutParams(
+				size, size, Gravity.CENTER);
 		mCenterFrameLayout = new FrameLayout(getContext());
 		mCenterFrameLayout.addView(mLoadingBar, LP.FWWC);
 		mCenterFrameLayout.addView(mLock, lockLayoutParams);
@@ -43,11 +43,12 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		// 2) progress bar
 		LinearLayout playProgressLinearLayout = new LinearLayout(getContext());
 		playProgressLinearLayout.setGravity(Gravity.CENTER);
-		LinearLayout.LayoutParams timeLP = new LinearLayout.LayoutParams(DimensionUtil.w(150),
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams timeLP = new LinearLayout.LayoutParams(
+				DimensionUtil.w(150), LinearLayout.LayoutParams.WRAP_CONTENT);
 		playProgressLinearLayout.addView(mCurrentTime, timeLP);
-		playProgressLinearLayout.addView(mSeekBar, new LinearLayout.LayoutParams(0,
-				LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+		playProgressLinearLayout.addView(mSeekBar,
+				new LinearLayout.LayoutParams(0,
+						LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 		mEndTime.setGravity(Gravity.RIGHT);
 		playProgressLinearLayout.addView(mEndTime, timeLP);
 
@@ -60,7 +61,8 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 
 		LinearLayout controlBar = new LinearLayout(getContext());
 		controlBar.setGravity(Gravity.CENTER);
-		LinearLayout.LayoutParams iconLP = new LinearLayout.LayoutParams(size, size);
+		LinearLayout.LayoutParams iconLP = new LinearLayout.LayoutParams(size,
+				size);
 		controlBar.addView(mPre, iconLP);
 		controlBar.addView(startStop, iconLP);
 		controlBar.addView(mNext, iconLP);
@@ -70,16 +72,17 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		LinearLayout bottomBar = new LinearLayout(getContext());
 		bottomBar.setOrientation(LinearLayout.VERTICAL);
 		bottomBar.setGravity(Gravity.BOTTOM);
-		bottomBar.addView(playProgressLinearLayout, LP.LMW);
-		bottomBar.addView(controlBar, LP.LMW);
+		bottomBar.addView(playProgressLinearLayout, LP.LMW());
+		bottomBar.addView(controlBar, LP.LMW());
 
-		bottomBar.setBackgroundColor(Theme.alpha(Singleton.of(Theme.class).bgColor(), 100));
+		bottomBar.setBackgroundColor(Theme.alpha(Singleton.of(Theme.class)
+				.bgColor(), 100));
 
 		mOverlayLayout = new LinearLayout(getContext());
 		mOverlayLayout.setOrientation(LinearLayout.VERTICAL);
-		mOverlayLayout.addView(mTitle, LP.LMW);
+		mOverlayLayout.addView(mTitle, LP.LMW());
 		mOverlayLayout.addView(mCenterFrameLayout, LP.LW01);
-		mOverlayLayout.addView(bottomBar, LP.LMW);
+		mOverlayLayout.addView(bottomBar, LP.LMW());
 		addView(mOverlayLayout);
 		mUnLock.setVisibility(INVISIBLE);
 		addView(mUnLock, lockLayoutParams);
@@ -94,43 +97,46 @@ public class DefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 	}
 
 	private void setupGestureDetector() {
-		mGestureDetector = new GestureDetector(getContext(), new OnGestureListener() {
+		mGestureDetector = new GestureDetector(getContext(),
+				new OnGestureListener() {
 
-			@Override
-			public boolean onSingleTapUp(MotionEvent e) {
-				// TODO Auto-generated method stub
-				return false;
-			}
+					@Override
+					public boolean onSingleTapUp(MotionEvent e) {
+						// TODO Auto-generated method stub
+						return false;
+					}
 
-			@Override
-			public void onShowPress(MotionEvent e) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onShowPress(MotionEvent e) {
+						// TODO Auto-generated method stub
 
-			}
+					}
 
-			@Override
-			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-				// TODO Auto-generated method stub
-				return false;
-			}
+					@Override
+					public boolean onScroll(MotionEvent e1, MotionEvent e2,
+							float distanceX, float distanceY) {
+						// TODO Auto-generated method stub
+						return false;
+					}
 
-			@Override
-			public void onLongPress(MotionEvent e) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onLongPress(MotionEvent e) {
+						// TODO Auto-generated method stub
 
-			}
+					}
 
-			@Override
-			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-				// TODO Auto-generated method stub
-				return false;
-			}
+					@Override
+					public boolean onFling(MotionEvent e1, MotionEvent e2,
+							float velocityX, float velocityY) {
+						// TODO Auto-generated method stub
+						return false;
+					}
 
-			@Override
-			public boolean onDown(MotionEvent e) {
-				return false;
-			}
-		});
+					@Override
+					public boolean onDown(MotionEvent e) {
+						return false;
+					}
+				});
 	}
 
 	private GestureDetector mGestureDetector;

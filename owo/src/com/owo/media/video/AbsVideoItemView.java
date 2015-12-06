@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -57,6 +58,7 @@ abstract class AbsVideoItemView extends LinearLayout implements ThemeObserver {
 
 		mThumbnailLayout.addView(mProgressBar, LP.FWWC);
 		mThumbnailLayout.addView(mThumbnail, LP.FMM);
+		mPath.setVisibility(View.GONE);
 	}
 
 	@SuppressLint("NewApi")

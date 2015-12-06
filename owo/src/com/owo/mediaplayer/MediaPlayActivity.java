@@ -2,12 +2,9 @@ package com.owo.mediaplayer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Debug;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.owo.app.base.ConfigurableActivity;
 import com.owo.app.common.BaseHandler;
@@ -30,28 +27,25 @@ public class MediaPlayActivity extends ConfigurableActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.v(TAG, "onCreate");
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		// initialize
-		ContextManager.init(this);
-		BaseHandler.initialize();
-		//Debug.waitForDebugger();
-		mMediaPlayerWidget = new DefaultMediaPlayerWidget(MediaPlayActivity.this);
+		// Debug.waitForDebugger();
+		mMediaPlayerWidget = new DefaultMediaPlayerWidget(
+				MediaPlayActivity.this);
 		mMediaPlayerWidget.createSurfaceView(new Callback<SurfaceHolder>() {
 			@Override
 			public void run(SurfaceHolder surface) {
 				mController = new MediaPlayerController();
 				mController.create();
 				mMediaPlayerWidget.setMPController(mController);
-				final String pathString = getIntent().getStringExtra("path_title");
+				final String pathString = getIntent().getStringExtra(
+						"path_title");
 				String[] items = pathString.split("####");
 				mPlayList = new DefaultPlayList();
 				for (String item : items) {
 					Log.v("xxx", "############################" + item);
 					String[] path_title = item.split("@@@@");
-					mPlayList.add(new PlayItem().source(path_title[0]).title(path_title[1]));
+					mPlayList.add(new PlayItem().source(path_title[0]).title(
+							path_title[1]));
 				}
 				int index = getIntent().getIntExtra("index", 0);
 				mController.playList(mPlayList, index);

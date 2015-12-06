@@ -14,9 +14,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.owo.app.R;
-import com.owo.app.main.MainActivity;
   
 public class AppWidgetActivity extends Activity  
 {  

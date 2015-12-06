@@ -9,7 +9,7 @@ public class ImageCursorTransformerFactory {
 		case ScaleLevel.sLevel0: // all width
 			return new ImageItemTransformerLevel0();
 		case ScaleLevel.sLevel1:// half width
-			return new ImageItemTransformerLevel0();
+			return new ImageItemTransformerLevel1();
 		case ScaleLevel.sLevel2:// half width
 			return new ImageItemTransformerLevel0();
 		case ScaleLevel.sLevel3:// half width

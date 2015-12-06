@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ abstract class AbsAudioItemView extends LinearLayout implements ThemeObserver {
 		mSize = new TextView(context);
 		mDuration = new TextView(context);
 		mPath = new TextView(context);
+		mPath.setVisibility(View.GONE);
 	}
 
 	@SuppressLint("NewApi")

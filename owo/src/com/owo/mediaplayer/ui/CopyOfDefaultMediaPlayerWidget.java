@@ -41,11 +41,12 @@ public class CopyOfDefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		// 2) progress bar
 		LinearLayout playProgressLinearLayout = new LinearLayout(getContext());
 		playProgressLinearLayout.setGravity(Gravity.CENTER);
-		LinearLayout.LayoutParams timeLP = new LinearLayout.LayoutParams(DimensionUtil.w(150),
-				LinearLayout.LayoutParams.WRAP_CONTENT);
+		LinearLayout.LayoutParams timeLP = new LinearLayout.LayoutParams(
+				DimensionUtil.w(150), LinearLayout.LayoutParams.WRAP_CONTENT);
 		playProgressLinearLayout.addView(mCurrentTime, timeLP);
-		playProgressLinearLayout.addView(mSeekBar, new LinearLayout.LayoutParams(0,
-				LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+		playProgressLinearLayout.addView(mSeekBar,
+				new LinearLayout.LayoutParams(0,
+						LinearLayout.LayoutParams.WRAP_CONTENT, 1));
 		playProgressLinearLayout.addView(mEndTime, timeLP);
 
 		// control bar
@@ -58,7 +59,8 @@ public class CopyOfDefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		LinearLayout controlBar = new LinearLayout(getContext());
 		controlBar.setGravity(Gravity.CENTER);
 		int size = DimensionUtil.rowHeight();
-		LinearLayout.LayoutParams iconLP = new LinearLayout.LayoutParams(size, size);
+		LinearLayout.LayoutParams iconLP = new LinearLayout.LayoutParams(size,
+				size);
 		controlBar.addView(mPre, iconLP);
 		controlBar.addView(startStop, iconLP);
 		controlBar.addView(mNext, iconLP);
@@ -68,61 +70,66 @@ public class CopyOfDefaultMediaPlayerWidget extends AbsMediaPlayerWidget {
 		LinearLayout bottomBar = new LinearLayout(getContext());
 		bottomBar.setOrientation(LinearLayout.VERTICAL);
 		bottomBar.setGravity(Gravity.CENTER);
-		bottomBar.addView(playProgressLinearLayout, LP.LMW);
-		bottomBar.addView(controlBar, LP.LMW);
+		bottomBar.addView(playProgressLinearLayout, LP.LMW());
+		bottomBar.addView(controlBar, LP.LMW());
 
-		addView(bottomBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+		addView(bottomBar, new FrameLayout.LayoutParams(
+				FrameLayout.LayoutParams.MATCH_PARENT,
 				FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM));
-		bottomBar.setBackgroundColor(Theme.alpha(Singleton.of(Theme.class).bgColor(), 100));
+		bottomBar.setBackgroundColor(Theme.alpha(Singleton.of(Theme.class)
+				.bgColor(), 100));
 
 		LinearLayout overlay = new LinearLayout(getContext());
 		overlay.setOrientation(LinearLayout.VERTICAL);
-		overlay.addView(mTitle, LP.LMW);
+		overlay.addView(mTitle, LP.LMW());
 		overlay.addView(center, LP.LW01);
-		overlay.addView(bottomBar, LP.LMW);
+		overlay.addView(bottomBar, LP.LMW());
 		addView(overlay);
 		addView(mUnLock, LP.FWWC);
 	}
 
 	private void initComponents() {
-		mGestureDetector = new GestureDetector(getContext(), new OnGestureListener() {
+		mGestureDetector = new GestureDetector(getContext(),
+				new OnGestureListener() {
 
-			@Override
-			public boolean onSingleTapUp(MotionEvent e) {
-				// TODO Auto-generated method stub
-				return false;
-			}
+					@Override
+					public boolean onSingleTapUp(MotionEvent e) {
+						// TODO Auto-generated method stub
+						return false;
+					}
 
-			@Override
-			public void onShowPress(MotionEvent e) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onShowPress(MotionEvent e) {
+						// TODO Auto-generated method stub
 
-			}
+					}
 
-			@Override
-			public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-				// TODO Auto-generated method stub
-				return false;
-			}
+					@Override
+					public boolean onScroll(MotionEvent e1, MotionEvent e2,
+							float distanceX, float distanceY) {
+						// TODO Auto-generated method stub
+						return false;
+					}
 
-			@Override
-			public void onLongPress(MotionEvent e) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onLongPress(MotionEvent e) {
+						// TODO Auto-generated method stub
 
-			}
+					}
 
-			@Override
-			public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-				// TODO Auto-generated method stub
-				return false;
-			}
+					@Override
+					public boolean onFling(MotionEvent e1, MotionEvent e2,
+							float velocityX, float velocityY) {
+						// TODO Auto-generated method stub
+						return false;
+					}
 
-			@Override
-			public boolean onDown(MotionEvent e) {
-				mState.handleMessage(MI_TOUCH, null, null);
-				return false;
-			}
-		});
+					@Override
+					public boolean onDown(MotionEvent e) {
+						mState.handleMessage(MI_TOUCH, null, null);
+						return false;
+					}
+				});
 	}
 
 	private GestureDetector mGestureDetector;

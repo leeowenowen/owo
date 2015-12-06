@@ -56,5 +56,17 @@ class ImageItemTransformerLevel0 extends AbsImageItemTransformer {
 		public void onThemeChanged() {
 			Theme.updateTheme(this);
 		}
+
+		@Override
+		protected int thumbnailWidth() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		protected int thumbnailHeight() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 	}
 }

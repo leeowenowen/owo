@@ -1,27 +1,28 @@
 package com.owo.media.image;
 
 import java.io.File;
+import java.util.Random;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
-import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 
-import com.owo.app.common.BaseHandler;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.owo.app.theme.ThemeObserver;
-import com.owo.base.pattern.Singleton;
+import com.owo.app.util.ImageLoadUtil;
 import com.owo.base.util.MediaUtil;
 import com.owo.media.QueryUtil;
-import com.owo.media.ThumbnailCache;
 import com.owo.ui.utils.LP;
 
 abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
@@ -30,7 +31,7 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 	protected TextView mWH;
 	protected TextView mPath;
 	protected ImageView mThumbnail;
-	protected ProgressBar mProgressBar;
+	// protected ProgressBar mProgressBar;
 
 	protected FrameLayout mThumbnailLayout;
 
@@ -52,73 +53,53 @@ abstract class AbsImageItemView extends LinearLayout implements ThemeObserver {
 		mPath = new TextView(context);
 
 		mThumbnail = new ImageView(context);
-		mProgressBar = new ProgressBar(context);
 		mThumbnailLayout = new FrameLayout(context);
 
-		mThumbnailLayout.addView(mProgressBar, LP.FWWC);
 		mThumbnailLayout.addView(mThumbnail, LP.FMM);
+		mPath.setVisibility(View.GONE);
 	}
 
-	@SuppressWarnings("deprecation")
-	@SuppressLint("NewApi")
+	private static Options sOptions = new Options();
+
 	public void update(Cursor cursor) {
-		String width = QueryUtil.getColumn(cursor, MediaStore.Images.Media.WIDTH);
-		String height = QueryUtil.getColumn(cursor, MediaStore.Images.Media.HEIGHT);
+		String width = QueryUtil.getColumn(cursor, "width");// MediaStore.Images.Media.WIDTH
+		String height = QueryUtil.getColumn(cursor, "height");// MediaStore.Images.Media.HEIGHT
 		mWH.setText(width + "x" + height);
-		final String path = QueryUtil.getColumn(cursor, MediaStore.Images.Media.DATA);
+		String path = QueryUtil.getColumn(cursor, MediaStore.Images.Media.DATA);
 		mPath.setText(path);
-		mTitle.setText(QueryUtil.getColumn(cursor, MediaStore.Images.Media.TITLE));
+		mTitle.setText(QueryUtil.getColumn(cursor,
+				MediaStore.Images.Media.TITLE));
 		String size = QueryUtil.getColumn(cursor, MediaStore.Images.Media.SIZE);
 		if (size == null) {
 			size = String.valueOf(new File(path).length());
 		}
 
 		mSize.setText(MediaUtil.size(Long.parseLong(size.trim())));
-		boolean exists = Singleton.of(ThumbnailCache.class).contains(path);
-		if (!exists) {
-			loading(true, null);
-			AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-				private long mSelfMark;
-
-				public Runnable mark(long mark) {
-					mSelfMark = mark;
-					return this;
-				}
-
-				@Override
-				public void run() {
-					final Bitmap bmp = MediaUtil.createImageThumbnail(path, mThumbnaiWidth,
-							mThumbnailHeight, null, null);
-					if (bmp == null) {
-						Log.v("xxx", "error, image thumbnail create failed:" + path);
-						return;
-					}
-					BaseHandler.post(new Runnable() {
-						@Override
-						public void run() {
-							Singleton.of(ThumbnailCache.class).add(path, bmp);
-							if (mSelfMark == mMark) {
-								loading(false, bmp);
-								mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
-							}
-						}
-					});
-				}
-			}.mark(++mMark));
-		} else {
-			Bitmap bmp = Singleton.of(ThumbnailCache.class).get(path);
-			loading(false, bmp);
-			mThumbnail.setImageDrawable(new BitmapDrawable(bmp));
+		if (path.startsWith("/")) {
+			path = "file://" + path;
 		}
-	}
-
-	private void loading(boolean flag, Bitmap bmp) {
-		mThumbnail.setVisibility(flag ? INVISIBLE : VISIBLE);
-		mProgressBar.setVisibility(flag ? VISIBLE : INVISIBLE);
-		int width = flag ? mThumbnaiWidth : (bmp == null ? 0 : bmp.getWidth());
-		int height = flag ? mThumbnailHeight : (bmp == null ? 0 : bmp.getHeight());
-		mThumbnailLayout.setLayoutParams(new LinearLayout.LayoutParams(width, height));
+		mMark++;
+		final long thisLoadMark = mMark;
+		mThumbnail.setImageBitmap(null);
+		sOptions.outHeight = thumbnailHeight();
+		sOptions.outWidth = thumbnailWidth();
+		DisplayImageOptions options = ImageLoadUtil.option(thumbnailWidth(),
+				thumbnailHeight());
+		ImageLoader.getInstance().loadImage(path, options,
+				new SimpleImageLoadingListener() {
+					@Override
+					public void onLoadingComplete(String imageUri, View view,
+							Bitmap loadedImage) {
+						if (thisLoadMark == mMark) {
+							mThumbnail.setImageBitmap(loadedImage);
+						}
+					}
+				});
 	}
 
 	protected abstract void setupLayout(Context context);
+
+	protected abstract int thumbnailWidth();
+
+	protected abstract int thumbnailHeight();
 }

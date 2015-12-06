@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/ic_app_logo"
         android:label="@string/app_name"
@@ -47,9 +48,10 @@
             android:label="aaa"
             android:process="com.owo.app.aaa" >
         </activity>
+
         <receiver
             android:name="com.owo.app.test.MyWidgetProvider"
-            android:icon="@drawable/ic_app_logo">
+            android:icon="@drawable/ic_app_logo" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="zyf.test.widget.UP" />
